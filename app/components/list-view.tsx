@@ -1,4 +1,4 @@
-import { books } from '~/fixtures/book'
+import { type Book } from '~/fixtures/book'
 import { EllipsisVerticalIcon } from '@heroicons/react/24/outline'
 
 const vocab = {
@@ -8,7 +8,11 @@ const vocab = {
   favorite: 'Favorite'
 }
 
-export default function ListView() {
+interface ListViewProps {
+  books: Book[]
+}
+
+export default function ListView({ books }: ListViewProps) {
   return (
     <>
       {books.map((book, i) => (
