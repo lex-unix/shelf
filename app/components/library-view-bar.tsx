@@ -27,9 +27,9 @@ export default function LibraryViewBar({
           placeholder="Search..."
           value={search}
           onChange={onChange}
-          className="h-full w-full max-w-sm rounded border border-neutral-700 bg-[#1C1C1C] px-2.5 placeholder:text-neutral-400"
+          className="h-full w-full max-w-sm rounded border border-gray-700 bg-[#1C1C1C] px-2.5 placeholder:text-gray-400"
         />
-        <div className="flex items-center justify-center rounded border border-neutral-700 p-1">
+        <div className="flex items-center justify-center rounded border border-gray-700 p-1">
           <button
             onClick={toggleTileView}
             className={`${
@@ -52,7 +52,7 @@ export default function LibraryViewBar({
           </button>
         </div>
       </div>
-      <button className="inline-flex h-full items-center justify-center gap-2.5 rounded bg-neutral-100 px-3 text-neutral-800">
+      <button className="inline-flex h-full items-center justify-center gap-2.5 rounded bg-gray-100 px-3 text-gray-800">
         <PlusIcon className="h-4 w-4" />
         <span>Add new</span>
       </button>

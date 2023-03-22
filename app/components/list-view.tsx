@@ -18,12 +18,12 @@ export default function ListView({ books }: ListViewProps) {
       {books.map((book, i) => (
         <div
           key={i}
-          className="border-b border-b-neutral-700 py-5 last:border-none"
+          className="border-b border-b-gray-700 py-5 last:border-none"
         >
           <div className="flex items-center justify-between">
             <div>
               <p className="mb-2">{book.book}</p>
-              <p className="text-neutral-400">{book.author}</p>
+              <p className="text-gray-400">{book.author}</p>
             </div>
             <div className="flex items-center justify-center">
               <div className="rounded-full bg-white/5 py-2.5 px-4">

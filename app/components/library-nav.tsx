@@ -2,16 +2,16 @@ import { NavLink } from '@remix-run/react'
 
 export default function LibraryNav() {
   return (
-    <div className="flex h-10 w-full gap-8 border-b border-b-neutral-700">
+    <div className="flex h-10 w-full gap-8 border-b border-b-gray-700">
       <NavLink
         to="/library"
         end
         className={({ isActive }) =>
           `${
             isActive
-              ? 'border-b-neutral-100'
-              : 'border-b-transparent text-neutral-400'
-          } -mb-[1px] block border-b text-lg transition-colors hover:text-neutral-100`
+              ? 'border-b-gray-100'
+              : 'border-b-transparent text-gray-400'
+          } -mb-[1px] block border-b text-lg transition-colors hover:text-gray-100`
         }
       >
         Books
@@ -22,9 +22,9 @@ export default function LibraryNav() {
         className={({ isActive }) =>
           `${
             isActive
-              ? 'border-b-neutral-100'
-              : 'border-b-transparent text-neutral-400'
-          } -mb-[1px] block border-b text-lg transition-colors hover:text-neutral-100`
+              ? 'border-b-gray-100'
+              : 'border-b-transparent text-gray-400'
+          } -mb-[1px] block border-b text-lg transition-colors hover:text-gray-100`
         }
       >
         Reviews
@@ -35,9 +35,9 @@ export default function LibraryNav() {
         className={({ isActive }) =>
           `${
             isActive
-              ? 'border-b-neutral-100'
-              : 'border-b-transparent text-neutral-400'
-          } -mb-[1px] block border-b text-lg transition-colors hover:text-neutral-100`
+              ? 'border-b-gray-100'
+              : 'border-b-transparent text-gray-400'
+          } -mb-[1px] block border-b text-lg transition-colors hover:text-gray-100`
         }
       >
         Highlights

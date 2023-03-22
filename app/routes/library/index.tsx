@@ -18,14 +18,13 @@ export default function LibraryIndexPage() {
       b.author.toLowerCase().includes(search.toLowerCase()) ||
       b.book.toLowerCase().includes(search.toLowerCase())
   )
-  console.log(filteredBooks)
 
   if (tag) {
     filteredBooks = filteredBooks.filter(b =>
       b.tag.toLowerCase().includes(tag.toLowerCase())
     )
-    console.log(filteredBooks)
   }
+
   return (
     <div className="mt-8 flex">
       <Sidebar />
