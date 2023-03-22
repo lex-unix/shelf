@@ -7,7 +7,7 @@ interface TileViewProps {
 
 export default function TileView({ books }: TileViewProps) {
   return (
-    <div className="flex flex-wrap justify-between gap-y-10 gap-x-2">
+    <div className="grid grid-cols-[repeat(auto-fill,minmax(150px,1fr))] gap-y-10 gap-x-4">
       {books.map((book, i) => (
         <Book key={i} author={book.author} book={book.book} />
       ))}

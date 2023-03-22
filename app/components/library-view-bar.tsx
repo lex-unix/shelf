@@ -52,7 +52,7 @@ export default function LibraryViewBar({
           </button>
         </div>
       </div>
-      <button className="inline-flex h-full items-center justify-center gap-2.5 rounded bg-neutral-100 px-3 text-sm text-neutral-800">
+      <button className="inline-flex h-full items-center justify-center gap-2.5 rounded bg-neutral-100 px-3 text-neutral-800">
         <PlusIcon className="h-4 w-4" />
         <span>Add new</span>
       </button>
