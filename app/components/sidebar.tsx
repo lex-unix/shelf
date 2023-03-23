@@ -47,6 +47,7 @@ function SidebarItem({ tag, children }: SidebarItemProps) {
   return (
     <Link
       to={href}
+      replace
       className={`${
         isActive ? 'bg-white/5' : 'bg-transparent'
       } flex w-full items-center justify-start gap-3 rounded-lg px-3 py-2 transition-colors hover:bg-white/5`}
