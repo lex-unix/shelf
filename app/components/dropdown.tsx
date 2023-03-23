@@ -24,7 +24,7 @@ const DropdownButton = forwardRef<
     <RadixDropdown.Trigger asChild>
       <button
         ref={ref}
-        className={`inline-flex items-center justify-center outline-none ${className}`}
+        className={`inline-flex items-center justify-center outline-none data-[state=open]:opacity-60 ${className}`}
         {...props}
       >
         {children}
@@ -35,13 +35,19 @@ const DropdownButton = forwardRef<
 
 DropdownButton.displayName = 'DropdownButton'
 
-function DropdownMenu({ children }: { children: ReactNode }) {
+function DropdownMenu({
+  children,
+  className
+}: {
+  children: ReactNode
+  className?: string
+}) {
   return (
     <RadixDropdown.Portal>
       <RadixDropdown.Content
         align="end"
         sideOffset={12}
-        className="z-10 w-[256px] rounded-lg border border-gray-700 bg-gray-900 px-2 py-1.5 outline-none"
+        className={`z-10 flex w-[256px] flex-col gap-2.5 rounded-lg border border-gray-700 bg-gray-900 px-2 py-1.5 outline-none ${className}`}
       >
         {children}
       </RadixDropdown.Content>
@@ -59,7 +65,7 @@ function DropdownMenuItem({
   return (
     <RadixDropdown.Item
       onSelect={onSelect}
-      className="w-full rounded px-3 py-2 outline-none hover:cursor-pointer hover:bg-white/5 focus:bg-white/5"
+      className="w-full rounded px-3 py-2 text-gray-400 outline-none hover:cursor-pointer hover:bg-white/5 hover:text-gray-100 focus:bg-white/5 focus:text-gray-100"
     >
       {children}
     </RadixDropdown.Item>
@@ -68,7 +74,7 @@ function DropdownMenuItem({
 
 function DropdownSeparator() {
   return (
-    <RadixDropdown.Separator className="my-1 h-[1px] w-full bg-gray-800"></RadixDropdown.Separator>
+    <RadixDropdown.Separator className="-my-1 h-[1px] w-full bg-gray-800"></RadixDropdown.Separator>
   )
 }
 
