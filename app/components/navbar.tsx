@@ -15,15 +15,15 @@ export default function Navbar() {
 
   useEffect(() => {
     const keyDown = (e: KeyboardEvent) => {
-      if (e.shiftKey && e.key === 'L') {
+      if (e.metaKey && e.key === 'k') {
         return navigate('/library')
       }
 
-      if (e.shiftKey && e.key === 'G') {
+      if (e.metaKey && e.key === 'g') {
         return navigate('/goals')
       }
 
-      if (e.shiftKey && e.key === 'P') {
+      if (e.metaKey && e.key === 'o') {
         return navigate('/preferences')
       }
     }
@@ -52,8 +52,8 @@ export default function Navbar() {
                   <span className="pl-3">Library</span>
                 </div>
                 <div className="flex items-center justify-center gap-1">
-                  <Keyboard>⇧</Keyboard>
-                  <Keyboard>L</Keyboard>
+                  <Keyboard>⌘</Keyboard>
+                  <Keyboard>K</Keyboard>
                 </div>
               </div>
             </Dropdown.MenuItem>
@@ -64,7 +64,7 @@ export default function Navbar() {
                   <span className="pl-3">Goals</span>
                 </div>
                 <div className="flex items-center justify-center gap-1">
-                  <Keyboard>⇧</Keyboard>
+                  <Keyboard>⌘</Keyboard>
                   <Keyboard>G</Keyboard>
                 </div>
               </div>
@@ -76,8 +76,8 @@ export default function Navbar() {
                   <span className="pl-3">Preferences</span>
                 </div>
                 <div className="flex items-center justify-center gap-1">
-                  <Keyboard>⇧</Keyboard>
-                  <Keyboard>P</Keyboard>
+                  <Keyboard>⌘</Keyboard>
+                  <Keyboard>O</Keyboard>
                 </div>
               </div>
             </Dropdown.MenuItem>
