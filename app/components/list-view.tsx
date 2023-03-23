@@ -14,9 +14,9 @@ interface ListViewProps {
 
 export default function ListView({ books }: ListViewProps) {
   return (
-    <>
+    <ul>
       {books.map((book, i) => (
-        <div
+        <li
           key={i}
           className="border-b border-b-gray-700 py-5 last:border-none"
         >
@@ -34,8 +34,8 @@ export default function ListView({ books }: ListViewProps) {
               </button>
             </div>
           </div>
-        </div>
+        </li>
       ))}
-    </>
+    </ul>
   )
 }
