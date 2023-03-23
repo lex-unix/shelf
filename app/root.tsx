@@ -27,12 +27,14 @@ export default function App() {
         <Meta />
         <Links />
       </head>
-      <body className="mx-auto max-w-5xl px-4 md:px-6">
-        <Navbar />
-        <Outlet />
-        <ScrollRestoration />
-        <Scripts />
-        <LiveReload />
+      <body>
+        <main className="mx-auto max-w-5xl px-4 md:px-6">
+          <Navbar />
+          <Outlet />
+          <ScrollRestoration />
+          <Scripts />
+          <LiveReload />
+        </main>
       </body>
     </html>
   )
