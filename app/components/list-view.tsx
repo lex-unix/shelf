@@ -41,7 +41,7 @@ export default function ListView({ books }: ListViewProps) {
                 <Dropdown.Button className="rounded focus:ring-2 focus:ring-gray-500">
                   <EllipsisVerticalIcon className="h-6 w-6" />
                 </Dropdown.Button>
-                <Dropdown.Menu className="w-[200px]">
+                <Dropdown.Menu className="!w-[200px]">
                   <Dropdown.MenuItem>
                     <div className="flex items-center justify-between">
                       <div className="flex flex-1 items-center justify-start">
