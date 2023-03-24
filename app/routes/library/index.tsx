@@ -1,4 +1,4 @@
-import { type LoaderArgs } from '@remix-run/node'
+import { type ActionArgs, type LoaderArgs } from '@remix-run/node'
 import { useLoaderData } from '@remix-run/react'
 import { type ChangeEvent, useState, useMemo } from 'react'
 import LibraryViewBar from '~/components/library-view-bar'
@@ -6,6 +6,12 @@ import ListView from '~/components/list-view'
 import Sidebar from '~/components/sidebar'
 import TileView from '~/components/tile-view'
 import { books } from '~/fixtures/book'
+
+export const action = async ({ request }: ActionArgs) => {
+  const formData = await request.formData()
+  const newBook = Object.fromEntries(formData)
+  return newBook
+}
 
 export const loader = async ({ request }: LoaderArgs) => {
   const url = new URL(request.url)

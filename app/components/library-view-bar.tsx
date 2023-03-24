@@ -4,6 +4,8 @@ import {
   PlusIcon
 } from '@heroicons/react/24/outline'
 import { type ChangeEvent } from 'react'
+import BookForm from './book-form'
+import Popover from './popover'
 
 interface LibraryViewBarProps {
   currentView: 'list' | 'tile'
@@ -52,10 +54,16 @@ export default function LibraryViewBar({
           </button>
         </div>
       </div>
-      <button className="inline-flex h-full items-center justify-center gap-2.5 rounded bg-gray-100 px-3 text-gray-800 outline-none focus-visible:ring-2 focus-visible:ring-gray-400 focus-visible:ring-offset-2 focus-visible:ring-offset-gray-300">
-        <PlusIcon className="h-4 w-4" />
-        <span>Add new</span>
-      </button>
+      <Popover>
+        <Popover.Button>
+          <PlusIcon className="h-4 w-4" />
+          <span>Add new</span>
+        </Popover.Button>
+        <Popover.Content>
+          <h3 className="mb-4 text-lg font-semibold">New book</h3>
+          <BookForm />
+        </Popover.Content>
+      </Popover>
     </div>
   )
 }
