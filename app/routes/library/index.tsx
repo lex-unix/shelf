@@ -40,10 +40,10 @@ export default function LibraryIndexPage() {
   )
 
   return (
-    <div className="mt-8 flex">
+    <div className="flex pt-8">
       <Sidebar />
       <div className="ml-8 flex-1">
-        <div className="mb-8">
+        <div className="sticky top-0 -mt-8 bg-gray-900 pt-8 pb-8">
           <LibraryViewBar
             currentView={view}
             search={search}

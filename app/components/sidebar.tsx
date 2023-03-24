@@ -11,7 +11,7 @@ import { type ReactNode } from 'react'
 export default function Sidebar() {
   return (
     <div className="relative min-w-[220px]">
-      <div className="sticky inset-x-0 top-6">
+      <div className="sticky inset-x-0 top-8">
         <div className="flex flex-col gap-2 font-medium">
           <SidebarItem>
             <BookOpenIcon className="h-6 w-6" /> <span>All books</span>
