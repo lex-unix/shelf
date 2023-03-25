@@ -1,3 +1,9 @@
+import WarningBanner from '~/components/warning-banner'
+
 export default function ReviewsPage() {
-  return <div>This is review page</div>
+  return (
+    <div className="mt-7">
+      <WarningBanner />
+    </div>
+  )
 }

@@ -1,3 +1,9 @@
+import WarningBanner from '~/components/warning-banner'
+
 export default function HighlightsPage() {
-  return <div>This is highlights page</div>
+  return (
+    <div className="mt-7">
+      <WarningBanner />
+    </div>
+  )
 }
