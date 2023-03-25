@@ -1,8 +1,10 @@
-import { Form } from '@remix-run/react'
+import { useFetcher } from '@remix-run/react'
 
 export default function BookForm() {
+  const fetcher = useFetcher()
+
   return (
-    <Form replace method="post" className="flex flex-col gap-4">
+    <fetcher.Form replace method="post" className="flex flex-col gap-4">
       <label className="text-gray-400">
         Author
         <input
@@ -33,6 +35,6 @@ export default function BookForm() {
       <button className="mt-3 h-10 w-fit rounded bg-gray-100 px-3 text-gray-900">
         Add new book
       </button>
-    </Form>
+    </fetcher.Form>
   )
 }
