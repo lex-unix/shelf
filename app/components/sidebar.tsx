@@ -10,7 +10,7 @@ import { type ReactNode } from 'react'
 
 export default function Sidebar() {
   return (
-    <div className="relative min-w-[220px]">
+    <div className="hidden min-w-[220px] md:block">
       <div className="sticky inset-x-0 top-8">
         <div className="flex flex-col gap-2 font-medium">
           <SidebarItem>

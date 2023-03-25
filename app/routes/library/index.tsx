@@ -42,7 +42,7 @@ export default function LibraryIndexPage() {
   return (
     <div className="flex pt-8">
       <Sidebar />
-      <div className="ml-8 flex-1">
+      <div className="flex-1 md:ml-8">
         <div className="sticky top-0 -mt-8 bg-gray-900 pt-8 pb-8">
           <LibraryViewBar
             currentView={view}

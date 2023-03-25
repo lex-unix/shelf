@@ -29,11 +29,11 @@ export default function ListView({ books }: ListViewProps) {
           className="border-b border-b-gray-700 py-5 last:border-none"
         >
           <div className="flex items-center justify-between">
-            <div>
+            <div className="pr-5">
               <p className="mb-2">{book.book}</p>
               <p className="text-gray-400">{book.author}</p>
             </div>
-            <div className="flex items-center justify-center gap-1">
+            <div className="flex shrink-0 items-center justify-center gap-1">
               <div className="rounded-full bg-white/5 py-2.5 px-4">
                 {vocab[book.tag]}
               </div>

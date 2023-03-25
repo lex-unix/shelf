@@ -54,16 +54,18 @@ export default function LibraryViewBar({
           </button>
         </div>
       </div>
-      <Popover>
-        <Popover.Button>
-          <PlusIcon className="h-4 w-4" />
-          <span>Add new</span>
-        </Popover.Button>
-        <Popover.Content>
-          <h3 className="mb-4 text-lg font-semibold">New book</h3>
-          <BookForm />
-        </Popover.Content>
-      </Popover>
+      <div className="hidden h-10 md:inline-block">
+        <Popover>
+          <Popover.Button>
+            <PlusIcon className="h-4 w-4" />
+            <span>Add new</span>
+          </Popover.Button>
+          <Popover.Content>
+            <h3 className="mb-4 text-lg font-semibold">New book</h3>
+            <BookForm />
+          </Popover.Content>
+        </Popover>
+      </div>
     </div>
   )
 }
