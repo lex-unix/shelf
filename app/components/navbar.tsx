@@ -57,7 +57,7 @@ export default function Navbar() {
                 </div>
               </div>
             </Dropdown.MenuItem>
-            <Dropdown.MenuItem onSelect={() => console.log('select 1')}>
+            <Dropdown.MenuItem onSelect={() => navigate('/goals')}>
               <div className="flex items-center justify-between">
                 <div className="flex flex-1 items-center justify-start">
                   <ArrowTrendingUpIcon className="h-6 w-6" />

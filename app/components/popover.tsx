@@ -1,10 +1,5 @@
 import * as RadixPopover from '@radix-ui/react-popover'
-import {
-  type ComponentPropsWithoutRef,
-  forwardRef,
-  useState,
-  type ReactNode
-} from 'react'
+import { useState, type ReactNode } from 'react'
 
 export default function Popover({ children }: { children: ReactNode }) {
   const [open, setOpen] = useState(false)
