@@ -17,13 +17,13 @@ export default function usersModel(db: Pool) {
     },
 
     getUserById: async function (id: number) {
-      const sql = 'SELECT id, name, email FROM UserAccount WHERE id = $1'
+      const sql = 'SELECT id, name, email FROM Account WHERE id = $1'
       const result = await db.query(sql, [id])
       return result.rows[0]
     },
 
     getUserByEmail: async function (email: string) {
-      const sql = 'SELECT id, name, email FROM UserAccount WHERE email = $1'
+      const sql = 'SELECT id, name, email FROM Account WHERE email = $1'
       const result = await db.query(sql, [email])
       return result.rows[0]
     }

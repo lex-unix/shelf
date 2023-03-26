@@ -22,14 +22,14 @@ function usersModel(db) {
         },
         getUserById: function (id) {
             return __awaiter(this, void 0, void 0, function* () {
-                const sql = 'SELECT id, name, email FROM UserAccount WHERE id = $1';
+                const sql = 'SELECT id, name, email FROM Account WHERE id = $1';
                 const result = yield db.query(sql, [id]);
                 return result.rows[0];
             });
         },
         getUserByEmail: function (email) {
             return __awaiter(this, void 0, void 0, function* () {
-                const sql = 'SELECT id, name, email FROM UserAccount WHERE email = $1';
+                const sql = 'SELECT id, name, email FROM Account WHERE email = $1';
                 const result = yield db.query(sql, [email]);
                 return result.rows[0];
             });
