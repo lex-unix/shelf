@@ -1,7 +1,0 @@
-{
-  "version": 3,
-  "sources": ["../../../app/components/warning-banner.tsx"],
-  "sourcesContent": ["import { ExclamationTriangleIcon } from '@heroicons/react/24/outline'\n\nexport default function WarningBanner() {\n  return (\n    <div className=\"w-full rounded border border-yellow-700 bg-yellow-900\">\n      <div className=\"flex items-start py-2 px-3 text-yellow-300\">\n        <div className=\"mt-1.5\">\n          <ExclamationTriangleIcon className=\"h-6 w-6\" />\n        </div>\n        <div className=\"ml-2.5\">\n          <h2 className=\"inline-block text-xl font-semibold\">\n            This section is under construction\n          </h2>\n          <p className=\"mt-2\">\n            This feature will be available in the following major release. Stay\n            tuned.\n          </p>\n        </div>\n      </div>\n    </div>\n  )\n}\n"],
-  "mappings": ";;;;;;;;;AAAA,qBAAwC;AAO9B;AALK,SAAR,gBAAiC;AACtC,SACE,mDAAC,SAAI,WAAU,yDACb,6DAAC,SAAI,WAAU,8CACb;AAAA,uDAAC,SAAI,WAAU,UACb,6DAAC,0CAAwB,WAAU,aAAnC;AAAA;AAAA;AAAA;AAAA,WAA6C,KAD/C;AAAA;AAAA;AAAA;AAAA,WAEA;AAAA,IACA,mDAAC,SAAI,WAAU,UACb;AAAA,yDAAC,QAAG,WAAU,sCAAqC,kDAAnD;AAAA;AAAA;AAAA;AAAA,aAEA;AAAA,MACA,mDAAC,OAAE,WAAU,QAAO,0FAApB;AAAA;AAAA;AAAA;AAAA,aAGA;AAAA,SAPF;AAAA;AAAA;AAAA;AAAA,WAQA;AAAA,OAZF;AAAA;AAAA;AAAA;AAAA,SAaA,KAdF;AAAA;AAAA;AAAA;AAAA,SAeA;AAEJ;",
-  "names": []
-}
