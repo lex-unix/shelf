@@ -5,6 +5,7 @@ import {
 } from '@heroicons/react/24/outline'
 import { type ChangeEvent } from 'react'
 import BookForm from './book-form'
+import Button from './button'
 import Popover from './popover'
 
 interface LibraryViewBarProps {
@@ -57,8 +58,7 @@ export default function LibraryViewBar({
       <div className="hidden h-10 md:inline-block">
         <Popover>
           <Popover.Button>
-            <PlusIcon className="h-4 w-4" />
-            <span>Add new</span>
+            <Button leading={<PlusIcon className="h-5 w-5" />}>Add new</Button>
           </Popover.Button>
           <Popover.Content>
             <h3 className="mb-4 text-lg font-semibold">New book</h3>

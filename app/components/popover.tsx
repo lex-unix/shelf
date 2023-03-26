@@ -16,22 +16,9 @@ export default function Popover({ children }: { children: ReactNode }) {
   )
 }
 
-const PopoverButton = forwardRef<
-  HTMLButtonElement,
-  ComponentPropsWithoutRef<'button'>
->(({ children, className, ...props }, ref) => {
-  return (
-    <RadixPopover.Trigger asChild>
-      <button
-        ref={ref}
-        className={`inline-flex h-full items-center justify-center gap-2.5 rounded bg-gray-100 px-3 text-gray-800 outline-none focus-visible:ring-2 focus-visible:ring-gray-400 focus-visible:ring-offset-2 focus-visible:ring-offset-gray-300 data-[state=open]:opacity-70 ${className}`}
-        {...props}
-      >
-        {children}
-      </button>
-    </RadixPopover.Trigger>
-  )
-})
+function PopoverButton({ children }: { children: ReactNode }) {
+  return <RadixPopover.Trigger asChild>{children}</RadixPopover.Trigger>
+}
 PopoverButton.displayName = 'PopoverButton'
 
 function PopoverContent({ children }: { children: ReactNode }) {
