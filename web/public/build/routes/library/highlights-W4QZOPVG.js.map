@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["../../../../app/routes/library/highlights.tsx"],
+  "sourcesContent": ["import WarningBanner from '~/components/warning-banner'\n\nexport default function HighlightsPage() {\n  return (\n    <div className=\"mt-7\">\n      <WarningBanner />\n    </div>\n  )\n}\n"],
+  "mappings": ";;;;;;;;;;AAKM;AAHS,SAAR,iBAAkC;AACvC,SACE,mDAAC,SAAI,WAAU,QACb,6DAAC,mBAAD;AAAA;AAAA;AAAA;AAAA,SAAe,KADjB;AAAA;AAAA;AAAA;AAAA,SAEA;AAEJ;",
+  "names": []
+}

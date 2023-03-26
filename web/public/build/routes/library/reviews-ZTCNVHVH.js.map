@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["../../../../app/routes/library/reviews.tsx"],
+  "sourcesContent": ["import WarningBanner from '~/components/warning-banner'\n\nexport default function ReviewsPage() {\n  return (\n    <div className=\"mt-7\">\n      <WarningBanner />\n    </div>\n  )\n}\n"],
+  "mappings": ";;;;;;;;;;AAKM;AAHS,SAAR,cAA+B;AACpC,SACE,mDAAC,SAAI,WAAU,QACb,6DAAC,mBAAD;AAAA;AAAA;AAAA;AAAA,SAAe,KADjB;AAAA;AAAA;AAAA;AAAA,SAEA;AAEJ;",
+  "names": []
+}
