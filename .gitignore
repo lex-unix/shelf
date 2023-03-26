@@ -1,6 +1,7 @@
 node_modules
+dist
 
-/.cache
-/build
-/public/build
+/web/.cache
+/web/build
+/web/public/build
 .env

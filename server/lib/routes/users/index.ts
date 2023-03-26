@@ -3,7 +3,7 @@ import type { Config } from '../../config/config'
 import fp from 'fastify-plugin'
 import { schema } from './schema'
 import usersModel from '../../models/users'
-import { LoginRoute, RegisterRoute } from './index.types'
+import type { LoginRoute, RegisterRoute } from './index.types'
 import * as argon2 from 'argon2'
 
 const users: FastifyPluginCallback<Config> = (server, options, done) => {
