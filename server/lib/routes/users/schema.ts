@@ -18,7 +18,7 @@ const register = {
 
 const login = {
   body: S.object()
-    .prop('username', S.string().required())
+    .prop('email', S.string().required())
     .prop('password', S.string().required()),
   response: {
     200: S.object().prop('user', User),

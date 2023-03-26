@@ -65,6 +65,10 @@ const users: FastifyPluginCallback<Config> = (server, options, done) => {
     handler: async (req, reply) => {
       try {
         await req.session.destroy()
+        reply.header(
+          'Clear-Site-Data',
+          'cache, cookies, storage, executionContexts'
+        )
         reply.code(205)
       } catch (err) {
         server.log.error(err)
