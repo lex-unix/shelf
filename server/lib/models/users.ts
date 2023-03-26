@@ -23,7 +23,8 @@ export default function usersModel(db: Pool) {
     },
 
     getUserByEmail: async function (email: string) {
-      const sql = 'SELECT id, name, email FROM Account WHERE email = $1'
+      const sql =
+        'SELECT id, name, email, password FROM Account WHERE email = $1'
       const result = await db.query(sql, [email])
       return result.rows[0]
     }
