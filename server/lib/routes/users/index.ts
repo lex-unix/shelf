@@ -26,6 +26,7 @@ const users: FastifyPluginCallback<Config> = (server, options, done) => {
         hash = await argon2.hash(req.body.password)
         const user = await model.registerUser(req.body, hash)
         req.session.userId = user.id
+        reply.code(201)
         return { user }
       } catch (err) {
         server.log.error(err)
