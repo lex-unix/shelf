@@ -1,11 +1,13 @@
-import { type ActionArgs, type LoaderArgs } from '@remix-run/node'
+import { json, type ActionArgs, type LoaderArgs } from '@remix-run/node'
 import { useLoaderData } from '@remix-run/react'
 import { type ChangeEvent, useState, useMemo } from 'react'
 import LibraryViewBar from '~/components/library-view-bar'
 import ListView from '~/components/list-view'
 import Sidebar from '~/components/sidebar'
 import TileView from '~/components/tile-view'
-import { books } from '~/fixtures/book'
+import { type Book } from '~/fixtures/book'
+
+const API = 'https://api.jsonbin.io/v3/b/64201472ebd26539d09c8501'
 
 export const action = async ({ request }: ActionArgs) => {
   const formData = await request.formData()
@@ -16,11 +18,18 @@ export const action = async ({ request }: ActionArgs) => {
 export const loader = async ({ request }: LoaderArgs) => {
   const url = new URL(request.url)
   const tag = url.searchParams.get('tag')
-  let selecetedBooks = books
+  const res = await fetch(API)
+  let data = await res.json()
+  let selecetedBooks: Book[] = data.record
   if (tag) {
     selecetedBooks = selecetedBooks.filter(book => book.tag === tag)
   }
-  return selecetedBooks
+
+  return json(selecetedBooks, {
+    headers: {
+      'cache-control': 'max-age=3600'
+    }
+  })
 }
 
 export default function LibraryIndexPage() {
