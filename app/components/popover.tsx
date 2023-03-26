@@ -12,7 +12,11 @@ export default function Popover({ children }: { children: ReactNode }) {
 }
 
 function PopoverButton({ children }: { children: ReactNode }) {
-  return <RadixPopover.Trigger asChild>{children}</RadixPopover.Trigger>
+  return (
+    <RadixPopover.Trigger asChild className="data-[state=open]:opacity-70">
+      {children}
+    </RadixPopover.Trigger>
+  )
 }
 PopoverButton.displayName = 'PopoverButton'
 
