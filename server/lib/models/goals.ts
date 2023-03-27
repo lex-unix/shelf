@@ -7,7 +7,7 @@ type Goal = {
 export default function goalsModel(db: Pool) {
   return {
     getGoals: async function (userId: number) {
-      const sql = `SELECT id, total, progress FROM Goal WHERE userId = $1`
+      const sql = `SELECT id, total, progress FROM Goal WHERE userId = $1 ORDER BY createdAt DESC`
       const { rows } = await db.query(sql, [userId])
       return rows
     },
