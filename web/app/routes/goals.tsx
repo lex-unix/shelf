@@ -6,34 +6,42 @@ import CircleProgress from '~/components/circle-progress'
 import GoalForm from '~/components/goal-form'
 import Popover from '~/components/popover'
 import { AnimatePresence, motion } from 'framer-motion'
+import { createGoal, deleteGoal } from '~/goals.server'
 
 const API = 'http://127.0.0.1:3001/api'
 
 type Goal = {
   id: number
-  name: string
+  total: number
+  progress: number
 }
 
 export const loader = async ({ request }: LoaderArgs) => {
   const res = await fetch(API + '/goals', {
+    headers: request.headers,
     credentials: 'include'
   })
-  const goals = (await res.json()) as { goals: Goal[] }
-  return goals
+  const data = await res.json()
+  return data.goals as Goal[]
 }
 
 export const action: ActionFunction = async ({ request }) => {
   const form = await request.formData()
-  const data = Object.fromEntries(form)
-  return data
+
+  const _action = form.get('action')
+  if (_action === 'delete') {
+    const id = form.get('id') as string
+    await deleteGoal(request, id)
+  } else if (_action === 'create') {
+    const total = parseInt(form.get('total') as string)
+    await createGoal(request, total)
+  }
+  return null
 }
 
-const ids = new Array(2).fill(0)
-
 export default function GoalsPage() {
-  const loaderData = useLoaderData<typeof loader>()
+  const goals = useLoaderData<typeof loader>()
   const fetcher = useFetcher()
-  console.log(loaderData)
 
   return (
     <div className="mx-auto max-w-2xl py-6">
@@ -50,26 +58,29 @@ export default function GoalsPage() {
       </div>
       <ul className="">
         <AnimatePresence initial={false}>
-          {ids.map((_, id) => (
+          {goals.map(goal => (
             <motion.li
-              key={id}
+              key={goal.id}
               initial={{ opacity: 0, height: 0 }}
               animate={{ opacity: 1, height: 'auto' }}
               exit={{ opacity: 0, height: 0 }}
               transition={{ opacity: { duration: 0.2 } }}
-              className="rounded-md border border-gray-700"
             >
               <fetcher.Form
                 method="post"
                 replace
-                className="flex items-start p-6"
+                className="mb-4 flex items-start rounded-md border border-gray-700 p-6"
               >
-                <input type="hidden" name="id" value={id} />
-                <CircleProgress progress={90} currentCount={9} />
+                <input type="hidden" name="id" value={goal.id} />
+                <input type="hidden" name="action" value="delete" />
+                <CircleProgress
+                  progress={(goal.progress / goal.total) * 100}
+                  currentCount={goal.progress}
+                />
                 <div className="flex flex-1 items-start justify-between">
                   <div>
-                    <p className="text-gray-400">Goal {id + 1}</p>
-                    <p className="mt-1">2023 Reading goals</p>
+                    <p className="text-gray-400">Goal</p>
+                    <p className="mt-1">{goal.progress}</p>
                   </div>
                   <button className="text-xl">&times;</button>
                 </div>

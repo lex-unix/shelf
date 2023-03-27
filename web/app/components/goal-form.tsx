@@ -20,11 +20,12 @@ export default function GoalForm() {
   return (
     <fetcher.Form ref={formRef} method="post">
       <h2 className="mb-6 text-lg font-semibold">New reading goal</h2>
+      <input type="hidden" name="action" value="create" />
       <div className="mb-2">
         <label className="mb-1 block text-gray-400">Books</label>
         <input
           ref={inputRef}
-          name="books"
+          name="total"
           placeholder="Number"
           autoComplete="off"
           required
