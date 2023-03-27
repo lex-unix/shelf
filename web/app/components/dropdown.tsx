@@ -3,16 +3,27 @@ import {
   type ReactNode,
   useState,
   forwardRef,
-  type ComponentPropsWithoutRef
+  type ComponentPropsWithoutRef,
+  createContext,
+  useContext
 } from 'react'
+import { AnimatePresence, motion } from 'framer-motion'
+
+interface DropdownContextProps {
+  open: boolean
+}
+
+const DropdownContext = createContext<DropdownContextProps>({ open: false })
 
 export default function Dropdown({ children }: { children: ReactNode }) {
   const [open, setOpen] = useState(false)
 
   return (
-    <RadixDropdown.Root open={open} onOpenChange={setOpen}>
-      {children}
-    </RadixDropdown.Root>
+    <DropdownContext.Provider value={{ open }}>
+      <RadixDropdown.Root open={open} onOpenChange={setOpen}>
+        {children}
+      </RadixDropdown.Root>
+    </DropdownContext.Provider>
   )
 }
 
@@ -42,16 +53,26 @@ function DropdownMenu({
   children: ReactNode
   className?: string
 }) {
+  const { open } = useContext(DropdownContext)
+
   return (
-    <RadixDropdown.Portal>
-      <RadixDropdown.Content
-        align="end"
-        sideOffset={12}
-        className={`z-10 flex w-[256px] flex-col gap-2.5 rounded-lg border border-gray-700 bg-gray-900 px-2 py-1.5 outline-none ${className}`}
-      >
-        {children}
-      </RadixDropdown.Content>
-    </RadixDropdown.Portal>
+    <AnimatePresence>
+      {open && (
+        <RadixDropdown.Portal forceMount>
+          <RadixDropdown.Content align="end" sideOffset={12}>
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ opacity: { duration: 0.2 } }}
+              className={`z-10 flex flex-col gap-2.5 rounded-lg border border-gray-700 bg-gray-900 px-2 py-1.5 outline-none ${className}`}
+            >
+              {children}
+            </motion.div>
+          </RadixDropdown.Content>
+        </RadixDropdown.Portal>
+      )}
+    </AnimatePresence>
   )
 }
 

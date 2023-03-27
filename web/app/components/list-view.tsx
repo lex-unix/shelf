@@ -41,9 +41,9 @@ export default function ListView({ books }: ListViewProps) {
                 <Dropdown.Button className="rounded focus:ring-2 focus:ring-gray-500">
                   <EllipsisVerticalIcon className="h-6 w-6" />
                 </Dropdown.Button>
-                <Dropdown.Menu className="!w-[200px]">
+                <Dropdown.Menu>
                   <Dropdown.MenuItem>
-                    <div className="flex items-center justify-between">
+                    <div className="flex items-center justify-between gap-5">
                       <div className="flex flex-1 items-center justify-start">
                         <DocumentDuplicateIcon className="h-5 w-5" />
                         <span className="pl-3">Copy</span>
@@ -55,7 +55,7 @@ export default function ListView({ books }: ListViewProps) {
                     </div>
                   </Dropdown.MenuItem>
                   <Dropdown.MenuItem>
-                    <div className="flex items-center justify-between">
+                    <div className="flex items-center justify-between gap-5">
                       <div className="flex flex-1 items-center justify-start">
                         <PencilIcon className="h-5 w-5" />
                         <span className="pl-3">Rename</span>
@@ -67,7 +67,7 @@ export default function ListView({ books }: ListViewProps) {
                     </div>
                   </Dropdown.MenuItem>
                   <Dropdown.MenuItem>
-                    <div className="flex items-center justify-between">
+                    <div className="flex items-center justify-between gap-5">
                       <div className="flex flex-1 items-center justify-start">
                         <TagIcon className="h-5 w-5" />
                         <span className="pl-3">Add tag</span>
@@ -79,7 +79,7 @@ export default function ListView({ books }: ListViewProps) {
                     </div>
                   </Dropdown.MenuItem>
                   <Dropdown.MenuItem>
-                    <div className="flex items-center justify-between">
+                    <div className="flex items-center justify-between gap-5">
                       <div className="flex flex-1 items-center justify-start">
                         <TrashIcon className="h-5 w-5" />
                         <span className="pl-3">Delete</span>

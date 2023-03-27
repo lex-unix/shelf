@@ -64,27 +64,31 @@ export default function GoalsPage() {
               initial={{ opacity: 0, height: 0 }}
               animate={{ opacity: 1, height: 'auto' }}
               exit={{ opacity: 0, height: 0 }}
-              transition={{ opacity: { duration: 0.2 } }}
+              transition={{
+                opacity: { duration: 0.2 }
+              }}
             >
-              <fetcher.Form
-                method="post"
-                replace
-                className="mb-4 flex items-start rounded-md border border-gray-700 p-6"
-              >
-                <input type="hidden" name="id" value={goal.id} />
-                <input type="hidden" name="action" value="delete" />
-                <CircleProgress
-                  progress={(goal.progress / goal.total) * 100}
-                  currentCount={goal.progress}
-                />
-                <div className="flex flex-1 items-start justify-between">
-                  <div>
-                    <p className="text-gray-400">Goal</p>
-                    <p className="mt-1">{goal.progress}</p>
+              <div className="py-2">
+                <fetcher.Form
+                  method="post"
+                  replace
+                  className="flex items-start rounded-md border border-gray-700 p-6"
+                >
+                  <input type="hidden" name="id" value={goal.id} />
+                  <input type="hidden" name="action" value="delete" />
+                  <CircleProgress
+                    progress={(goal.progress / goal.total) * 100}
+                    currentCount={goal.progress}
+                  />
+                  <div className="flex flex-1 items-start justify-between">
+                    <div>
+                      <p className="text-gray-400">Goal</p>
+                      <p className="mt-1">{goal.progress}</p>
+                    </div>
+                    <button className="text-xl">&times;</button>
                   </div>
-                  <button className="text-xl">&times;</button>
-                </div>
-              </fetcher.Form>
+                </fetcher.Form>
+              </div>
             </motion.li>
           ))}
         </AnimatePresence>

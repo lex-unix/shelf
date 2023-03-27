@@ -46,7 +46,7 @@ export default function Navbar() {
           </Dropdown.Button>
           <Dropdown.Menu>
             <Dropdown.MenuItem onSelect={() => navigate('/library')}>
-              <div className="flex items-center justify-between">
+              <div className="flex items-center justify-between gap-5">
                 <div className="flex flex-1 items-center justify-start">
                   <BookOpenIcon className="h-6 w-6" />
                   <span className="pl-3">Library</span>
@@ -58,7 +58,7 @@ export default function Navbar() {
               </div>
             </Dropdown.MenuItem>
             <Dropdown.MenuItem onSelect={() => navigate('/goals')}>
-              <div className="flex items-center justify-between">
+              <div className="flex items-center justify-between gap-5">
                 <div className="flex flex-1 items-center justify-start">
                   <ArrowTrendingUpIcon className="h-6 w-6" />
                   <span className="pl-3">Goals</span>
@@ -70,7 +70,7 @@ export default function Navbar() {
               </div>
             </Dropdown.MenuItem>
             <Dropdown.MenuItem onSelect={() => console.log('select 1')}>
-              <div className="flex items-center justify-between">
+              <div className="flex items-center justify-between gap-5">
                 <div className="flex flex-1 items-center justify-start">
                   <CogIcon className="h-6 w-6" />
                   <span className="pl-3">Preferences</span>
