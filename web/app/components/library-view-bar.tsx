@@ -58,7 +58,12 @@ export default function LibraryViewBar({
       <div className="hidden h-10 md:inline-block">
         <Popover>
           <Popover.Button>
-            <Button leading={<PlusIcon className="h-5 w-5" />}>Add new</Button>
+            <Button
+              leading={<PlusIcon className="h-5 w-5" />}
+              className="h-full"
+            >
+              Add new
+            </Button>
           </Popover.Button>
           <Popover.Content>
             <h3 className="mb-4 text-lg font-semibold">New book</h3>
