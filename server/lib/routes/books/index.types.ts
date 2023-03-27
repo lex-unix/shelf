@@ -4,3 +4,9 @@ export type CreateRoute = {
     title: string
   }
 }
+
+export type GetBookRoute = {
+  Params: {
+    id: string
+  }
+}
