@@ -3,7 +3,7 @@ import type { Config } from '../../config/config'
 import type { FastifyPluginCallback } from 'fastify'
 import goalsModel from '../../models/goals'
 import { schema } from './schema'
-import type { DeleteRoute, GetOneRoute } from './index.types'
+import type { CreateRoute, DeleteRoute, GetOneRoute } from './index.types'
 
 const goals: FastifyPluginCallback<Config> = (server, options, done) => {
   const model = goalsModel(server.db)
@@ -16,6 +16,19 @@ const goals: FastifyPluginCallback<Config> = (server, options, done) => {
     handler: async req => {
       const goals = await model.getGoals(req.session.userId)
       return { goals }
+    }
+  })
+
+  server.route<CreateRoute>({
+    method: 'POST',
+    url: options.prefix + 'goals',
+    schema: schema.insert,
+    onRequest: [server.authorize],
+    handler: async (req, reply) => {
+      console.log(req.body.total)
+      const goal = await model.createGoal(req.body, req.session.userId)
+      reply.code(201)
+      return { goal }
     }
   })
 
@@ -37,7 +50,6 @@ const goals: FastifyPluginCallback<Config> = (server, options, done) => {
   server.route<DeleteRoute>({
     method: 'DELETE',
     url: options.prefix + 'goals/:id',
-    schema: schema.del,
     onRequest: [server.authorize],
     handler: async (req, reply) => {
       const goal = await model.getGoalById(req.params.id)

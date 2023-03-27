@@ -2,7 +2,8 @@ import S from 'fluent-json-schema'
 
 const Goal = S.object()
   .prop('id', S.string().required())
-  .prop('name', S.string().required())
+  .prop('total', S.number().required())
+  .prop('progress', S.number().required())
 
 const getAll = {
   response: {
@@ -18,7 +19,10 @@ const getOne = {
 }
 
 const insert = {
-  body: S.object().prop('goal', S.object().prop('name', S.string().required())),
+  body: S.object().prop(
+    'goal',
+    S.object().prop('total', S.number().required())
+  ),
   response: {
     201: S.object().prop('goal', Goal)
   }

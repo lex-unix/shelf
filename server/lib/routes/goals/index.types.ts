@@ -1,6 +1,6 @@
 export type CreateRoute = {
   Body: {
-    name: string
+    total: number
   }
 }
 
