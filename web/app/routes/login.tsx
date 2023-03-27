@@ -21,7 +21,7 @@ export const action: ActionFunction = async ({ request }) => {
   })
 
   if (res.ok) {
-    return redirect('/library')
+    return redirect('/library', { headers: res.headers })
   } else {
     const error: FormError = await res.json()
     return error
