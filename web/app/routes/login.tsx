@@ -1,8 +1,7 @@
 import { redirect, type ActionFunction } from '@remix-run/node'
 import { Form, useActionData } from '@remix-run/react'
 import Button from '~/components/button'
-
-const API = 'http://127.0.0.1:3001/api'
+import { API } from '~/constants'
 
 type FormError = {
   field: 'email' | 'password'

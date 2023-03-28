@@ -7,8 +7,7 @@ import GoalForm from '~/components/goal-form'
 import Popover from '~/components/popover'
 import { AnimatePresence, motion } from 'framer-motion'
 import { createGoal, deleteGoal } from '~/goals.server'
-
-const API = 'http://127.0.0.1:3001/api'
+import { API } from '~/constants'
 
 type Goal = {
   id: number

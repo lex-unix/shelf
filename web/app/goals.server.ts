@@ -1,4 +1,4 @@
-const API = 'http://127.0.0.1:3001/api'
+import { API } from './constants'
 
 export async function createGoal(request: Request, total: number) {
   const cookie = request.headers.get('cookie') || ''
