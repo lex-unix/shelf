@@ -6,8 +6,7 @@ import ListView from '~/components/list-view'
 import Sidebar from '~/components/sidebar'
 import TileView from '~/components/tile-view'
 import type { BookData } from '~/types'
-
-const API = 'http://127.0.0.1:3001/api/books'
+import { API } from '~/constants'
 
 export const action = async ({ request }: ActionArgs) => {
   const formData = await request.formData()
@@ -18,7 +17,7 @@ export const action = async ({ request }: ActionArgs) => {
 export const loader = async ({ request }: LoaderArgs) => {
   const url = new URL(request.url)
   const tag = url.searchParams.get('tag')
-  const res = await fetch(API, {
+  const res = await fetch(API + '/books', {
     headers: request.headers,
     credentials: 'include'
   })
