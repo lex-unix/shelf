@@ -8,7 +8,7 @@ type Book = {
 export default function booksModels(db: Pool) {
   return {
     getUserBooks: async function (userId: number) {
-      const sql = `SELECT b.id, b.author, b.title FROM Book b WHERE b.userId = $1 ORDER BY b.createdAt DESC`
+      const sql = `SELECT b.id, b.author, b.title, b.tag FROM Book b WHERE b.userId = $1 ORDER BY b.createdAt DESC`
       const { rows } = await db.query(sql, [userId])
       return rows
     },

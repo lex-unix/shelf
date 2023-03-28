@@ -4,6 +4,7 @@ const Book = S.object()
   .prop('id', S.number().required())
   .prop('author', S.string().required())
   .prop('title', S.string().required())
+  .prop('tag', S.string().required())
 
 const getBooks = {
   response: {
