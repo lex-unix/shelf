@@ -5,3 +5,8 @@ export type BookData = {
   title: string
   tag: Tag
 }
+
+export type FormError = {
+  field: string
+  message: string
+}

@@ -1,23 +1,13 @@
 import { redirect, type ActionArgs } from '@remix-run/node'
 import { Form, useActionData } from '@remix-run/react'
 import Button from '~/components/button'
-import { API } from '~/constants'
-
-type FormError = {
-  field: string
-  message: string
-}
+import type { FormError } from '~/types'
+import { register } from '~/users.server'
 
 export const action = async ({ request }: ActionArgs) => {
   const formData = await request.formData()
   const body = Object.fromEntries(formData)
-  const res = await fetch(API + '/users/register', {
-    method: 'post',
-    headers: {
-      'content-type': 'application/json'
-    },
-    body: JSON.stringify(body)
-  })
+  const res = await register(body)
 
   if (res.status === 409) {
     const error: FormError = await res.json()

@@ -1,24 +1,13 @@
 import { redirect, type ActionFunction } from '@remix-run/node'
 import { Form, useActionData } from '@remix-run/react'
 import Button from '~/components/button'
-import { API } from '~/constants'
-
-type FormError = {
-  field: 'email' | 'password'
-  message: string
-}
+import type { FormError } from '~/types'
+import { login } from '~/users.server'
 
 export const action: ActionFunction = async ({ request }) => {
   const formData = await request.formData()
   const body = Object.fromEntries(formData)
-  const res = await fetch(API + '/users/login', {
-    method: 'post',
-    headers: {
-      'content-type': 'application/json'
-    },
-    body: JSON.stringify(body)
-  })
-
+  const res = await login(body)
   if (res.ok) {
     return redirect('/library', { headers: res.headers })
   } else {
