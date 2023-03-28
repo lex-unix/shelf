@@ -30,7 +30,7 @@ export default function ListView({ books }: ListViewProps) {
         >
           <div className="flex items-center justify-between">
             <div className="pr-5">
-              <p className="mb-2">{book.book}</p>
+              <p className="mb-2">{book.title}</p>
               <p className="text-gray-400">{book.author}</p>
             </div>
             <div className="flex shrink-0 items-center justify-center gap-1">

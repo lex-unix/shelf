@@ -1,13 +1,13 @@
-import { json, type ActionArgs, type LoaderArgs } from '@remix-run/node'
+import { type ActionArgs, type LoaderArgs } from '@remix-run/node'
 import { useLoaderData } from '@remix-run/react'
 import { type ChangeEvent, useState, useMemo } from 'react'
 import LibraryViewBar from '~/components/library-view-bar'
 import ListView from '~/components/list-view'
 import Sidebar from '~/components/sidebar'
 import TileView from '~/components/tile-view'
-import { type Book } from '~/fixtures/book'
+import type { BookData } from '~/types'
 
-const API = 'https://api.jsonbin.io/v3/b/64201472ebd26539d09c8501'
+const API = 'http://127.0.0.1:3001/api/books'
 
 export const action = async ({ request }: ActionArgs) => {
   const formData = await request.formData()
@@ -18,18 +18,20 @@ export const action = async ({ request }: ActionArgs) => {
 export const loader = async ({ request }: LoaderArgs) => {
   const url = new URL(request.url)
   const tag = url.searchParams.get('tag')
-  const res = await fetch(API)
+  const res = await fetch(API, {
+    headers: request.headers,
+    credentials: 'include'
+  })
   let data = await res.json()
-  let selecetedBooks: Book[] = data.record
+  let selecetedBooks: BookData[] = data.books
+
+  // should send the request to server with query param
+  // filter array for now
   if (tag) {
     selecetedBooks = selecetedBooks.filter(book => book.tag === tag)
   }
 
-  return json(selecetedBooks, {
-    headers: {
-      'cache-control': 'max-age=3600'
-    }
-  })
+  return selecetedBooks
 }
 
 export default function LibraryIndexPage() {
@@ -42,7 +44,7 @@ export default function LibraryIndexPage() {
       books.filter(
         b =>
           b.author.toLowerCase().includes(search.toLowerCase()) ||
-          b.book.toLowerCase().includes(search.toLowerCase())
+          b.title.toLowerCase().includes(search.toLowerCase())
       ),
 
     [books, search]
