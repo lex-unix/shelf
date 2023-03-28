@@ -1,5 +1,5 @@
 import { PlusIcon } from '@heroicons/react/24/outline'
-import { type LoaderArgs, type ActionFunction } from '@remix-run/node'
+import { type LoaderArgs, type ActionFunction, redirect } from '@remix-run/node'
 import { useFetcher, useLoaderData } from '@remix-run/react'
 import Button from '~/components/button'
 import CircleProgress from '~/components/circle-progress'
@@ -8,20 +8,20 @@ import Popover from '~/components/popover'
 import { AnimatePresence, motion } from 'framer-motion'
 import { createGoal, deleteGoal } from '~/goals.server'
 import { API } from '~/constants'
-
-type Goal = {
-  id: number
-  total: number
-  progress: number
-}
+import type { GoalData } from '~/types'
 
 export const loader = async ({ request }: LoaderArgs) => {
   const res = await fetch(API + '/goals', {
     headers: request.headers,
     credentials: 'include'
   })
+
+  if (res.status === 401) {
+    return redirect('/login')
+  }
+
   const data = await res.json()
-  return data.goals as Goal[]
+  return data.goals
 }
 
 export const action: ActionFunction = async ({ request }) => {
@@ -39,7 +39,7 @@ export const action: ActionFunction = async ({ request }) => {
 }
 
 export default function GoalsPage() {
-  const goals = useLoaderData<typeof loader>()
+  const goals = useLoaderData<GoalData[]>()
   const fetcher = useFetcher()
 
   return (

@@ -6,6 +6,15 @@ export default function BookForm() {
   return (
     <fetcher.Form replace method="post" className="flex flex-col gap-4">
       <label className="text-gray-400">
+        Book
+        <input
+          name="title"
+          required
+          placeholder="The Shining"
+          className="mt-2 block"
+        />
+      </label>
+      <label className="text-gray-400">
         Author
         <input
           name="author"
@@ -15,19 +24,12 @@ export default function BookForm() {
         />
       </label>
       <label className="text-gray-400">
-        Book
-        <input
-          name="book"
-          required
-          placeholder="The Shining"
-          className="mt-2 block"
-        />
-      </label>
-      <label className="text-gray-400">
         Tag
         <select name="tag" required className="mt-2 block">
           <option value="currentlyReading">Currently reading</option>
-          <option value="wantToRead">Want to read</option>
+          <option selected value="wantToRead">
+            Want to read
+          </option>
           <option value="favorite">Favorite</option>
           <option value="finished">Finished</option>
         </select>

@@ -3,6 +3,7 @@ import { type Pool } from 'pg'
 type Book = {
   author: string
   title: string
+  tag: string
 }
 
 export default function booksModels(db: Pool) {
@@ -14,8 +15,13 @@ export default function booksModels(db: Pool) {
     },
 
     createBook: async function (book: Book, userId: number) {
-      const sql = `INSERT INTO Book (author, title, userId) VALUES($1, $2, $3) RETURNING id, author, title`
-      const { rows } = await db.query(sql, [book.author, book.title, userId])
+      const sql = `INSERT INTO Book (author, title, tag, userId) VALUES($1, $2, $3, $4) RETURNING id, author, title, tag`
+      const { rows } = await db.query(sql, [
+        book.author,
+        book.title,
+        book.tag,
+        userId
+      ])
       return rows[0]
     },
 

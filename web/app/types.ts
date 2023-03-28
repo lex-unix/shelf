@@ -6,6 +6,12 @@ export type BookData = {
   tag: Tag
 }
 
+export type GoalData = {
+  id: number
+  total: number
+  progress: number
+}
+
 export type FormError = {
   field: string
   message: string

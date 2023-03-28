@@ -18,6 +18,7 @@ const insert = {
     S.object()
       .prop('author', S.string().required())
       .prop('title', S.string().required())
+      .prop('tag', S.string().required())
   ),
   response: {
     201: S.object().prop('book', Book)

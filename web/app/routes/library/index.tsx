@@ -1,4 +1,4 @@
-import { type ActionArgs, type LoaderArgs } from '@remix-run/node'
+import { redirect, type ActionArgs, type LoaderArgs } from '@remix-run/node'
 import { useLoaderData } from '@remix-run/react'
 import { type ChangeEvent, useState, useMemo } from 'react'
 import LibraryViewBar from '~/components/library-view-bar'
@@ -7,11 +7,13 @@ import Sidebar from '~/components/sidebar'
 import TileView from '~/components/tile-view'
 import type { BookData } from '~/types'
 import { API } from '~/constants'
+import { createBook } from '~/books.server'
 
 export const action = async ({ request }: ActionArgs) => {
   const formData = await request.formData()
-  const newBook = Object.fromEntries(formData)
-  return newBook
+  const body = Object.fromEntries(formData)
+  createBook(request, body)
+  return null
 }
 
 export const loader = async ({ request }: LoaderArgs) => {
@@ -21,6 +23,10 @@ export const loader = async ({ request }: LoaderArgs) => {
     headers: request.headers,
     credentials: 'include'
   })
+
+  if (res.status === 401) {
+    return redirect('/login')
+  }
   let data = await res.json()
   let selecetedBooks: BookData[] = data.books
 
@@ -34,7 +40,7 @@ export const loader = async ({ request }: LoaderArgs) => {
 }
 
 export default function LibraryIndexPage() {
-  const books = useLoaderData<typeof loader>()
+  const books = useLoaderData<BookData[]>()
   const [view, setView] = useState<'tile' | 'list'>('tile')
   const [search, setSearch] = useState('')
 
