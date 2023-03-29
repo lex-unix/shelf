@@ -3,7 +3,12 @@ import type { Config } from '../../config/config'
 import type { FastifyPluginCallback } from 'fastify'
 import goalsModel from '../../models/goals'
 import { schema } from './schema'
-import type { CreateRoute, DeleteRoute, GetOneRoute } from './index.types'
+import type {
+  CreateRoute,
+  DeleteRoute,
+  GetOneRoute,
+  UpdateRoute
+} from './index.types'
 
 const goals: FastifyPluginCallback<Config> = (server, options, done) => {
   const model = goalsModel(server.db)
@@ -43,6 +48,20 @@ const goals: FastifyPluginCallback<Config> = (server, options, done) => {
       }
 
       reply.code(404).send({ message: 'Goal not found' })
+    }
+  })
+
+  server.route<UpdateRoute>({
+    method: 'PUT',
+    url: options.prefix + 'goals/:id',
+    onRequest: [server.authorize],
+    handler: async (req, reply) => {
+      const goal = model.getGoalById(req.params.id)
+      if (!goal) {
+        return reply.code(404).send({ message: 'Goal not found' })
+      }
+      await model.updateGoal(req.params.id, req.body)
+      reply.code(201)
     }
   })
 

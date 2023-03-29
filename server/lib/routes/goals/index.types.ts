@@ -17,3 +17,13 @@ export type DeleteRoute = {
     id: string
   }
 }
+
+export type UpdateRoute = {
+  Params: {
+    id: string
+  }
+  Body: {
+    total: number
+    progress: number
+  }
+}

@@ -37,6 +37,11 @@ export default function goalsModel(db: Pool) {
     deleteGoal: async function (id: string) {
       const sql = `DELETE FROM Goal WHERE id = $1`
       await db.query(sql, [id])
+    },
+
+    updateGoal: async function (id: string, goal: Goal & { progress: number }) {
+      const sql = `UPDATE Goal SET total = $1, progress = $2 WHERE id = $3`
+      await db.query(sql, [goal.total, goal.progress, id])
     }
   }
 }
