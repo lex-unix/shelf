@@ -45,10 +45,13 @@ function PopoverContent({ children }: { children: ReactNode }) {
             asChild
           >
             <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ opacity: { duration: 0.2 } }}
+              initial={{ opacity: 0, scale: 0.97 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.97 }}
+              transition={{
+                opacity: { duration: 0.15 },
+                scale: { duration: 0.2 }
+              }}
               className="rounded-lg border border-gray-700 bg-gray-900 py-7 px-8"
             >
               {children}

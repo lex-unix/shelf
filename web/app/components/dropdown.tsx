@@ -61,10 +61,13 @@ function DropdownMenu({
         <RadixDropdown.Portal forceMount>
           <RadixDropdown.Content align="end" sideOffset={12}>
             <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ opacity: { duration: 0.2 } }}
+              initial={{ opacity: 0, scale: 0.97 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.97 }}
+              transition={{
+                opacity: { duration: 0.15 },
+                scale: { duration: 0.2 }
+              }}
               className={`z-10 flex flex-col gap-2.5 rounded-lg border border-gray-700 bg-gray-900 px-2 py-1.5 outline-none ${className}`}
             >
               {children}

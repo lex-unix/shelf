@@ -8,6 +8,7 @@ import TileView from '~/components/tile-view'
 import type { BookData } from '~/types'
 import { API } from '~/constants'
 import { createBook } from '~/books.server'
+import { AnimatePresence, MotionConfig } from 'framer-motion'
 
 export const action = async ({ request }: ActionArgs) => {
   const formData = await request.formData()
@@ -71,11 +72,15 @@ export default function LibraryIndexPage() {
           />
         </div>
 
-        {view === 'tile' ? (
-          <TileView books={filteredBooks} />
-        ) : (
-          <ListView books={filteredBooks} />
-        )}
+        <MotionConfig transition={{ duration: 0.2 }}>
+          <AnimatePresence mode="wait" initial={false}>
+            {view === 'tile' ? (
+              <TileView books={filteredBooks} />
+            ) : (
+              <ListView books={filteredBooks} />
+            )}
+          </AnimatePresence>
+        </MotionConfig>
       </div>
     </div>
   )

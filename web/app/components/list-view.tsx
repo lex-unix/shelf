@@ -1,4 +1,3 @@
-import { type Book } from '~/fixtures/book'
 import {
   DocumentDuplicateIcon,
   EllipsisVerticalIcon,
@@ -6,6 +5,8 @@ import {
   TagIcon,
   TrashIcon
 } from '@heroicons/react/24/outline'
+import { motion } from 'framer-motion'
+import type { BookData } from '~/types'
 import Dropdown from './dropdown'
 import Keyboard from './keyboard'
 
@@ -17,12 +18,16 @@ const vocab = {
 }
 
 interface ListViewProps {
-  books: Book[]
+  books: BookData[]
 }
 
 export default function ListView({ books }: ListViewProps) {
   return (
-    <ul>
+    <motion.ul
+      initial={{ opacity: 0, scale: 0.97 }}
+      animate={{ opacity: 1, scale: 1 }}
+      exit={{ opacity: 0, scale: 0.97 }}
+    >
       {books.map((book, i) => (
         <li
           key={i}
@@ -96,6 +101,6 @@ export default function ListView({ books }: ListViewProps) {
           </div>
         </li>
       ))}
-    </ul>
+    </motion.ul>
   )
 }
