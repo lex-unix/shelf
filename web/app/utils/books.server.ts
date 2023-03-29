@@ -1,4 +1,4 @@
-import { API } from './constants'
+import { API } from '~/constants'
 import { type CreatedBook } from './validations'
 
 export async function createBook(request: Request, body: CreatedBook) {

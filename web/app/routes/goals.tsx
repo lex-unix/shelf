@@ -5,10 +5,10 @@ import Button from '~/components/button'
 import GoalForm from '~/components/goal-form'
 import Popover from '~/components/popover'
 import { AnimatePresence } from 'framer-motion'
-import { createGoal, deleteGoal } from '~/goals.server'
+import { createGoal, deleteGoal } from '~/utils/goals.server'
 import { API } from '~/constants'
 import type { GoalData } from '~/types'
-import { createGoalSchema } from '~/validations'
+import { createGoalSchema } from '~/utils/validations'
 import Goal from '~/components/goal'
 
 export const loader = async ({ request }: LoaderArgs) => {

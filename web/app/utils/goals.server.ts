@@ -1,4 +1,4 @@
-import { API } from './constants'
+import { API } from '~/constants'
 import { type CreatedGoal } from './validations'
 
 export async function createGoal(request: Request, body: CreatedGoal) {

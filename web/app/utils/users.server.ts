@@ -1,4 +1,4 @@
-import { API } from './constants'
+import { API } from '~/constants'
 
 // use `any` for now
 export async function login(body: any) {

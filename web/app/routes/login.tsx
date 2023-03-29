@@ -2,7 +2,7 @@ import { redirect, type ActionFunction } from '@remix-run/node'
 import { Form, useActionData } from '@remix-run/react'
 import Button from '~/components/button'
 import type { FormError } from '~/types'
-import { login } from '~/users.server'
+import { login } from '~/utils/users.server'
 
 export const action: ActionFunction = async ({ request }) => {
   const formData = await request.formData()
