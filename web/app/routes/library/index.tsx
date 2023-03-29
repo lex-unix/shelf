@@ -111,7 +111,7 @@ export default function LibraryIndexPage() {
                 <Popover.Button>
                   <Button
                     leading={<PlusIcon className="h-5 w-5" />}
-                    className="hidden h-full"
+                    className="h-full"
                   >
                     Add new
                   </Button>
