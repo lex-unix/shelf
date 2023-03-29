@@ -1,6 +1,6 @@
 import { API } from './constants'
 
-export async function createGoal(request: Request, total: number) {
+export async function createGoal(request: Request, body: any) {
   const cookie = request.headers.get('cookie') || ''
 
   return fetch(API + '/goals', {
@@ -10,9 +10,7 @@ export async function createGoal(request: Request, total: number) {
       'content-type': 'application/json'
     },
     credentials: 'include',
-    body: JSON.stringify({
-      total
-    })
+    body: JSON.stringify(body)
   })
 }
 

@@ -4,6 +4,8 @@ const Goal = S.object()
   .prop('id', S.string().required())
   .prop('total', S.number().required())
   .prop('progress', S.number().required())
+  .prop('startDate', S.string().required())
+  .prop('endDate', S.string().required())
 
 const getAll = {
   response: {
@@ -21,7 +23,10 @@ const getOne = {
 const insert = {
   body: S.object().prop(
     'goal',
-    S.object().prop('total', S.number().required())
+    S.object()
+      .prop('total', S.number().required())
+      .prop('startDate', S.string())
+      .prop('endDate', S.string())
   ),
   response: {
     201: S.object().prop('goal', Goal)

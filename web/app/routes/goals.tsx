@@ -33,7 +33,12 @@ export const action: ActionFunction = async ({ request }) => {
     await deleteGoal(request, id)
   } else if (_action === 'create') {
     const total = parseInt(form.get('total') as string)
-    await createGoal(request, total)
+    let body = Object.fromEntries(form)
+    body = {
+      ...body,
+      total: total as any
+    }
+    await createGoal(request, body)
   }
   return null
 }
