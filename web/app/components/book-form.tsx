@@ -1,13 +1,26 @@
 import { useFetcher } from '@remix-run/react'
+import { useEffect, useRef } from 'react'
 
 export default function BookForm() {
   const fetcher = useFetcher()
 
+  const formRef = useRef<HTMLFormElement>(null)
+  const titleRef = useRef<HTMLInputElement>(null)
+
+  useEffect(() => {
+    if (fetcher.state === 'idle') {
+      formRef.current?.reset()
+      titleRef.current?.focus()
+    }
+  }, [fetcher.state])
+
   return (
-    <fetcher.Form replace method="post" className="flex flex-col gap-4">
+    <fetcher.Form ref={formRef} method="post" className="flex flex-col gap-4">
+      <input hidden name="_action" value="create" />
       <label className="text-gray-400">
-        Book
+        Title
         <input
+          ref={titleRef}
           name="title"
           required
           placeholder="The Shining"

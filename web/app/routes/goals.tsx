@@ -1,15 +1,15 @@
 import { PlusIcon } from '@heroicons/react/24/outline'
 import { type LoaderArgs, type ActionFunction, redirect } from '@remix-run/node'
-import { useFetcher, useLoaderData } from '@remix-run/react'
+import { useLoaderData } from '@remix-run/react'
 import Button from '~/components/button'
-import CircleProgress from '~/components/circle-progress'
 import GoalForm from '~/components/goal-form'
 import Popover from '~/components/popover'
-import { AnimatePresence, motion } from 'framer-motion'
+import { AnimatePresence } from 'framer-motion'
 import { createGoal, deleteGoal } from '~/goals.server'
 import { API } from '~/constants'
 import type { GoalData } from '~/types'
 import { createGoalSchema } from '~/validations'
+import Goal from '~/components/goal'
 
 export const loader = async ({ request }: LoaderArgs) => {
   const res = await fetch(API + '/goals', {
@@ -41,7 +41,6 @@ export const action: ActionFunction = async ({ request }) => {
 
 export default function GoalsPage() {
   const goals = useLoaderData<GoalData[]>()
-  const fetcher = useFetcher()
 
   return (
     <div className="mx-auto max-w-2xl py-6">
@@ -60,70 +59,15 @@ export default function GoalsPage() {
       <ul className="">
         <AnimatePresence initial={false}>
           {goals.map(goal => (
-            <motion.li
+            <Goal
               key={goal.id}
-              initial={{ opacity: 0, height: 0 }}
-              animate={{ opacity: 1, height: 'auto' }}
-              exit={{ opacity: 0, height: 0 }}
-              transition={{
-                opacity: { duration: 0.2 }
-              }}
-            >
-              <div className="py-2">
-                <fetcher.Form
-                  method="post"
-                  replace
-                  className="flex items-start rounded-md border border-gray-700 p-6"
-                >
-                  <input type="hidden" name="id" value={goal.id} />
-                  <input type="hidden" name="action" value="delete" />
-                  <CircleProgress
-                    progress={(goal.progress / goal.total) * 100}
-                    currentCount={goal.progress}
-                  />
-                  <div className="flex flex-1 items-start justify-between">
-                    <div>
-                      <p className="text-gray-400">Goal</p>
-                      <p className="mt-1">{goal.progress}</p>
-                    </div>
-                    <button className="text-xl">&times;</button>
-                  </div>
-                </fetcher.Form>
-              </div>
-            </motion.li>
+              id={goal.id}
+              progress={goal.progress}
+              total={goal.total}
+            />
           ))}
         </AnimatePresence>
       </ul>
     </div>
   )
 }
-
-/*
-function GoalItem({ id }: { id: number }) {
-  const fetcher = useFetcher()
-  const isDeleting = fetcher.submission?.formData.get('id') === id.toString()
-
-  if (isDeleting) return null
-
-  return (
-    <motion.li
-      initial={{ opacity: 0, height: 0 }}
-      animate={{ opacity: 1, height: 'auto' }}
-      exit={{ opacity: 0, height: 0 }}
-      className="rounded-md border border-gray-700"
-    >
-      <fetcher.Form method="post" replace className="flex items-start p-6">
-        <input type="hidden" name="id" value={id} />
-        <CircleProgress progress={90} currentCount={9} />
-        <div className="flex flex-1 items-start justify-between">
-          <div>
-            <p className="text-gray-400">Goal</p>
-            <p className="mt-1">2023 Reading goals</p>
-          </div>
-          <button className="text-xl">&times;</button>
-        </div>
-      </fetcher.Form>
-    </motion.li>
-  )
-}
-*/
