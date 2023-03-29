@@ -1,4 +1,5 @@
 import { CheckIcon } from '@heroicons/react/24/outline'
+import { motion } from 'framer-motion'
 
 interface CircleProgressProps {
   progress: number
@@ -9,14 +10,11 @@ const SIZE = 48
 const CENTER = SIZE / 2
 const STROKE_WIDTH = 3
 const RADIUS = CENTER - STROKE_WIDTH
-const ARC_LEN = 2 * Math.PI * RADIUS
 
 export default function CircleProgress({
   progress,
   currentCount
 }: CircleProgressProps) {
-  const arcOffset = ARC_LEN * ((100 - progress) / 100)
-
   return (
     <div className="relative mr-3">
       <svg
@@ -33,12 +31,12 @@ export default function CircleProgress({
           stroke="currentColor"
           className="text-gray-500"
         />
-        <circle
+        <motion.circle
           cx={CENTER}
           cy={CENTER}
           r={RADIUS}
-          strokeDasharray={ARC_LEN}
-          strokeDashoffset={arcOffset}
+          animate={{ pathLength: [0, progress / 100] }}
+          transition={{ duration: 0.5 }}
           strokeLinecap="round"
           className="text-green-500"
           stroke="currentColor"
