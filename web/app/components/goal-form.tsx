@@ -18,11 +18,10 @@ export default function GoalForm() {
   }, [fetcher.state])
 
   return (
-    <fetcher.Form ref={formRef} method="post">
-      <h2 className="mb-6 text-lg font-semibold">New reading goal</h2>
+    <fetcher.Form ref={formRef} method="post" className="space-y-4">
       <input type="hidden" name="action" value="create" />
-      <div className="mb-2">
-        <label className="mb-1 block text-gray-400">Books</label>
+      <label className="text-gray-400">
+        Books
         <input
           ref={inputRef}
           name="total"
@@ -31,41 +30,44 @@ export default function GoalForm() {
           required
           pattern="^[0-9]+$"
           title="Number only"
+          className="mt-2 block"
         />
-      </div>
-      <div className="flex items-center justify-between pb-2 pt-4">
+      </label>
+      <div className="flex items-center justify-between">
         <label className="text-gray-400">Custom time period</label>
         <Switch checked={checked} onCheck={() => setChecked(!checked)} />
       </div>
-      <fieldset disabled={!checked} className="mb-4 disabled:opacity-40">
-        <div className="mb-2">
-          <label className="mb-1 block text-gray-400">Start date</label>
+      <fieldset disabled={!checked} className="space-y-4 disabled:opacity-40">
+        <label className="block text-gray-400">
+          Start date
           <input
             type="date"
             name="startDate"
             required={checked}
             defaultValue={format(new Date(), 'yyyy-MM-dd')}
-            className="disabled:cursor-not-allowed"
+            className="mt-2 block disabled:cursor-not-allowed"
           />
-        </div>
-        <div className="mb-2">
-          <label className="mb-1 block text-gray-400">End date</label>
+        </label>
+        <label className="block text-gray-400">
+          End date
           <input
             type="date"
             name="endDate"
             required={checked}
             defaultValue={format(new Date(), 'yyyy-MM-dd')}
-            className="disabled:cursor-not-allowed"
+            className="mt-2 block disabled:cursor-not-allowed"
           />
-        </div>
+        </label>
       </fieldset>
-      <Button
-        type="submit"
-        disabled={fetcher.state === 'submitting'}
-        className="disabled:opacity-70"
-      >
-        {fetcher.state === 'submitting' ? 'Adding...' : 'Add new goal'}
-      </Button>
+      <div className="w-fit">
+        <Button
+          type="submit"
+          disabled={fetcher.state === 'submitting'}
+          className="disabled:opacity-70"
+        >
+          {fetcher.state === 'submitting' ? 'Adding...' : 'Add new goal'}
+        </Button>
+      </div>
     </fetcher.Form>
   )
 }

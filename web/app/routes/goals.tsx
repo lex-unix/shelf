@@ -51,6 +51,7 @@ export default function GoalsPage() {
             <Button leading={<PlusIcon className="h-5 w-5" />}>Add new</Button>
           </Popover.Button>
           <Popover.Content>
+            <h2 className="mb-4 text-lg font-semibold">New reading goal</h2>
             <GoalForm />
           </Popover.Content>
         </Popover>
