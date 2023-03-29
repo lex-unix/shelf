@@ -1,6 +1,6 @@
 import { redirect, type ActionArgs, type LoaderArgs } from '@remix-run/node'
 import { useLoaderData } from '@remix-run/react'
-import { useState, useMemo } from 'react'
+import { useState, useMemo, useRef, useEffect } from 'react'
 import ListView from '~/components/list-view'
 import Sidebar from '~/components/sidebar'
 import TileView from '~/components/tile-view'
@@ -19,6 +19,7 @@ import {
 import Popover from '~/components/popover'
 import Button from '~/components/button'
 import BookForm from '~/components/book-form'
+import useLocalStorage from '~/hooks/use-local-storage'
 
 export const action = async ({ request }: ActionArgs) => {
   const formData = await request.formData()
@@ -58,8 +59,13 @@ export const loader = async ({ request }: LoaderArgs) => {
 
 export default function LibraryIndexPage() {
   const books = useLoaderData<BookData[]>()
-  const [view, setView] = useState<'tile' | 'list'>('tile')
+  const [view, setView] = useLocalStorage('view', 'tile')
   const [search, setSearch] = useState('')
+  const [mounted, setMounted] = useState(false)
+
+  useEffect(() => {
+    setMounted(true)
+  }, [])
 
   const filteredBooks = useMemo(
     () =>
@@ -72,7 +78,7 @@ export default function LibraryIndexPage() {
     [books, search]
   )
 
-  return (
+  return mounted ? (
     <div className="flex pt-8">
       <Sidebar />
       <div className="flex-1 md:ml-8">
@@ -129,5 +135,7 @@ export default function LibraryIndexPage() {
         </MotionConfig>
       </div>
     </div>
+  ) : (
+    <div />
   )
 }
