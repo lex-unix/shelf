@@ -1,6 +1,7 @@
 export type Tag = 'finished' | 'favorite' | 'wantToRead' | 'currentlyReading'
 
 export type BookData = {
+  id: number
   author: string
   title: string
   tag: Tag
