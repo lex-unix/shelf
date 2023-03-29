@@ -9,6 +9,7 @@ import { AnimatePresence, motion } from 'framer-motion'
 import { createGoal, deleteGoal } from '~/goals.server'
 import { API } from '~/constants'
 import type { GoalData } from '~/types'
+import { createGoalSchema } from '~/validations'
 
 export const loader = async ({ request }: LoaderArgs) => {
   const res = await fetch(API + '/goals', {
@@ -32,12 +33,7 @@ export const action: ActionFunction = async ({ request }) => {
     const id = form.get('id') as string
     await deleteGoal(request, id)
   } else if (_action === 'create') {
-    const total = parseInt(form.get('total') as string)
-    let body = Object.fromEntries(form)
-    body = {
-      ...body,
-      total: total as any
-    }
+    const body = createGoalSchema.parse(Object.fromEntries(form))
     await createGoal(request, body)
   }
   return null

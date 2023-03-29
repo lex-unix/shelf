@@ -1,6 +1,7 @@
 import { API } from './constants'
+import { type CreatedGoal } from './validations'
 
-export async function createGoal(request: Request, body: any) {
+export async function createGoal(request: Request, body: CreatedGoal) {
   const cookie = request.headers.get('cookie') || ''
 
   return fetch(API + '/goals', {

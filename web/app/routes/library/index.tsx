@@ -9,12 +9,12 @@ import type { BookData } from '~/types'
 import { API } from '~/constants'
 import { createBook } from '~/books.server'
 import { AnimatePresence, MotionConfig } from 'framer-motion'
+import { createBookSchema } from '~/validations'
 
 export const action = async ({ request }: ActionArgs) => {
   const formData = await request.formData()
-  const body = Object.fromEntries(formData)
-  createBook(request, body)
-  return null
+  const body = createBookSchema.parse(Object.fromEntries(formData))
+  return createBook(request, body)
 }
 
 export const loader = async ({ request }: LoaderArgs) => {

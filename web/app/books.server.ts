@@ -1,6 +1,7 @@
 import { API } from './constants'
+import { type CreatedBook } from './validations'
 
-export async function createBook(request: Request, body: any) {
+export async function createBook(request: Request, body: CreatedBook) {
   return fetch(API + '/books', {
     method: 'post',
     headers: {
