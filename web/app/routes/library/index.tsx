@@ -5,7 +5,6 @@ import ListView from '~/components/list-view'
 import Sidebar from '~/components/sidebar'
 import TileView from '~/components/tile-view'
 import type { BookData } from '~/types'
-import { API } from '~/constants'
 import booksApi from '~/utils/books.server'
 import { AnimatePresence, MotionConfig } from 'framer-motion'
 import { createBookSchema } from '~/utils/validations'
@@ -112,7 +111,7 @@ export default function LibraryIndexPage() {
                 <Popover.Button>
                   <Button
                     leading={<PlusIcon className="h-5 w-5" />}
-                    className="h-full"
+                    className="hidden h-full"
                   >
                     Add new
                   </Button>
