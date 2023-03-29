@@ -26,3 +26,17 @@ export async function deleteGoal(request: Request, id: string) {
     credentials: 'include'
   })
 }
+
+export async function updateGoal(request: Request, id: string, body: any) {
+  const cookie = request.headers.get('cookie') || ''
+
+  return fetch(`${API}/goals/${id}`, {
+    method: 'put',
+    headers: {
+      cookie,
+      'content-type': 'application/json'
+    },
+    credentials: 'include',
+    body: JSON.stringify(body)
+  })
+}

@@ -19,7 +19,7 @@ export default function GoalForm() {
 
   return (
     <fetcher.Form ref={formRef} method="post" className="space-y-4">
-      <input type="hidden" name="action" value="create" />
+      <input type="hidden" name="_action" value="create" />
       <label className="text-gray-400">
         Books
         <input

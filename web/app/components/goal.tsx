@@ -8,6 +8,9 @@ import { motion } from 'framer-motion'
 import CircleProgress from './circle-progress'
 import Dropdown from './dropdown'
 import Keyboard from './keyboard'
+import Dialog from './dialog'
+import { useEffect, useState } from 'react'
+import Button from './button'
 
 interface GoalProps {
   id: number
@@ -16,7 +19,35 @@ interface GoalProps {
 }
 
 export default function Goal({ id, progress, total }: GoalProps) {
-  const del = useFetcher()
+  const deleteFetcher = useFetcher()
+  const editFetcher = useFetcher()
+  const [dialogOpen, setDialogOpen] = useState(false)
+  const [menuOpen, setMenuOpen] = useState(false)
+
+  useEffect(() => {
+    if (editFetcher.state === 'idle') {
+      setDialogOpen(false)
+    }
+  }, [editFetcher.state])
+
+  useEffect(() => {
+    if (!menuOpen) return
+
+    const keyDown = (e: KeyboardEvent) => {
+      if (e.metaKey && e.key === 'Backspace') {
+        deleteFetcher.submit(
+          { _action: 'delete', id: id.toString() },
+          { method: 'post' }
+        )
+      } else if (e.metaKey && e.key === 'e') {
+        setDialogOpen(true)
+      }
+    }
+
+    document.addEventListener('keydown', keyDown)
+
+    return () => document.removeEventListener('keydown', keyDown)
+  }, [deleteFetcher, id, menuOpen])
 
   return (
     <motion.li
@@ -28,6 +59,38 @@ export default function Goal({ id, progress, total }: GoalProps) {
         opacity: { duration: 0.2 }
       }}
     >
+      <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
+        <Dialog.Overlay />
+        <Dialog.Content>
+          <h2 className="mb-4 text-xl font-medium">Edit goal</h2>
+          <editFetcher.Form method="post" className="space-y-3">
+            <input type="hidden" name="_action" value="edit" />
+            <input type="hidden" name="id" value={id} />
+            <label className="block text-gray-400">
+              Total
+              <input
+                name="total"
+                defaultValue={total}
+                className="mt-2 block w-full"
+              />
+            </label>
+            <label className="block text-gray-400">
+              Progress
+              <input
+                name="progress"
+                defaultValue={progress}
+                className="mt-2 block w-full"
+              />
+            </label>
+            <div className="mx-auto">
+              <Button>
+                {editFetcher.state === 'submitting' ? 'Editing' : 'Edit goal'}
+              </Button>
+            </div>
+          </editFetcher.Form>
+        </Dialog.Content>
+      </Dialog>
+
       <div className="py-2">
         <div className="flex items-center rounded-md border border-gray-700 p-6">
           <CircleProgress
@@ -41,14 +104,13 @@ export default function Goal({ id, progress, total }: GoalProps) {
             </div>
           </div>
 
-          <Dropdown>
+          <Dropdown open={menuOpen} onOpenChange={setMenuOpen}>
             <Dropdown.Button className="rounded focus:ring-2 focus:ring-gray-500">
               <EllipsisVerticalIcon className="h-6 w-6" />
             </Dropdown.Button>
-
             <Dropdown.Menu>
-              <Dropdown.MenuItem>
-                <div className="flex items-center justify-between gap-5">
+              <Dropdown.MenuItem onSelect={() => setDialogOpen(true)}>
+                <div className="flex w-full items-center justify-between gap-5">
                   <div className="flex flex-1 items-center justify-start">
                     <PencilIcon className="h-5 w-5" />
                     <span className="pl-3">Edit</span>
@@ -61,9 +123,9 @@ export default function Goal({ id, progress, total }: GoalProps) {
               </Dropdown.MenuItem>
 
               <Dropdown.MenuItem>
-                <del.Form method="post">
+                <deleteFetcher.Form method="post">
                   <input type="hidden" name="id" value={id} />
-                  <input type="hidden" name="action" value="delete" />
+                  <input type="hidden" name="_action" value="delete" />
                   <button className="flex w-full items-center justify-between gap-5">
                     <div className="flex flex-1 items-center justify-start">
                       <TrashIcon className="h-5 w-5" />
@@ -74,7 +136,7 @@ export default function Goal({ id, progress, total }: GoalProps) {
                       <Keyboard>⌫</Keyboard>
                     </div>
                   </button>
-                </del.Form>
+                </deleteFetcher.Form>
               </Dropdown.MenuItem>
             </Dropdown.Menu>
           </Dropdown>

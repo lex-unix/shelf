@@ -1,5 +1,4 @@
 import {
-  DocumentDuplicateIcon,
   EllipsisVerticalIcon,
   PencilIcon,
   TagIcon,
@@ -7,6 +6,7 @@ import {
 } from '@heroicons/react/24/outline'
 import { useFetcher } from '@remix-run/react'
 import { motion } from 'framer-motion'
+import { useEffect, useState } from 'react'
 import type { BookData } from '~/types'
 import Dropdown from './dropdown'
 import Keyboard from './keyboard'
@@ -45,7 +45,25 @@ export default function ListView({ books }: ListViewProps) {
 interface ListItemProps extends BookData {}
 
 function ListItem({ id, title, author, tag }: ListItemProps) {
+  const [menuOpen, setMenuOpen] = useState(false)
   const deleteFetcher = useFetcher()
+
+  useEffect(() => {
+    if (!menuOpen) return
+
+    const keyDown = (e: KeyboardEvent) => {
+      if (e.metaKey && e.key === 'Backspace') {
+        deleteFetcher.submit(
+          { _action: 'delete', id: id.toString() },
+          { method: 'post' }
+        )
+      }
+    }
+
+    document.addEventListener('keydown', keyDown)
+
+    return () => document.removeEventListener('keydown', keyDown)
+  }, [id, deleteFetcher, menuOpen])
 
   return (
     <li className="border-b border-b-gray-700 py-5 last:border-none">
@@ -58,23 +76,11 @@ function ListItem({ id, title, author, tag }: ListItemProps) {
           <div className="rounded-full bg-white/5 py-2.5 px-4">
             {vocab[tag]}
           </div>
-          <Dropdown>
+          <Dropdown open={menuOpen} onOpenChange={setMenuOpen}>
             <Dropdown.Button className="rounded focus:ring-2 focus:ring-gray-500">
               <EllipsisVerticalIcon className="h-6 w-6" />
             </Dropdown.Button>
             <Dropdown.Menu>
-              <Dropdown.MenuItem>
-                <div className="flex items-center justify-between gap-5">
-                  <div className="flex flex-1 items-center justify-start">
-                    <DocumentDuplicateIcon className="h-5 w-5" />
-                    <span className="pl-3">Copy</span>
-                  </div>
-                  <div className="flex items-center gap-1">
-                    <Keyboard>⌘</Keyboard>
-                    <Keyboard>C</Keyboard>
-                  </div>
-                </div>
-              </Dropdown.MenuItem>
               <Dropdown.MenuItem>
                 <div className="flex items-center justify-between gap-5">
                   <div className="flex flex-1 items-center justify-start">

@@ -15,12 +15,19 @@ interface DropdownContextProps {
 
 const DropdownContext = createContext<DropdownContextProps>({ open: false })
 
-export default function Dropdown({ children }: { children: ReactNode }) {
-  const [open, setOpen] = useState(false)
+export default function Dropdown({
+  open,
+  onOpenChange,
+  children
+}: RadixDropdown.DropdownMenuProps) {
+  const [isOpen, setIsOpen] = useState(false)
 
   return (
-    <DropdownContext.Provider value={{ open }}>
-      <RadixDropdown.Root open={open} onOpenChange={setOpen}>
+    <DropdownContext.Provider value={{ open: open || isOpen }}>
+      <RadixDropdown.Root
+        open={open || isOpen}
+        onOpenChange={onOpenChange || setIsOpen}
+      >
         {children}
       </RadixDropdown.Root>
     </DropdownContext.Provider>

@@ -5,7 +5,7 @@ import Button from '~/components/button'
 import GoalForm from '~/components/goal-form'
 import Popover from '~/components/popover'
 import { AnimatePresence } from 'framer-motion'
-import { createGoal, deleteGoal } from '~/utils/goals.server'
+import { createGoal, deleteGoal, updateGoal } from '~/utils/goals.server'
 import { API } from '~/constants'
 import type { GoalData } from '~/types'
 import { createGoalSchema } from '~/utils/validations'
@@ -28,13 +28,17 @@ export const loader = async ({ request }: LoaderArgs) => {
 export const action: ActionFunction = async ({ request }) => {
   const form = await request.formData()
 
-  const _action = form.get('action')
+  const _action = form.get('_action')
   if (_action === 'delete') {
     const id = form.get('id') as string
     await deleteGoal(request, id)
   } else if (_action === 'create') {
     const body = createGoalSchema.parse(Object.fromEntries(form))
     await createGoal(request, body)
+  } else if (_action === 'edit') {
+    const body = Object.fromEntries(form)
+    const id = form.get('id') as string
+    await updateGoal(request, id, body)
   }
   return null
 }
