@@ -8,6 +8,8 @@ import { useFetcher } from '@remix-run/react'
 import { motion } from 'framer-motion'
 import { useEffect, useState } from 'react'
 import type { BookData } from '~/types'
+import Button from './button'
+import Dialog from './dialog'
 import Dropdown from './dropdown'
 import Keyboard from './keyboard'
 
@@ -46,7 +48,15 @@ interface ListItemProps extends BookData {}
 
 function ListItem({ id, title, author, tag }: ListItemProps) {
   const [menuOpen, setMenuOpen] = useState(false)
+  const [dialogOpen, setDialogOpen] = useState(false)
   const deleteFetcher = useFetcher()
+  const editFetcher = useFetcher()
+
+  useEffect(() => {
+    if (editFetcher.state === 'idle') {
+      setDialogOpen(false)
+    }
+  }, [editFetcher.state])
 
   useEffect(() => {
     if (!menuOpen) return
@@ -67,6 +77,39 @@ function ListItem({ id, title, author, tag }: ListItemProps) {
 
   return (
     <li className="border-b border-b-gray-700 py-5 last:border-none">
+      <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
+        <Dialog.Overlay />
+        <Dialog.Content>
+          <h2 className="mb-4 text-xl font-medium">Edit book</h2>
+          <editFetcher.Form method="post" className="space-y-4">
+            <input type="hidden" name="_action" value="edit" />
+            <input type="hidden" name="id" value={id} />
+            <label className="block">
+              Title
+              <input
+                name="title"
+                defaultValue={title}
+                placeholder="Title"
+                className="mt-2 block w-full"
+              />
+            </label>
+            <label className="block">
+              Author
+              <input
+                name="author"
+                defaultValue={author}
+                placeholder="Author"
+                className="mt-2 block w-full"
+              />
+            </label>
+            <div>
+              <Button>
+                {editFetcher.state === 'submitting' ? 'Saving...' : 'Save'}
+              </Button>
+            </div>
+          </editFetcher.Form>
+        </Dialog.Content>
+      </Dialog>
       <div className="flex items-center justify-between">
         <div className="pr-5">
           <p className="mb-2">{title}</p>
@@ -81,7 +124,7 @@ function ListItem({ id, title, author, tag }: ListItemProps) {
               <EllipsisVerticalIcon className="h-6 w-6" />
             </Dropdown.Button>
             <Dropdown.Menu>
-              <Dropdown.MenuItem>
+              <Dropdown.MenuItem onSelect={() => setDialogOpen(true)}>
                 <div className="flex items-center justify-between gap-5">
                   <div className="flex flex-1 items-center justify-start">
                     <PencilIcon className="h-5 w-5" />

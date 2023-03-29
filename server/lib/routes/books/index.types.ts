@@ -11,3 +11,13 @@ export type GetBookRoute = {
     id: string
   }
 }
+
+export type UpdateRoute = {
+  Params: {
+    id: string
+  }
+  Body: {
+    author: string
+    title: string
+  }
+}

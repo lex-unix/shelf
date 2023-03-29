@@ -1,12 +1,12 @@
 import { redirect, type ActionArgs, type LoaderArgs } from '@remix-run/node'
 import { useLoaderData } from '@remix-run/react'
-import { useState, useMemo, useRef, useEffect } from 'react'
+import { useState, useMemo, useEffect } from 'react'
 import ListView from '~/components/list-view'
 import Sidebar from '~/components/sidebar'
 import TileView from '~/components/tile-view'
 import type { BookData } from '~/types'
 import { API } from '~/constants'
-import { createBook, deleteBook } from '~/utils/books.server'
+import booksApi from '~/utils/books.server'
 import { AnimatePresence, MotionConfig } from 'framer-motion'
 import { createBookSchema } from '~/utils/validations'
 import SearchBar from '~/components/search-bar'
@@ -22,14 +22,19 @@ import BookForm from '~/components/book-form'
 import useLocalStorage from '~/hooks/use-local-storage'
 
 export const action = async ({ request }: ActionArgs) => {
+  const api = booksApi(request)
   const formData = await request.formData()
   const _action = formData.get('_action')
   if (_action === 'delete') {
     const id = formData.get('id') as string
-    await deleteBook(request, id)
+    await api.deleteBook(id)
   } else if (_action === 'create') {
     const body = createBookSchema.parse(Object.fromEntries(formData))
-    await createBook(request, body)
+    await api.createBook(body)
+  } else if (_action === 'edit') {
+    const id = formData.get('id') as string
+    const body = Object.fromEntries(formData)
+    await api.editBook(id, body)
   }
   return null
 }
@@ -37,11 +42,8 @@ export const action = async ({ request }: ActionArgs) => {
 export const loader = async ({ request }: LoaderArgs) => {
   const url = new URL(request.url)
   const tag = url.searchParams.get('tag')
-  const res = await fetch(API + '/books', {
-    headers: request.headers,
-    credentials: 'include'
-  })
-
+  const api = booksApi(request)
+  const res = await api.getBooks()
   if (res.status === 401) {
     return redirect('/login')
   }

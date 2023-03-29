@@ -34,6 +34,11 @@ export default function booksModels(db: Pool) {
       const sql = `SELECT id, author, title FROM Book WHERE id = $1`
       const { rows } = await db.query(sql, [bookId])
       return rows[0]
+    },
+
+    editBook: async function (id: string, book: Omit<Book, 'tag'>) {
+      const sql = `UPDATE Book SET author = $1, title = $2 WHERE id = $3`
+      await db.query(sql, [book.author, book.title, id])
     }
   }
 }

@@ -67,7 +67,7 @@ function DialogContent({ children }: { children: ReactNode }) {
             }}
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.97 }}
-            className="fixed left-[50%] z-50 w-full max-w-xl outline-none md:top-[10%]"
+            className="fixed left-[50%] top-[10%] z-50 w-full max-w-xl outline-none"
           >
             <div className="mx-4 h-full rounded-lg border border-gray-700 bg-gray-900 px-7 py-5 shadow-[0_16px_20px_hsla(0,0%,0%,20%)]">
               {children}

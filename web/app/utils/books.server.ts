@@ -1,22 +1,45 @@
 import { API } from '~/constants'
 import { type CreatedBook } from './validations'
 
-export async function createBook(request: Request, body: CreatedBook) {
-  return fetch(API + '/books', {
-    method: 'post',
-    headers: {
-      cookie: request.headers.get('Cookie') || '',
-      'content-type': 'application/json'
-    },
-    body: JSON.stringify(body)
-  })
-}
+export default function booksApi(request: Request) {
+  const cookie = request.headers.get('Cookie') || ''
 
-export async function deleteBook(request: Request, id: string) {
-  return fetch(API + `/books/${id}`, {
-    method: 'DELETE',
-    headers: {
-      cookie: request.headers.get('Cookie') || ''
+  return {
+    getBooks: async () => {
+      return fetch(API + '/books', {
+        headers: request.headers,
+        credentials: 'include'
+      })
+    },
+    createBook: async (body: CreatedBook) => {
+      return fetch(API + '/books', {
+        method: 'post',
+        headers: {
+          cookie,
+          'content-type': 'application/json'
+        },
+        body: JSON.stringify(body)
+      })
+    },
+
+    deleteBook: async (id: string) => {
+      return fetch(API + `/books/${id}`, {
+        method: 'DELETE',
+        headers: {
+          cookie
+        }
+      })
+    },
+
+    editBook: async (id: string, body: any) => {
+      return fetch(API + `/books/${id}`, {
+        method: 'put',
+        headers: {
+          cookie,
+          'content-type': 'application/json'
+        },
+        body: JSON.stringify(body)
+      })
     }
-  })
+  }
 }
