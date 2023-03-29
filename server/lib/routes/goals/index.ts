@@ -25,7 +25,6 @@ const goals: FastifyPluginCallback<Config> = (server, options, done) => {
     schema: schema.insert,
     onRequest: [server.authorize],
     handler: async (req, reply) => {
-      console.log(req.body.total)
       const goal = await model.createGoal(req.body, req.session.userId)
       reply.code(201)
       return { goal }
