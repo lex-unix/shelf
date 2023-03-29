@@ -5,7 +5,7 @@ interface AvatarProps {
 
 export default function Avatar({ src, alt }: AvatarProps) {
   return (
-    <div className="relative h-10 w-10 overflow-hidden rounded-full">
+    <div className="relative h-10 w-10 select-none overflow-hidden rounded-full">
       <img
         src={src}
         alt={alt}

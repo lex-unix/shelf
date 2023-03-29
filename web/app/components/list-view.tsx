@@ -45,7 +45,7 @@ export default function ListView({ books }: ListViewProps) {
 interface ListItemProps extends BookData {}
 
 function ListItem({ id, title, author, tag }: ListItemProps) {
-  const del = useFetcher()
+  const deleteFetcher = useFetcher()
 
   return (
     <li className="border-b border-b-gray-700 py-5 last:border-none">
@@ -79,7 +79,7 @@ function ListItem({ id, title, author, tag }: ListItemProps) {
                 <div className="flex items-center justify-between gap-5">
                   <div className="flex flex-1 items-center justify-start">
                     <PencilIcon className="h-5 w-5" />
-                    <span className="pl-3">Rename</span>
+                    <span className="pl-3">Edit</span>
                   </div>
                   <div className="flex items-center gap-1">
                     <Keyboard>⌘</Keyboard>
@@ -90,8 +90,8 @@ function ListItem({ id, title, author, tag }: ListItemProps) {
               <Dropdown.MenuItem>
                 <div className="flex items-center justify-between gap-5">
                   <div className="flex flex-1 items-center justify-start">
-                    <TagIcon className="h-5 w-5" />
-                    <span className="pl-3">Add tag</span>
+                    <TagIcon className="h-5 w-5 -rotate-90" />
+                    <span className="pl-3">Tag</span>
                   </div>
                   <div className="flex items-center gap-1">
                     <Keyboard>⌘</Keyboard>
@@ -100,7 +100,7 @@ function ListItem({ id, title, author, tag }: ListItemProps) {
                 </div>
               </Dropdown.MenuItem>
               <Dropdown.MenuItem>
-                <del.Form method="post" className="w-full">
+                <deleteFetcher.Form method="post" className="w-full">
                   <input type="hidden" name="id" value={id} />
                   <input type="hidden" name="_action" value="delete" />
                   <button className="flex w-full items-center justify-between gap-5">
@@ -113,7 +113,7 @@ function ListItem({ id, title, author, tag }: ListItemProps) {
                       <Keyboard>⌫</Keyboard>
                     </div>
                   </button>
-                </del.Form>
+                </deleteFetcher.Form>
               </Dropdown.MenuItem>
             </Dropdown.Menu>
           </Dropdown>

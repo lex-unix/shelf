@@ -38,7 +38,7 @@ export default function Navbar() {
       <div className="flex h-full max-w-5xl items-center justify-between">
         <h1 className="text-xl font-semibold tracking-tight">Shelf</h1>
         <Dropdown>
-          <Dropdown.Button className="rounded-full focus:ring focus:ring-orange-400">
+          <Dropdown.Button className="rounded-full focus:ring-0 focus-visible:ring-2 focus-visible:ring-gray-500">
             <Avatar
               src="https://ltqrjjxsacmuogzvtlja.supabase.co/storage/v1/object/public/avatar/2/avatar.webp"
               alt="Avatar"
