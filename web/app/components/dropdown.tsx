@@ -64,7 +64,7 @@ function DropdownMenu({
     <AnimatePresence>
       {open && (
         <RadixDropdown.Portal forceMount>
-          <RadixDropdown.Content align="end" sideOffset={12} {...props}>
+          <RadixDropdown.Content asChild align="end" sideOffset={12} {...props}>
             <motion.div
               initial={{ opacity: 0, scale: 0.97 }}
               animate={{ opacity: 1, scale: 1 }}
