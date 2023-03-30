@@ -77,8 +77,7 @@ export default function ListViewItem({
       <Dialog
         open={dialogOpen}
         onOpenChange={open => {
-          console.log(open)
-          open ? onKeyboardBlock(true) : onKeyboardBlock(false)
+          onKeyboardBlock(open)
           setDialogOpen(open)
         }}
       >
@@ -126,11 +125,7 @@ export default function ListViewItem({
           <Dropdown
             open={menuOpen}
             onOpenChange={open => {
-              if (open) {
-                onKeyboardBlock(true)
-              } else {
-                onKeyboardBlock(false)
-              }
+              onKeyboardBlock(open)
               setMenuOpen(open)
             }}
           >
