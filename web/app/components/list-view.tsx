@@ -6,7 +6,8 @@ import {
 } from '@heroicons/react/24/outline'
 import { useFetcher } from '@remix-run/react'
 import { motion } from 'framer-motion'
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
+import useKeypress from '~/hooks/use-keypress'
 import type { BookData } from '~/types'
 import Button from './button'
 import Dialog from './dialog'
@@ -25,28 +26,72 @@ interface ListViewProps {
 }
 
 export default function ListView({ books }: ListViewProps) {
+  const [selected, setSelected] = useState<number>()
+  const initialKeypress = useRef(false)
+  const [keyboardBlocked, setKeyboardBlocked] = useState(false)
+
+  useKeypress('ArrowDown', () => {
+    if (keyboardBlocked) return
+    if (!initialKeypress.current && !selected) {
+      initialKeypress.current = true
+      setSelected(0)
+      return
+    }
+    if (selected! < books.length - 1) {
+      setSelected(selected! + 1)
+    }
+  })
+
+  useKeypress('ArrowUp', () => {
+    if (keyboardBlocked) return
+    if (!initialKeypress.current && !selected) {
+      initialKeypress.current = true
+      setSelected(0)
+      return
+    }
+    if (selected! > 0) {
+      setSelected(selected! - 1)
+    }
+  })
+
+  const handleKeyboardBlock = (blocked: boolean) => {
+    setKeyboardBlocked(blocked)
+  }
+
   return (
     <motion.ul
       initial={{ opacity: 0, scale: 0.97 }}
       animate={{ opacity: 1, scale: 1 }}
       exit={{ opacity: 0, scale: 0.97 }}
     >
-      {books.map(book => (
+      {books.map((book, i) => (
         <ListItem
           key={book.id}
           id={book.id}
           title={book.title}
           author={book.author}
           tag={book.tag}
+          selected={selected === i}
+          onKeyboardBlock={handleKeyboardBlock}
         />
       ))}
     </motion.ul>
   )
 }
 
-interface ListItemProps extends BookData {}
+interface ListItemProps extends BookData {
+  selected: boolean
+  onKeyboardBlock: (blocked: boolean) => void
+}
 
-function ListItem({ id, title, author, tag }: ListItemProps) {
+function ListItem({
+  id,
+  title,
+  author,
+  tag,
+  selected,
+  onKeyboardBlock
+}: ListItemProps) {
   const [menuOpen, setMenuOpen] = useState(false)
   const [dialogOpen, setDialogOpen] = useState(false)
   const deleteFetcher = useFetcher()
@@ -58,25 +103,28 @@ function ListItem({ id, title, author, tag }: ListItemProps) {
     }
   }, [editFetcher.state])
 
-  useEffect(() => {
-    if (!menuOpen) return
-
-    const keyDown = (e: KeyboardEvent) => {
-      if (e.metaKey && e.key === 'Backspace') {
-        deleteFetcher.submit(
-          { _action: 'delete', id: id.toString() },
-          { method: 'post' }
-        )
-      }
+  useKeypress('Enter', () => {
+    if (selected) {
+      setMenuOpen(true)
+      onKeyboardBlock(true)
     }
+  })
 
-    document.addEventListener('keydown', keyDown)
-
-    return () => document.removeEventListener('keydown', keyDown)
-  }, [id, deleteFetcher, menuOpen])
+  useKeypress(['Meta', 'Backspace'], e => {
+    if (!menuOpen && !selected) return
+    if (e.metaKey && e.key === 'Backspace') {
+      deleteFetcher.submit(
+        { _action: 'delete', id: id.toString() },
+        { method: 'post' }
+      )
+    }
+  })
 
   return (
-    <li className="border-b border-b-gray-700 py-5 last:border-none">
+    <li
+      className={`list-view px-6 py-5`}
+      data-state={selected ? 'selected' : ''}
+    >
       <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
         <Dialog.Overlay />
         <Dialog.Content>
@@ -119,11 +167,21 @@ function ListItem({ id, title, author, tag }: ListItemProps) {
           <div className="rounded-full bg-white/5 py-2.5 px-4">
             {vocab[tag]}
           </div>
-          <Dropdown open={menuOpen} onOpenChange={setMenuOpen}>
+          <Dropdown
+            open={menuOpen}
+            onOpenChange={open => {
+              if (open) {
+                onKeyboardBlock(true)
+              } else {
+                onKeyboardBlock(false)
+              }
+              setMenuOpen(open)
+            }}
+          >
             <Dropdown.Button className="rounded focus:ring-2 focus:ring-gray-500">
               <EllipsisVerticalIcon className="h-6 w-6" />
             </Dropdown.Button>
-            <Dropdown.Menu>
+            <Dropdown.Menu onCloseAutoFocus={e => e.preventDefault()}>
               <Dropdown.MenuItem onSelect={() => setDialogOpen(true)}>
                 <div className="flex items-center justify-between gap-5">
                   <div className="flex flex-1 items-center justify-start">

@@ -55,18 +55,16 @@ DropdownButton.displayName = 'DropdownButton'
 
 function DropdownMenu({
   children,
-  className
-}: {
-  children: ReactNode
-  className?: string
-}) {
+  className,
+  ...props
+}: RadixDropdown.DropdownMenuContentProps) {
   const { open } = useContext(DropdownContext)
 
   return (
     <AnimatePresence>
       {open && (
         <RadixDropdown.Portal forceMount>
-          <RadixDropdown.Content align="end" sideOffset={12}>
+          <RadixDropdown.Content align="end" sideOffset={12} {...props}>
             <motion.div
               initial={{ opacity: 0, scale: 0.97 }}
               animate={{ opacity: 1, scale: 1 }}

@@ -1,4 +1,9 @@
-import { redirect, type ActionArgs, type LoaderArgs } from '@remix-run/node'
+import {
+  redirect,
+  type LinksFunction,
+  type ActionArgs,
+  type LoaderArgs
+} from '@remix-run/node'
 import { useLoaderData } from '@remix-run/react'
 import { useState, useMemo, useEffect } from 'react'
 import ListView from '~/components/list-view'
@@ -19,6 +24,11 @@ import Popover from '~/components/popover'
 import Button from '~/components/button'
 import BookForm from '~/components/book-form'
 import useLocalStorage from '~/hooks/use-local-storage'
+import styles from '~/list-view.css'
+
+export const links: LinksFunction = () => {
+  return [{ rel: 'stylesheet', href: styles }]
+}
 
 export const action = async ({ request }: ActionArgs) => {
   const api = booksApi(request)
@@ -80,52 +90,52 @@ export default function LibraryIndexPage() {
   )
 
   return mounted ? (
-    <div className="flex pt-8">
-      <Sidebar />
-      <div className="flex-1 md:ml-8">
-        <div className="sticky top-0 -mt-8 bg-gray-900 pt-8 pb-8">
-          <div className="flex h-10 items-center justify-between gap-8">
-            <div className="flex h-full flex-1 gap-5">
-              <SearchBar
-                value={search}
-                onChange={e => setSearch(e.target.value)}
-              />
-              <div className="flex items-center justify-center rounded border border-gray-700 p-1">
-                <ViewSwitchButton
-                  active={view === 'tile'}
-                  onClick={() => setView('tile')}
-                >
-                  <Squares2X2Icon className="h-4 w-4" />
-                </ViewSwitchButton>
-                <ViewSwitchButton
-                  active={view === 'list'}
-                  onClick={() => setView('list')}
-                >
-                  <ListBulletIcon className="h-4 w-4" />
-                </ViewSwitchButton>
+    <MotionConfig transition={{ duration: 0.2, ease: [0.36, 0.66, 0.04, 1] }}>
+      <div className="flex pt-8">
+        <Sidebar />
+        <div className="flex-1 md:ml-8">
+          <div className="sticky top-0 -mt-8 bg-gray-900 pt-8 pb-8">
+            <div className="flex h-10 items-center justify-between gap-8">
+              <div className="flex h-full flex-1 gap-5">
+                <SearchBar
+                  value={search}
+                  onChange={e => setSearch(e.target.value)}
+                />
+                <div className="flex items-center justify-center rounded border border-gray-700 p-1">
+                  <ViewSwitchButton
+                    active={view === 'tile'}
+                    onClick={() => setView('tile')}
+                  >
+                    <Squares2X2Icon className="h-4 w-4" />
+                  </ViewSwitchButton>
+                  <ViewSwitchButton
+                    active={view === 'list'}
+                    onClick={() => setView('list')}
+                  >
+                    <ListBulletIcon className="h-4 w-4" />
+                  </ViewSwitchButton>
+                </div>
+              </div>
+
+              <div className="hidden h-10 md:inline-block">
+                <Popover>
+                  <Popover.Button>
+                    <Button
+                      leading={<PlusIcon className="h-5 w-5" />}
+                      className="h-full"
+                    >
+                      Add new
+                    </Button>
+                  </Popover.Button>
+                  <Popover.Content>
+                    <h3 className="mb-4 text-lg font-semibold">New book</h3>
+                    <BookForm />
+                  </Popover.Content>
+                </Popover>
               </div>
             </div>
-
-            <div className="hidden h-10 md:inline-block">
-              <Popover>
-                <Popover.Button>
-                  <Button
-                    leading={<PlusIcon className="h-5 w-5" />}
-                    className="h-full"
-                  >
-                    Add new
-                  </Button>
-                </Popover.Button>
-                <Popover.Content>
-                  <h3 className="mb-4 text-lg font-semibold">New book</h3>
-                  <BookForm />
-                </Popover.Content>
-              </Popover>
-            </div>
           </div>
-        </div>
 
-        <MotionConfig transition={{ duration: 0.2 }}>
           <AnimatePresence mode="wait" initial={false}>
             {view === 'tile' ? (
               <TileView key="tile" books={filteredBooks} />
@@ -133,9 +143,9 @@ export default function LibraryIndexPage() {
               <ListView key="list" books={filteredBooks} />
             )}
           </AnimatePresence>
-        </MotionConfig>
+        </div>
       </div>
-    </div>
+    </MotionConfig>
   ) : (
     <div />
   )
