@@ -21,5 +21,5 @@ export default function useKeypress(keys: string | string[], cb: Callback) {
     document.addEventListener('keydown', keydown)
 
     return () => document.removeEventListener('keydown', keydown)
-  }, [keys, cb])
+  }, [])
 }
