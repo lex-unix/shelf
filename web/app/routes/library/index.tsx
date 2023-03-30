@@ -94,7 +94,7 @@ export default function LibraryIndexPage() {
       <div className="flex pt-8">
         <Sidebar />
         <div className="flex-1 md:ml-8">
-          <div className="sticky top-0 -mt-8 bg-gray-900 pt-8 pb-8">
+          <div className="sticky top-0 z-10 -mt-8 bg-gray-900 pt-8 pb-8">
             <div className="flex h-10 items-center justify-between gap-8">
               <div className="flex h-full flex-1 gap-5">
                 <SearchBar
