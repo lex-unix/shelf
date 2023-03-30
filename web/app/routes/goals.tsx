@@ -10,6 +10,7 @@ import { API } from '~/constants'
 import type { GoalData } from '~/types'
 import { createGoalSchema } from '~/utils/validations'
 import Goal from '~/components/goal'
+import NavigationList from '~/components/navigation-list'
 
 export const loader = async ({ request }: LoaderArgs) => {
   const res = await fetch(API + '/goals', {
@@ -62,14 +63,17 @@ export default function GoalsPage() {
       </div>
       <ul className="">
         <AnimatePresence initial={false}>
-          {goals.map(goal => (
-            <Goal
-              key={goal.id}
-              id={goal.id}
-              progress={goal.progress}
-              total={goal.total}
-            />
-          ))}
+          <NavigationList listLen={goals.length}>
+            {goals.map((goal, i) => (
+              <Goal
+                key={goal.id}
+                id={goal.id}
+                progress={goal.progress}
+                total={goal.total}
+                index={i}
+              />
+            ))}
+          </NavigationList>
         </AnimatePresence>
       </ul>
     </div>

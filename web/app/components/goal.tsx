@@ -9,20 +9,23 @@ import CircleProgress from './circle-progress'
 import Dropdown from './dropdown'
 import Keyboard from './keyboard'
 import Dialog from './dialog'
-import { useEffect, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import Button from './button'
+import useKeypress from '~/hooks/use-keypress'
+import type { GoalData } from '~/types'
+import { NavigationListContext } from './navigation-list'
 
-interface GoalProps {
-  id: number
-  progress: number
-  total: number
+interface GoalProps extends GoalData {
+  index: number
 }
 
-export default function Goal({ id, progress, total }: GoalProps) {
+export default function Goal({ id, progress, total, index }: GoalProps) {
   const deleteFetcher = useFetcher()
   const editFetcher = useFetcher()
   const [dialogOpen, setDialogOpen] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false)
+  const { selectedIndex, onKeyboardBlock } = useContext(NavigationListContext)
+  const isSelected = index === selectedIndex
 
   useEffect(() => {
     if (editFetcher.state === 'idle') {
@@ -30,24 +33,30 @@ export default function Goal({ id, progress, total }: GoalProps) {
     }
   }, [editFetcher.state])
 
-  useEffect(() => {
-    if (!menuOpen) return
-
-    const keyDown = (e: KeyboardEvent) => {
-      if (e.metaKey && e.key === 'Backspace') {
-        deleteFetcher.submit(
-          { _action: 'delete', id: id.toString() },
-          { method: 'post' }
-        )
-      } else if (e.metaKey && e.key === 'e') {
-        setDialogOpen(true)
-      }
+  useKeypress('Enter', () => {
+    if (isSelected && !dialogOpen) {
+      setMenuOpen(true)
+      onKeyboardBlock(true)
     }
+  })
 
-    document.addEventListener('keydown', keyDown)
+  useKeypress(['Meta', 'Backspace'], e => {
+    if (!menuOpen && !isSelected) return
+    if (e.metaKey && e.key === 'Backspace') {
+      deleteFetcher.submit(
+        { _action: 'delete', id: id.toString() },
+        { method: 'post' }
+      )
+    }
+  })
 
-    return () => document.removeEventListener('keydown', keyDown)
-  }, [deleteFetcher, id, menuOpen])
+  useKeypress(['Meta', 'e'], e => {
+    if (!menuOpen && !isSelected) return
+    if (e.metaKey && e.key === 'e') {
+      setDialogOpen(true)
+      onKeyboardBlock(true)
+    }
+  })
 
   return (
     <motion.li
@@ -59,7 +68,13 @@ export default function Goal({ id, progress, total }: GoalProps) {
         opacity: { duration: 0.2 }
       }}
     >
-      <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
+      <Dialog
+        open={dialogOpen}
+        onOpenChange={open => {
+          onKeyboardBlock(open)
+          setDialogOpen(open)
+        }}
+      >
         <Dialog.Overlay />
         <Dialog.Content>
           <h2 className="mb-4 text-xl font-medium">Edit goal</h2>
@@ -92,7 +107,11 @@ export default function Goal({ id, progress, total }: GoalProps) {
       </Dialog>
 
       <div className="py-2">
-        <div className="flex items-center rounded-md border border-gray-700 p-6">
+        <div
+          className={`${
+            isSelected ? 'border-gray-300' : 'border-gray-700'
+          } flex items-center rounded-md border p-6`}
+        >
           <CircleProgress
             progress={(progress / total) * 100}
             currentCount={progress}
@@ -104,11 +123,17 @@ export default function Goal({ id, progress, total }: GoalProps) {
             </div>
           </div>
 
-          <Dropdown open={menuOpen} onOpenChange={setMenuOpen}>
+          <Dropdown
+            open={menuOpen}
+            onOpenChange={open => {
+              onKeyboardBlock(open)
+              setMenuOpen(open)
+            }}
+          >
             <Dropdown.Button className="rounded focus:ring-2 focus:ring-gray-500">
               <EllipsisVerticalIcon className="h-6 w-6" />
             </Dropdown.Button>
-            <Dropdown.Menu>
+            <Dropdown.Menu onCloseAutoFocus={e => e.preventDefault()}>
               <Dropdown.MenuItem onSelect={() => setDialogOpen(true)}>
                 <div className="flex w-full items-center justify-between gap-5">
                   <div className="flex flex-1 items-center justify-start">

@@ -5,13 +5,14 @@ import {
   TrashIcon
 } from '@heroicons/react/24/outline'
 import { useFetcher } from '@remix-run/react'
-import { useEffect, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import useKeypress from '~/hooks/use-keypress'
 import type { BookData } from '~/types'
 import Button from './button'
 import Dialog from './dialog'
 import Dropdown from './dropdown'
 import Keyboard from './keyboard'
+import { NavigationListContext } from './navigation-list'
 
 const vocab = {
   finished: 'Finished',
@@ -21,8 +22,7 @@ const vocab = {
 }
 
 interface ListViewItemProps extends BookData {
-  selected: boolean
-  onKeyboardBlock: (blocked: boolean) => void
+  index: number
 }
 
 export default function ListViewItem({
@@ -30,13 +30,14 @@ export default function ListViewItem({
   title,
   author,
   tag,
-  selected,
-  onKeyboardBlock
+  index
 }: ListViewItemProps) {
   const [menuOpen, setMenuOpen] = useState(false)
   const [dialogOpen, setDialogOpen] = useState(false)
   const deleteFetcher = useFetcher()
   const editFetcher = useFetcher()
+  const { selectedIndex, onKeyboardBlock } = useContext(NavigationListContext)
+  const isSelected = index === selectedIndex
 
   useEffect(() => {
     if (editFetcher.state === 'idle') {
@@ -45,14 +46,14 @@ export default function ListViewItem({
   }, [editFetcher.state])
 
   useKeypress('Enter', () => {
-    if (selected) {
+    if (isSelected) {
       setMenuOpen(true)
       onKeyboardBlock(true)
     }
   })
 
   useKeypress(['Meta', 'Backspace'], e => {
-    if (!menuOpen && !selected) return
+    if (!menuOpen && !isSelected) return
     if (e.metaKey && e.key === 'Backspace') {
       deleteFetcher.submit(
         { _action: 'delete', id: id.toString() },
@@ -62,7 +63,7 @@ export default function ListViewItem({
   })
 
   useKeypress(['Meta', 'e'], e => {
-    if (!menuOpen && !selected) return
+    if (!menuOpen && !isSelected) return
     if (e.metaKey && e.key === 'e') {
       setDialogOpen(true)
       onKeyboardBlock(true)
@@ -72,7 +73,7 @@ export default function ListViewItem({
   return (
     <li
       className={`list-view px-6 py-5`}
-      data-state={selected ? 'selected' : ''}
+      data-state={isSelected ? 'selected' : ''}
     >
       <Dialog
         open={dialogOpen}
@@ -125,8 +126,8 @@ export default function ListViewItem({
           <Dropdown
             open={menuOpen}
             onOpenChange={open => {
-              onKeyboardBlock(open)
               setMenuOpen(open)
+              onKeyboardBlock(open)
             }}
           >
             <Dropdown.Button className="rounded focus:ring-2 focus:ring-gray-500">
