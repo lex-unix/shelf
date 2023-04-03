@@ -5,12 +5,10 @@ import {
   TrashIcon
 } from '@heroicons/react/24/outline'
 import { useFetcher } from '@remix-run/react'
-import { useContext, useEffect, useState } from 'react'
+import { useContext, useState } from 'react'
 import useKeypress from '~/hooks/use-keypress'
 import { KeyboardContext } from '~/states/keyboard'
 import type { BookData } from '~/types'
-import Button from './button'
-import Dialog from './dialog'
 import Dropdown from './dropdown'
 import Keyboard from './keyboard'
 import { NavigationListContext } from './navigation-list'
@@ -24,6 +22,7 @@ const vocab = {
 
 interface ListViewItemProps extends BookData {
   index: number
+  onEdit: (book: BookData) => void
 }
 
 export default function ListViewItem({
@@ -31,21 +30,15 @@ export default function ListViewItem({
   title,
   author,
   tag,
-  index
+  index,
+  onEdit
 }: ListViewItemProps) {
-  const [menuOpen, setMenuOpen] = useState(false)
-  const [dialogOpen, setDialogOpen] = useState(false)
   const deleteFetcher = useFetcher()
-  const editFetcher = useFetcher()
+  const [menuOpen, setMenuOpen] = useState(false)
   const { selectedIndex } = useContext(NavigationListContext)
   const { setKeyboardBlocked } = useContext(KeyboardContext)
-  const isSelected = index === selectedIndex
 
-  useEffect(() => {
-    if (editFetcher.state === 'idle') {
-      setDialogOpen(false)
-    }
-  }, [editFetcher.state])
+  const isSelected = index === selectedIndex
 
   useKeypress('Enter', () => {
     if (isSelected) {
@@ -67,8 +60,12 @@ export default function ListViewItem({
   useKeypress(['Meta', 'e'], e => {
     if (!menuOpen && !isSelected) return
     if (e.metaKey && e.key === 'e') {
-      setDialogOpen(true)
-      setKeyboardBlocked(true)
+      onEdit({
+        id,
+        author,
+        title,
+        tag
+      })
     }
   })
 
@@ -77,48 +74,6 @@ export default function ListViewItem({
       className={`list-view px-6 py-5`}
       data-state={isSelected ? 'selected' : ''}
     >
-      <Dialog
-        open={dialogOpen}
-        onOpenChange={open => {
-          setKeyboardBlocked(open)
-          setDialogOpen(open)
-        }}
-      >
-        <Dialog.Overlay />
-        <Dialog.Content>
-          <Dialog.Title>Edit book</Dialog.Title>
-          <Dialog.Description>
-            You can edit title or author of a book
-          </Dialog.Description>
-          <editFetcher.Form method="post" className="space-y-4">
-            <input type="hidden" name="_action" value="edit" />
-            <input type="hidden" name="id" value={id} />
-            <label className="block text-gray-300">
-              Title
-              <input
-                name="title"
-                defaultValue={title}
-                placeholder="Title"
-                className="mt-2 block w-full"
-              />
-            </label>
-            <label className="block text-gray-300">
-              Author
-              <input
-                name="author"
-                defaultValue={author}
-                placeholder="Author"
-                className="mt-2 block w-full"
-              />
-            </label>
-            <div className="text-center">
-              <Button>
-                {editFetcher.state === 'submitting' ? 'Saving...' : 'Continue'}
-              </Button>
-            </div>
-          </editFetcher.Form>
-        </Dialog.Content>
-      </Dialog>
       <div className="flex items-center justify-between">
         <div className="pr-5">
           <p className="mb-2">{title}</p>
@@ -139,7 +94,9 @@ export default function ListViewItem({
               <EllipsisVerticalIcon className="h-6 w-6" />
             </Dropdown.Button>
             <Dropdown.Menu onCloseAutoFocus={e => e.preventDefault()}>
-              <Dropdown.MenuItem onSelect={() => setDialogOpen(true)}>
+              <Dropdown.MenuItem
+                onSelect={() => onEdit({ id, title, author, tag })}
+              >
                 <div className="flex items-center justify-between gap-5">
                   <div className="flex flex-1 items-center justify-start">
                     <PencilIcon className="h-5 w-5" />
