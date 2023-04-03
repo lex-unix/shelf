@@ -48,7 +48,7 @@ export default function GoalForm() {
         <Switch checked={checked} onCheck={() => setChecked(!checked)} />
       </div>
       {checked && (
-        <>
+        <div className="pr-5">
           <label className="block text-gray-300">
             Start date
             <input
@@ -56,7 +56,7 @@ export default function GoalForm() {
               name="startDate"
               required={checked}
               defaultValue={format(new Date(), 'yyyy-MM-dd')}
-              className="mt-2 block w-full"
+              className="mt-2 block min-w-full"
             />
           </label>
           <label className="block text-gray-300">
@@ -66,10 +66,10 @@ export default function GoalForm() {
               name="endDate"
               required={checked}
               defaultValue={format(new Date(), 'yyyy-MM-dd')}
-              className="mt-2 block w-full"
+              className="mt-2 block min-w-full"
             />
           </label>
-        </>
+        </div>
       )}
       <div className="text-center">
         <Button
