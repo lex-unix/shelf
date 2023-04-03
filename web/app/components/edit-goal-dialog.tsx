@@ -1,22 +1,22 @@
 import { useFetcher } from '@remix-run/react'
 import { useEffect } from 'react'
-import type { BookData } from '~/types'
+import { type GoalData } from '~/types'
 import Button from './button'
 import Dialog from './dialog'
 
-interface EditBookDialogProps {
-  book: BookData
+interface EditGoalDialogProps {
+  goal: GoalData
   open: boolean
   onOpen: (open: boolean) => void
 }
 
-export default function EditBookDialog({
-  book,
+export default function EditGoalDialog({
+  goal,
   open,
   onOpen
-}: EditBookDialogProps) {
+}: EditGoalDialogProps) {
   const fetcher = useFetcher()
-  const { id, title, author } = book
+  const { id, total, progress } = goal
 
   useEffect(() => {
     if (fetcher.submission) {
@@ -28,34 +28,29 @@ export default function EditBookDialog({
     <Dialog open={open} onOpenChange={onOpen}>
       <Dialog.Overlay />
       <Dialog.Content>
-        <Dialog.Title>Edit book</Dialog.Title>
-        <Dialog.Description>
-          You can edit title or author of a book
-        </Dialog.Description>
-        <fetcher.Form method="post" className="space-y-4">
+        <h2 className="mb-4 text-xl font-medium">Edit goal</h2>
+        <fetcher.Form method="post" className="space-y-3">
           <input type="hidden" name="_action" value="edit" />
           <input type="hidden" name="id" value={id} />
-          <label className="block text-gray-300">
-            Title
+          <label className="block text-gray-400">
+            Total
             <input
-              name="title"
-              defaultValue={title}
-              placeholder="Title"
+              name="total"
+              defaultValue={total}
               className="mt-2 block w-full"
             />
           </label>
-          <label className="block text-gray-300">
-            Author
+          <label className="block text-gray-400">
+            Progress
             <input
-              name="author"
-              defaultValue={author}
-              placeholder="Author"
+              name="progress"
+              defaultValue={progress}
               className="mt-2 block w-full"
             />
           </label>
-          <div className="text-center">
+          <div className="mx-auto">
             <Button>
-              {fetcher.state === 'submitting' ? 'Saving...' : 'Continue'}
+              {fetcher.state === 'submitting' ? 'Editing' : 'Edit goal'}
             </Button>
           </div>
         </fetcher.Form>

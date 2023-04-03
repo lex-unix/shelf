@@ -8,9 +8,7 @@ import { motion } from 'framer-motion'
 import CircleProgress from './circle-progress'
 import Dropdown from './dropdown'
 import Keyboard from './keyboard'
-import Dialog from './dialog'
-import { useContext, useEffect, useState } from 'react'
-import Button from './button'
+import { useContext, useState } from 'react'
 import useKeypress from '~/hooks/use-keypress'
 import type { GoalData } from '~/types'
 import { NavigationListContext } from './navigation-list'
@@ -18,25 +16,24 @@ import { KeyboardContext } from '~/states/keyboard'
 
 interface GoalProps extends GoalData {
   index: number
+  onEdit: (goal: GoalData) => void
 }
 
-export default function Goal({ id, progress, total, index }: GoalProps) {
+export default function Goal({
+  id,
+  progress,
+  total,
+  index,
+  onEdit
+}: GoalProps) {
   const deleteFetcher = useFetcher()
-  const editFetcher = useFetcher()
-  const [dialogOpen, setDialogOpen] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false)
   const { selectedIndex } = useContext(NavigationListContext)
-  const { setKeyboardBlocked } = useContext(KeyboardContext)
+  const { setKeyboardBlocked, keyboardBlocked } = useContext(KeyboardContext)
   const isSelected = index === selectedIndex
 
-  useEffect(() => {
-    if (editFetcher.state === 'idle') {
-      setDialogOpen(false)
-    }
-  }, [editFetcher.state])
-
   useKeypress('Enter', () => {
-    if (isSelected && !dialogOpen) {
+    if (isSelected && !keyboardBlocked) {
       setMenuOpen(true)
       setKeyboardBlocked(true)
     }
@@ -55,8 +52,7 @@ export default function Goal({ id, progress, total, index }: GoalProps) {
   useKeypress(['Meta', 'e'], e => {
     if (!menuOpen && !isSelected) return
     if (e.metaKey && e.key === 'e') {
-      setDialogOpen(true)
-      setKeyboardBlocked(true)
+      onEdit({ id, total, progress })
     }
   })
 
@@ -70,44 +66,6 @@ export default function Goal({ id, progress, total, index }: GoalProps) {
         opacity: { duration: 0.2 }
       }}
     >
-      <Dialog
-        open={dialogOpen}
-        onOpenChange={open => {
-          setKeyboardBlocked(open)
-          setDialogOpen(open)
-        }}
-      >
-        <Dialog.Overlay />
-        <Dialog.Content>
-          <h2 className="mb-4 text-xl font-medium">Edit goal</h2>
-          <editFetcher.Form method="post" className="space-y-3">
-            <input type="hidden" name="_action" value="edit" />
-            <input type="hidden" name="id" value={id} />
-            <label className="block text-gray-400">
-              Total
-              <input
-                name="total"
-                defaultValue={total}
-                className="mt-2 block w-full"
-              />
-            </label>
-            <label className="block text-gray-400">
-              Progress
-              <input
-                name="progress"
-                defaultValue={progress}
-                className="mt-2 block w-full"
-              />
-            </label>
-            <div className="mx-auto">
-              <Button>
-                {editFetcher.state === 'submitting' ? 'Editing' : 'Edit goal'}
-              </Button>
-            </div>
-          </editFetcher.Form>
-        </Dialog.Content>
-      </Dialog>
-
       <div className="py-2">
         <div
           className={`${
@@ -136,7 +94,9 @@ export default function Goal({ id, progress, total, index }: GoalProps) {
               <EllipsisVerticalIcon className="h-6 w-6" />
             </Dropdown.Button>
             <Dropdown.Menu onCloseAutoFocus={e => e.preventDefault()}>
-              <Dropdown.MenuItem onSelect={() => setDialogOpen(true)}>
+              <Dropdown.MenuItem
+                onSelect={() => onEdit({ id, total, progress })}
+              >
                 <div className="flex w-full items-center justify-between gap-5">
                   <div className="flex flex-1 items-center justify-start">
                     <PencilIcon className="h-5 w-5" />

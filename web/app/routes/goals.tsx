@@ -11,6 +11,9 @@ import { createGoalSchema } from '~/utils/validations'
 import Goal from '~/components/goal'
 import NavigationList from '~/components/navigation-list'
 import Dialog from '~/components/dialog'
+import { useContext, useState } from 'react'
+import { KeyboardContext } from '~/states/keyboard'
+import EditGoalDialog from '~/components/edit-goal-dialog'
 
 export const loader = async ({ request }: LoaderArgs) => {
   const res = await fetch(API + '/goals', {
@@ -46,6 +49,15 @@ export const action: ActionFunction = async ({ request }) => {
 
 export default function GoalsPage() {
   const goals = useLoaderData<GoalData[]>()
+  const [selectedGoal, setSelectedGoal] = useState<GoalData | null>(null)
+  const [openDialog, setDialogOpen] = useState(false)
+  const { setKeyboardBlocked } = useContext(KeyboardContext)
+
+  const handleEditGoal = (book: GoalData) => {
+    setSelectedGoal(book)
+    setDialogOpen(true)
+    setKeyboardBlocked(true)
+  }
 
   return (
     <div className="mx-auto max-w-2xl py-6">
@@ -78,11 +90,22 @@ export default function GoalsPage() {
                 progress={goal.progress}
                 total={goal.total}
                 index={i}
+                onEdit={handleEditGoal}
               />
             ))}
           </NavigationList>
         </AnimatePresence>
       </ul>
+      {selectedGoal && (
+        <EditGoalDialog
+          goal={selectedGoal}
+          open={openDialog}
+          onOpen={open => {
+            setDialogOpen(open)
+            setKeyboardBlocked(open)
+          }}
+        />
+      )}
     </div>
   )
 }
