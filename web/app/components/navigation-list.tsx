@@ -1,14 +1,19 @@
-import { createContext, useRef, useState, type ReactNode } from 'react'
+import {
+  createContext,
+  useContext,
+  useRef,
+  useState,
+  type ReactNode
+} from 'react'
 import useKeypress from '~/hooks/use-keypress'
+import { KeyboardContext } from '~/states/keyboard'
 
 type NavigationListContextProps = {
   selectedIndex: number | undefined
-  onKeyboardBlock: (block: boolean) => void
 }
 
 export const NavigationListContext = createContext<NavigationListContextProps>({
-  selectedIndex: undefined,
-  onKeyboardBlock: () => {}
+  selectedIndex: undefined
 })
 
 interface NavigationListProps {
@@ -21,11 +26,11 @@ export default function NavigationList({
   listLen
 }: NavigationListProps) {
   const [selectedIndex, setSelectedIndex] = useState<number>()
-  const [isKeyboardBlocked, setIsKeyboardBlocked] = useState(false)
+  const { keyboardBlocked } = useContext(KeyboardContext)
   const initialPress = useRef(false)
 
   useKeypress('ArrowDown', () => {
-    if (isKeyboardBlocked) return
+    if (keyboardBlocked) return
 
     if (!initialPress.current) {
       initialPress.current = true
@@ -38,18 +43,17 @@ export default function NavigationList({
   })
 
   useKeypress('ArrowUp', () => {
+    if (keyboardBlocked) return
+
     if (selectedIndex! > 0) {
       setSelectedIndex(selectedIndex! - 1)
     }
   })
 
-  const handleKeyboardBlock = (block: boolean) => setIsKeyboardBlocked(block)
-
   return (
     <NavigationListContext.Provider
       value={{
-        selectedIndex,
-        onKeyboardBlock: handleKeyboardBlock
+        selectedIndex
       }}
     >
       {children}

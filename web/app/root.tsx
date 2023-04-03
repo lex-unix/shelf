@@ -9,6 +9,7 @@ import {
 } from '@remix-run/react'
 import stylesheet from '~/tailwind.css'
 import Navbar from './components/navbar'
+import KeyboardObserver from './states/keyboard'
 
 export const links: LinksFunction = () => [
   { rel: 'stylesheet', href: stylesheet }
@@ -30,7 +31,9 @@ export default function App() {
       <body>
         <main className="mx-auto max-w-5xl px-4 md:px-6">
           <Navbar />
-          <Outlet />
+          <KeyboardObserver>
+            <Outlet />
+          </KeyboardObserver>
           <ScrollRestoration />
           <Scripts />
           <LiveReload />

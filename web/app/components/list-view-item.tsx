@@ -7,6 +7,7 @@ import {
 import { useFetcher } from '@remix-run/react'
 import { useContext, useEffect, useState } from 'react'
 import useKeypress from '~/hooks/use-keypress'
+import { KeyboardContext } from '~/states/keyboard'
 import type { BookData } from '~/types'
 import Button from './button'
 import Dialog from './dialog'
@@ -36,7 +37,8 @@ export default function ListViewItem({
   const [dialogOpen, setDialogOpen] = useState(false)
   const deleteFetcher = useFetcher()
   const editFetcher = useFetcher()
-  const { selectedIndex, onKeyboardBlock } = useContext(NavigationListContext)
+  const { selectedIndex } = useContext(NavigationListContext)
+  const { setKeyboardBlocked } = useContext(KeyboardContext)
   const isSelected = index === selectedIndex
 
   useEffect(() => {
@@ -48,7 +50,7 @@ export default function ListViewItem({
   useKeypress('Enter', () => {
     if (isSelected) {
       setMenuOpen(true)
-      onKeyboardBlock(true)
+      setKeyboardBlocked(true)
     }
   })
 
@@ -66,7 +68,7 @@ export default function ListViewItem({
     if (!menuOpen && !isSelected) return
     if (e.metaKey && e.key === 'e') {
       setDialogOpen(true)
-      onKeyboardBlock(true)
+      setKeyboardBlocked(true)
     }
   })
 
@@ -78,7 +80,7 @@ export default function ListViewItem({
       <Dialog
         open={dialogOpen}
         onOpenChange={open => {
-          onKeyboardBlock(open)
+          setKeyboardBlocked(open)
           setDialogOpen(open)
         }}
       >
@@ -130,7 +132,7 @@ export default function ListViewItem({
             open={menuOpen}
             onOpenChange={open => {
               setMenuOpen(open)
-              onKeyboardBlock(open)
+              setKeyboardBlocked(open)
             }}
           >
             <Dropdown.Button className="rounded focus:ring-2 focus:ring-gray-500">

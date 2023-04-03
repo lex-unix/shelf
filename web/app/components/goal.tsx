@@ -14,6 +14,7 @@ import Button from './button'
 import useKeypress from '~/hooks/use-keypress'
 import type { GoalData } from '~/types'
 import { NavigationListContext } from './navigation-list'
+import { KeyboardContext } from '~/states/keyboard'
 
 interface GoalProps extends GoalData {
   index: number
@@ -24,7 +25,8 @@ export default function Goal({ id, progress, total, index }: GoalProps) {
   const editFetcher = useFetcher()
   const [dialogOpen, setDialogOpen] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false)
-  const { selectedIndex, onKeyboardBlock } = useContext(NavigationListContext)
+  const { selectedIndex } = useContext(NavigationListContext)
+  const { setKeyboardBlocked } = useContext(KeyboardContext)
   const isSelected = index === selectedIndex
 
   useEffect(() => {
@@ -36,7 +38,7 @@ export default function Goal({ id, progress, total, index }: GoalProps) {
   useKeypress('Enter', () => {
     if (isSelected && !dialogOpen) {
       setMenuOpen(true)
-      onKeyboardBlock(true)
+      setKeyboardBlocked(true)
     }
   })
 
@@ -54,7 +56,7 @@ export default function Goal({ id, progress, total, index }: GoalProps) {
     if (!menuOpen && !isSelected) return
     if (e.metaKey && e.key === 'e') {
       setDialogOpen(true)
-      onKeyboardBlock(true)
+      setKeyboardBlocked(true)
     }
   })
 
@@ -71,7 +73,7 @@ export default function Goal({ id, progress, total, index }: GoalProps) {
       <Dialog
         open={dialogOpen}
         onOpenChange={open => {
-          onKeyboardBlock(open)
+          setKeyboardBlocked(open)
           setDialogOpen(open)
         }}
       >
@@ -126,7 +128,7 @@ export default function Goal({ id, progress, total, index }: GoalProps) {
           <Dropdown
             open={menuOpen}
             onOpenChange={open => {
-              onKeyboardBlock(open)
+              setKeyboardBlocked(open)
               setMenuOpen(open)
             }}
           >
