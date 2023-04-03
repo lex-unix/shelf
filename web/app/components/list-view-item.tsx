@@ -36,12 +36,12 @@ export default function ListViewItem({
   const deleteFetcher = useFetcher()
   const [menuOpen, setMenuOpen] = useState(false)
   const { selectedIndex } = useContext(NavigationListContext)
-  const { setKeyboardBlocked } = useContext(KeyboardContext)
+  const { setKeyboardBlocked, keyboardBlocked } = useContext(KeyboardContext)
 
   const isSelected = index === selectedIndex
 
   useKeypress('Enter', () => {
-    if (isSelected) {
+    if (isSelected && !keyboardBlocked) {
       setMenuOpen(true)
       setKeyboardBlocked(true)
     }
