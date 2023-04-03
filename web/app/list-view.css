@@ -6,12 +6,10 @@
   @apply border-t-transparent;
 }
 
-.list-view:hover,
 [data-state='selected'] {
   @apply rounded-md border-t-transparent bg-white/5;
 }
 
-[data-state='selected'] + .list-view,
-.list-view:hover + .list-view {
+[data-state='selected'] + .list-view {
   @apply border-t-transparent;
 }

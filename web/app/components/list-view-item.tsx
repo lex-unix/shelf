@@ -84,11 +84,14 @@ export default function ListViewItem({
       >
         <Dialog.Overlay />
         <Dialog.Content>
-          <h2 className="mb-4 text-xl font-medium">Edit book</h2>
+          <Dialog.Title>Edit book</Dialog.Title>
+          <Dialog.Description>
+            You can edit title or author of a book
+          </Dialog.Description>
           <editFetcher.Form method="post" className="space-y-4">
             <input type="hidden" name="_action" value="edit" />
             <input type="hidden" name="id" value={id} />
-            <label className="block">
+            <label className="block text-gray-300">
               Title
               <input
                 name="title"
@@ -97,7 +100,7 @@ export default function ListViewItem({
                 className="mt-2 block w-full"
               />
             </label>
-            <label className="block">
+            <label className="block text-gray-300">
               Author
               <input
                 name="author"
@@ -106,9 +109,9 @@ export default function ListViewItem({
                 className="mt-2 block w-full"
               />
             </label>
-            <div>
+            <div className="text-center">
               <Button>
-                {editFetcher.state === 'submitting' ? 'Saving...' : 'Save'}
+                {editFetcher.state === 'submitting' ? 'Saving...' : 'Continue'}
               </Button>
             </div>
           </editFetcher.Form>

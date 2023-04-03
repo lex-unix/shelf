@@ -1,8 +1,11 @@
 import { useFetcher } from '@remix-run/react'
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
+import Button from './button'
+import Switch from './switch'
 
 export default function BookForm() {
   const fetcher = useFetcher()
+  const [show, setShow] = useState(false)
 
   const formRef = useRef<HTMLFormElement>(null)
   const titleRef = useRef<HTMLInputElement>(null)
@@ -15,30 +18,30 @@ export default function BookForm() {
   }, [fetcher.state])
 
   return (
-    <fetcher.Form ref={formRef} method="post" className="flex flex-col gap-4">
+    <fetcher.Form ref={formRef} method="post" className="space-y-4">
       <input hidden name="_action" value="create" />
-      <label className="text-gray-400">
+      <label className="block text-gray-300">
         Title
         <input
           ref={titleRef}
           name="title"
           required
           placeholder="The Shining"
-          className="mt-2 block"
+          className="mt-2 block w-full"
         />
       </label>
-      <label className="text-gray-400">
+      <label className="block text-gray-300">
         Author
         <input
           name="author"
           required
           placeholder="Stephen King"
-          className="mt-2 block"
+          className="mt-2 block w-full"
         />
       </label>
-      <label className="text-gray-400">
+      <label className="block text-gray-300">
         Tag
-        <select name="tag" required className="mt-2 block">
+        <select name="tag" required className="mt-2 block w-full">
           <option value="currentlyReading">Currently reading</option>
           <option selected value="wantToRead">
             Want to read
@@ -47,9 +50,22 @@ export default function BookForm() {
           <option value="finished">Finished</option>
         </select>
       </label>
-      <button className="mt-3 h-10 w-fit rounded bg-gray-100 px-3 text-gray-900">
-        Add new book
-      </button>
+      <div className="flex items-center justify-between">
+        <label className="text-gray-300">
+          Import your personal book cover?
+        </label>
+        <Switch checked={show} onCheck={() => setShow(!show)} />
+      </div>
+      {show && (
+        <div className="w-ful flex h-[140px] flex-col items-center justify-center rounded-md border border-dashed border-gray-700">
+          <p className="text-gray-500">Drag and drop your book cover here</p>
+        </div>
+      )}
+      <div className="!mt-6 text-center">
+        <Button>
+          {fetcher.state === 'submitting' ? 'Adding...' : 'Continue'}
+        </Button>
+      </div>
     </fetcher.Form>
   )
 }

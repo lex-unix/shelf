@@ -20,46 +20,58 @@ export default function GoalForm() {
   return (
     <fetcher.Form ref={formRef} method="post" className="space-y-4">
       <input type="hidden" name="_action" value="create" />
-      <label className="text-gray-400">
-        Books
+      <label className="block text-gray-300">
+        Name
         <input
           ref={inputRef}
+          name="name"
+          placeholder="Goal name"
+          autoComplete="off"
+          required
+          className="mt-2 block w-full"
+        />
+      </label>
+      <label className="block text-gray-300">
+        Number of book to read
+        <input
           name="total"
-          placeholder="Number"
+          placeholder="20"
           autoComplete="off"
           required
           pattern="^[0-9]+$"
           title="Number only"
-          className="mt-2 block"
+          className="mt-2 block w-full"
         />
       </label>
       <div className="flex items-center justify-between">
         <label className="text-gray-400">Custom time period</label>
         <Switch checked={checked} onCheck={() => setChecked(!checked)} />
       </div>
-      <fieldset disabled={!checked} className="space-y-4 disabled:opacity-40">
-        <label className="block text-gray-400">
-          Start date
-          <input
-            type="date"
-            name="startDate"
-            required={checked}
-            defaultValue={format(new Date(), 'yyyy-MM-dd')}
-            className="mt-2 block disabled:cursor-not-allowed"
-          />
-        </label>
-        <label className="block text-gray-400">
-          End date
-          <input
-            type="date"
-            name="endDate"
-            required={checked}
-            defaultValue={format(new Date(), 'yyyy-MM-dd')}
-            className="mt-2 block disabled:cursor-not-allowed"
-          />
-        </label>
-      </fieldset>
-      <div className="w-fit">
+      {checked && (
+        <>
+          <label className="block text-gray-300">
+            Start date
+            <input
+              type="date"
+              name="startDate"
+              required={checked}
+              defaultValue={format(new Date(), 'yyyy-MM-dd')}
+              className="mt-2 block w-full"
+            />
+          </label>
+          <label className="block text-gray-300">
+            End date
+            <input
+              type="date"
+              name="endDate"
+              required={checked}
+              defaultValue={format(new Date(), 'yyyy-MM-dd')}
+              className="mt-2 block w-full"
+            />
+          </label>
+        </>
+      )}
+      <div className="text-center">
         <Button
           type="submit"
           disabled={fetcher.state === 'submitting'}

@@ -20,7 +20,7 @@ import {
   PlusIcon,
   Squares2X2Icon
 } from '@heroicons/react/24/outline'
-import Popover from '~/components/popover'
+import Dialog from '~/components/dialog'
 import Button from '~/components/button'
 import BookForm from '~/components/book-form'
 import useLocalStorage from '~/hooks/use-local-storage'
@@ -118,20 +118,27 @@ export default function LibraryIndexPage() {
               </div>
 
               <div className="hidden h-10 md:inline-block">
-                <Popover>
-                  <Popover.Button>
+                <Dialog>
+                  <Dialog.Button>
                     <Button
                       leading={<PlusIcon className="h-5 w-5" />}
                       className="h-full"
                     >
                       Add new
                     </Button>
-                  </Popover.Button>
-                  <Popover.Content>
-                    <h3 className="mb-4 text-lg font-semibold">New book</h3>
-                    <BookForm />
-                  </Popover.Content>
-                </Popover>
+                  </Dialog.Button>
+                  <Dialog.Overlay />
+                  <Dialog.Content>
+                    <Dialog.Title>Add new book</Dialog.Title>
+                    <Dialog.Description>
+                      Added book will appear in your library
+                    </Dialog.Description>
+                    <div className="mt-5">
+                      <BookForm />
+                    </div>
+                    <Dialog.Close />
+                  </Dialog.Content>
+                </Dialog>
               </div>
             </div>
           </div>

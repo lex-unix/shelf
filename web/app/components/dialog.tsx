@@ -1,6 +1,7 @@
 import * as RadixDialog from '@radix-ui/react-dialog'
 import { type ReactNode, useState, createContext, useContext } from 'react'
 import { AnimatePresence, motion, MotionConfig } from 'framer-motion'
+import { XMarkIcon } from '@heroicons/react/24/outline'
 
 type DialogContextProps = {
   open: boolean
@@ -79,5 +80,43 @@ function DialogContent({ children }: { children: ReactNode }) {
   )
 }
 
+function DialogButton({ children }: { children: ReactNode }) {
+  return (
+    <RadixDialog.Trigger asChild className="data-[state=open]:opacity-60">
+      {children}
+    </RadixDialog.Trigger>
+  )
+}
+
+function DialogTitle({ children }: { children: ReactNode }) {
+  return (
+    <RadixDialog.Title className="mb-1.5 text-lg font-semibold">
+      {children}
+    </RadixDialog.Title>
+  )
+}
+
+function DialogDescription({ children }: { children: ReactNode }) {
+  return (
+    <RadixDialog.Description className="text-gray-400">
+      {children}
+    </RadixDialog.Description>
+  )
+}
+
+function DialogClose() {
+  return (
+    <RadixDialog.Close asChild>
+      <button className="absolute top-6 right-10 h-5 w-5">
+        <XMarkIcon className="h-5 w-5 text-gray-100" />
+      </button>
+    </RadixDialog.Close>
+  )
+}
+
 Dialog.Content = DialogContent
 Dialog.Overlay = DialogOverlay
+Dialog.Close = DialogClose
+Dialog.Title = DialogTitle
+Dialog.Description = DialogDescription
+Dialog.Button = DialogButton

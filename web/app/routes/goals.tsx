@@ -3,7 +3,6 @@ import { type LoaderArgs, type ActionFunction, redirect } from '@remix-run/node'
 import { useLoaderData } from '@remix-run/react'
 import Button from '~/components/button'
 import GoalForm from '~/components/goal-form'
-import Popover from '~/components/popover'
 import { AnimatePresence } from 'framer-motion'
 import { createGoal, deleteGoal, updateGoal } from '~/utils/goals.server'
 import { API } from '~/constants'
@@ -11,6 +10,7 @@ import type { GoalData } from '~/types'
 import { createGoalSchema } from '~/utils/validations'
 import Goal from '~/components/goal'
 import NavigationList from '~/components/navigation-list'
+import Dialog from '~/components/dialog'
 
 export const loader = async ({ request }: LoaderArgs) => {
   const res = await fetch(API + '/goals', {
@@ -51,15 +51,22 @@ export default function GoalsPage() {
     <div className="mx-auto max-w-2xl py-6">
       <div className="mb-6 flex items-center justify-between">
         <h1 className="text-xl font-semibold">Active goals</h1>
-        <Popover>
-          <Popover.Button>
+        <Dialog>
+          <Dialog.Button>
             <Button leading={<PlusIcon className="h-5 w-5" />}>Add new</Button>
-          </Popover.Button>
-          <Popover.Content>
-            <h2 className="mb-4 text-lg font-semibold">New reading goal</h2>
-            <GoalForm />
-          </Popover.Content>
-        </Popover>
+          </Dialog.Button>
+          <Dialog.Overlay />
+          <Dialog.Content>
+            <Dialog.Title>Add new goal</Dialog.Title>
+            <Dialog.Description>
+              By default new goals will end at the end of the year
+            </Dialog.Description>
+            <div className="mt-5">
+              <GoalForm />
+            </div>
+            <Dialog.Close />
+          </Dialog.Content>
+        </Dialog>
       </div>
       <ul className="">
         <AnimatePresence initial={false}>
