@@ -13,16 +13,22 @@ import Keyboard from './keyboard'
 export default function Navbar() {
   const navigate = useNavigate()
 
-  useKeypress(['Meta', 'k'], () => {
-    navigate('/library')
+  useKeypress(['Meta', 'k'], e => {
+    if (e.metaKey && e.key === 'k') {
+      navigate('/library')
+    }
   })
 
-  useKeypress(['Meta', 'g'], () => {
-    navigate('/goals')
+  useKeypress(['Meta', 'g'], e => {
+    if (e.metaKey && e.key === 'g') {
+      navigate('/goals')
+    }
   })
 
-  useKeypress(['Meta', 'o'], () => {
-    navigate('/preferences')
+  useKeypress(['Meta', 'o'], e => {
+    if (e.metaKey && e.key === 'o') {
+      navigate('/preferences')
+    }
   })
 
   return (
