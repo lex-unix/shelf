@@ -1,4 +1,22 @@
 import { API } from '~/constants'
+import { type UpdatedUser } from './validations'
+
+export default function usersApi(request: Request) {
+  const cookie = request.headers.get('Cookie') || ''
+
+  return {
+    update: async (body: UpdatedUser) => {
+      return fetch(API + '/user', {
+        method: 'put',
+        headers: {
+          cookie,
+          'content-type': 'application/json'
+        },
+        body: JSON.stringify(body)
+      })
+    }
+  }
+}
 
 // use `any` for now
 export async function login(body: any) {

@@ -3,7 +3,7 @@ import type { Config } from '../../config/config'
 import fp from 'fastify-plugin'
 import { schema } from './schema'
 import usersModel from '../../models/users'
-import type { LoginRoute, RegisterRoute } from './index.types'
+import type { LoginRoute, RegisterRoute, UpdateRoute } from './index.types'
 import * as argon2 from 'argon2'
 
 const users: FastifyPluginCallback<Config> = (server, options, done) => {
@@ -85,6 +85,30 @@ const users: FastifyPluginCallback<Config> = (server, options, done) => {
       }
       const user = await model.getUserById(req.session.userId)
       return { user }
+    }
+  })
+
+  server.route<UpdateRoute>({
+    method: 'PUT',
+    url: options.prefix + 'user',
+    onRequest: [server.authorize],
+    handler: async (req, reply) => {
+      const existingUser = await model.getUserById(req.session.userId)
+      if (!existingUser) {
+        return reply.code(404).send({ message: 'User does not exists' })
+      }
+
+      const isEmailChanged = existingUser.email !== req.body.email
+      const isEmailTaken = await model.getUserByEmail(req.body.email)
+      if (isEmailChanged && isEmailTaken) {
+        return reply
+          .code(409)
+          .send({ message: 'Email is used by another account', field: 'email' })
+      }
+
+      await model.updateUser(req.body, req.session.userId)
+
+      reply.code(204)
     }
   })
 

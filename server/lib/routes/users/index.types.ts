@@ -12,3 +12,10 @@ export type LoginRoute = {
     password: string
   }
 }
+
+export type UpdateRoute = {
+  Body: {
+    email: string
+    name: string
+  }
+}

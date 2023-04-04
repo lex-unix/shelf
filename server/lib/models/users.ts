@@ -27,6 +27,11 @@ export default function usersModel(db: Pool) {
         'SELECT id, name, email, password FROM Account WHERE email = $1'
       const result = await db.query(sql, [email])
       return result.rows[0]
+    },
+
+    updateUser: async function (user: UserBase, id: number) {
+      const sql = `UPDATE Account SET name = $1, email = $2 WHERE id = $3`
+      await db.query(sql, [user.name, user.email, id])
     }
   }
 }

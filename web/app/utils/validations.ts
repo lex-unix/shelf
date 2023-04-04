@@ -12,5 +12,11 @@ export const createBookSchema = z.object({
   tag: z.enum(['finished', 'wantToRead', 'favorite', 'currentlyReading'])
 })
 
+export const updateUserSchema = z.object({
+  name: z.string(),
+  email: z.string().email()
+})
+
 export type CreatedGoal = z.infer<typeof createGoalSchema>
 export type CreatedBook = z.infer<typeof createBookSchema>
+export type UpdatedUser = z.infer<typeof updateUserSchema>
