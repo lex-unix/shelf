@@ -69,7 +69,9 @@ export default function Goal({
       <div className="py-2">
         <div
           className={`${
-            isSelected ? 'border-gray-300' : 'border-gray-700'
+            isSelected
+              ? 'border-transparent ring-2 ring-green-500'
+              : 'border-gray-700'
           } flex items-center rounded-md border p-6`}
         >
           <CircleProgress
