@@ -20,6 +20,7 @@ import {
   PlusIcon,
   Squares2X2Icon
 } from '@heroicons/react/24/outline'
+import { PlusCircleIcon } from '@heroicons/react/20/solid'
 import Dialog from '~/components/dialog'
 import Button from '~/components/button'
 import BookForm from '~/components/book-form'
@@ -129,14 +130,17 @@ export default function LibraryIndexPage() {
                   </Dialog.Button>
                   <Dialog.Overlay />
                   <Dialog.Content>
-                    <Dialog.Title>Add new book</Dialog.Title>
-                    <Dialog.Description>
-                      Added book will appear in your library
-                    </Dialog.Description>
-                    <div className="mt-5">
-                      <BookForm />
+                    <div className="flex items-center justify-between">
+                      <h2 className="text-lg font-semibold">Add new book</h2>
+                      <Button
+                        form="book-form"
+                        leading={<PlusCircleIcon className="h-5 w-5" />}
+                      >
+                        Add book
+                      </Button>
                     </div>
-                    <Dialog.Close />
+                    <Dialog.Separator />
+                    <BookForm />
                   </Dialog.Content>
                 </Dialog>
               </div>

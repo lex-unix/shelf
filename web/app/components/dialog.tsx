@@ -1,7 +1,6 @@
 import * as RadixDialog from '@radix-ui/react-dialog'
 import { type ReactNode, useState, createContext, useContext } from 'react'
 import { AnimatePresence, motion, MotionConfig } from 'framer-motion'
-import { XMarkIcon } from '@heroicons/react/24/outline'
 
 type DialogContextProps = {
   open: boolean
@@ -70,7 +69,7 @@ function DialogContent({ children }: { children: ReactNode }) {
             exit={{ opacity: 0, scale: 0.97 }}
             className="fixed left-[50%] top-[10%] z-50 w-full max-w-xl outline-none"
           >
-            <div className="mx-4 h-full rounded-lg border border-gray-700 bg-gray-900 px-7 py-5 shadow-[0_16px_20px_hsla(0,0%,0%,20%)]">
+            <div className="h-full rounded-lg border border-gray-700 bg-gray-900 px-7 py-5 shadow-[0_16px_20px_hsla(0,0%,0%,20%)]">
               {children}
             </div>
           </motion.div>
@@ -88,35 +87,11 @@ function DialogButton({ children }: { children: ReactNode }) {
   )
 }
 
-function DialogTitle({ children }: { children: ReactNode }) {
-  return (
-    <RadixDialog.Title className="mb-1.5 text-lg font-semibold">
-      {children}
-    </RadixDialog.Title>
-  )
-}
-
-function DialogDescription({ children }: { children: ReactNode }) {
-  return (
-    <RadixDialog.Description className="text-gray-400">
-      {children}
-    </RadixDialog.Description>
-  )
-}
-
-function DialogClose() {
-  return (
-    <RadixDialog.Close asChild>
-      <button className="absolute top-6 right-10 h-5 w-5">
-        <XMarkIcon className="h-5 w-5 text-gray-100" />
-      </button>
-    </RadixDialog.Close>
-  )
+function DialogSeparator() {
+  return <div className="my-7 -mx-7 h-[1px] bg-gray-700"></div>
 }
 
 Dialog.Content = DialogContent
 Dialog.Overlay = DialogOverlay
-Dialog.Close = DialogClose
-Dialog.Title = DialogTitle
-Dialog.Description = DialogDescription
 Dialog.Button = DialogButton
+Dialog.Separator = DialogSeparator

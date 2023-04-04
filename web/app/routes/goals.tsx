@@ -14,6 +14,7 @@ import Dialog from '~/components/dialog'
 import { useContext, useState } from 'react'
 import { KeyboardContext } from '~/states/keyboard'
 import EditGoalDialog from '~/components/edit-goal-dialog'
+import { PlusCircleIcon } from '@heroicons/react/20/solid'
 
 export const loader = async ({ request }: LoaderArgs) => {
   const res = await fetch(API + '/goals', {
@@ -69,14 +70,18 @@ export default function GoalsPage() {
           </Dialog.Button>
           <Dialog.Overlay />
           <Dialog.Content>
-            <Dialog.Title>Add new goal</Dialog.Title>
-            <Dialog.Description>
-              By default new goals will end at the end of the year
-            </Dialog.Description>
-            <div className="mt-5">
-              <GoalForm />
+            <div className="flex items-center justify-between">
+              <h2 className="text-lg font-semibold">Add new goal</h2>
+              <Button
+                form="goal-form"
+                tabIndex={-1}
+                leading={<PlusCircleIcon className="h-5 w-5" />}
+              >
+                Add goal
+              </Button>
             </div>
-            <Dialog.Close />
+            <Dialog.Separator />
+            <GoalForm />
           </Dialog.Content>
         </Dialog>
       </div>

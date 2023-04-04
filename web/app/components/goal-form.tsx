@@ -1,5 +1,4 @@
 import { useFetcher } from '@remix-run/react'
-import Button from './button'
 import { useEffect, useRef, useState } from 'react'
 import Switch from './switch'
 import { format } from 'date-fns'
@@ -18,7 +17,12 @@ export default function GoalForm() {
   }, [fetcher.state])
 
   return (
-    <fetcher.Form ref={formRef} method="post" className="space-y-4">
+    <fetcher.Form
+      ref={formRef}
+      id="goal-form"
+      method="post"
+      className="space-y-4"
+    >
       <input type="hidden" name="_action" value="create" />
       <label className="block text-gray-300">
         Name
@@ -71,15 +75,6 @@ export default function GoalForm() {
           </label>
         </>
       )}
-      <div className="text-center">
-        <Button
-          type="submit"
-          disabled={fetcher.state === 'submitting'}
-          className="disabled:opacity-70"
-        >
-          {fetcher.state === 'submitting' ? 'Adding...' : 'Add new goal'}
-        </Button>
-      </div>
     </fetcher.Form>
   )
 }

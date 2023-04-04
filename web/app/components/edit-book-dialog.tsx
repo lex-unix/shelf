@@ -3,6 +3,7 @@ import { useEffect } from 'react'
 import type { BookData } from '~/types'
 import Button from './button'
 import Dialog from './dialog'
+import { ArrowPathIcon } from '@heroicons/react/20/solid'
 
 interface EditBookDialogProps {
   book: BookData
@@ -28,11 +29,18 @@ export default function EditBookDialog({
     <Dialog open={open} onOpenChange={onOpen}>
       <Dialog.Overlay />
       <Dialog.Content>
-        <Dialog.Title>Edit book</Dialog.Title>
-        <Dialog.Description>
-          You can edit title or author of a book
-        </Dialog.Description>
-        <fetcher.Form method="post" className="space-y-4">
+        <div className="flex items-center justify-between">
+          <h2 className="text-lg font-semibold">Edit this book</h2>
+          <Button
+            form="edit-book-form"
+            leading={<ArrowPathIcon className="h-5 w-5" />}
+            tabIndex={-1}
+          >
+            Edit book
+          </Button>
+        </div>
+        <Dialog.Separator />
+        <fetcher.Form id="edit-book-form" method="post" className="space-y-4">
           <input type="hidden" name="_action" value="edit" />
           <input type="hidden" name="id" value={id} />
           <label className="block text-gray-300">
@@ -53,11 +61,6 @@ export default function EditBookDialog({
               className="mt-2 block w-full"
             />
           </label>
-          <div className="text-center">
-            <Button>
-              {fetcher.state === 'submitting' ? 'Saving...' : 'Continue'}
-            </Button>
-          </div>
         </fetcher.Form>
       </Dialog.Content>
     </Dialog>

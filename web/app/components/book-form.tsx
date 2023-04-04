@@ -1,6 +1,5 @@
 import { useFetcher } from '@remix-run/react'
 import { useEffect, useRef, useState } from 'react'
-import Button from './button'
 import Switch from './switch'
 
 export default function BookForm() {
@@ -18,8 +17,13 @@ export default function BookForm() {
   }, [fetcher.state])
 
   return (
-    <fetcher.Form ref={formRef} method="post" className="space-y-4">
-      <input hidden name="_action" value="create" />
+    <fetcher.Form
+      ref={formRef}
+      id="book-form"
+      method="post"
+      className="space-y-4"
+    >
+      <input hidden name="_action" defaultValue="create" />
       <label className="block text-gray-300">
         Title
         <input
@@ -41,11 +45,14 @@ export default function BookForm() {
       </label>
       <label className="block text-gray-300">
         Tag
-        <select name="tag" required className="mt-2 block w-full">
+        <select
+          name="tag"
+          defaultValue="currentlyReading"
+          required
+          className="mt-2 block w-full"
+        >
           <option value="currentlyReading">Currently reading</option>
-          <option selected value="wantToRead">
-            Want to read
-          </option>
+          <option value="wantToRead">Want to read</option>
           <option value="favorite">Favorite</option>
           <option value="finished">Finished</option>
         </select>
@@ -61,11 +68,6 @@ export default function BookForm() {
           <p className="text-gray-500">Drag and drop your book cover here</p>
         </div>
       )}
-      <div className="!mt-6 text-center">
-        <Button>
-          {fetcher.state === 'submitting' ? 'Adding...' : 'Continue'}
-        </Button>
-      </div>
     </fetcher.Form>
   )
 }
