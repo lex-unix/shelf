@@ -1,0 +1,17 @@
+INSERT INTO Book (author, title, tag, userid) VALUES
+('J.K. Rowling', 'Harry Potter and the Philosopher''s Stone', 'finished', 1),
+('George Orwell', '1984', 'favorite', 1),
+('Margaret Atwood', 'The Handmaid''s Tale', 'wantToRead', 1),
+('Stephen King', 'The Shining', 'currentlyReading', 1),
+('J.R.R. Tolkien', 'The Lord of the Rings', 'finished', 1),
+('Harper Lee', 'To Kill a Mockingbird', 'favorite', 1),
+('Jane Austen', 'Pride and Prejudice', 'wantToRead', 1),
+('Ernest Hemingway', 'The Old Man and the Sea', 'currentlyReading', 1),
+('F. Scott Fitzgerald', 'The Great Gatsby', 'finished', 1),
+('Mary Shelley', 'Frankenstein', 'favorite', 1),
+('Markus Zusak', 'The Book Thief', 'wantToRead', 1),
+('Agatha Christie', 'Murder on the Orient Express', 'currentlyReading', 1),
+('Toni Morrison', 'Beloved', 'finished', 1),
+('J.D. Salinger', 'The Catcher in the Rye', 'favorite', 1),
+('Gabriel Garcia Marquez', 'One Hundred Years of Solitude', 'wantToRead', 1),
+('Herman Melville', 'Moby-Dick', 'currentlyReading', 1);
