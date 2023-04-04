@@ -5,7 +5,7 @@ import {
   CogIcon
 } from '@heroicons/react/24/outline'
 import { useNavigate } from '@remix-run/react'
-import { useEffect } from 'react'
+import useKeypress from '~/hooks/use-keypress'
 import Avatar from './avatar'
 import Dropdown from './dropdown'
 import Keyboard from './keyboard'
@@ -13,25 +13,17 @@ import Keyboard from './keyboard'
 export default function Navbar() {
   const navigate = useNavigate()
 
-  useEffect(() => {
-    const keyDown = (e: KeyboardEvent) => {
-      if (e.metaKey && e.key === 'k') {
-        return navigate('/library')
-      }
+  useKeypress(['Meta', 'k'], () => {
+    navigate('/library')
+  })
 
-      if (e.metaKey && e.key === 'g') {
-        return navigate('/goals')
-      }
+  useKeypress(['Meta', 'g'], () => {
+    navigate('/goals')
+  })
 
-      if (e.metaKey && e.key === 'o') {
-        return navigate('/preferences')
-      }
-    }
-
-    document.addEventListener('keydown', keyDown)
-
-    return () => document.removeEventListener('keydown', keyDown)
-  }, [navigate])
+  useKeypress(['Meta', 'o'], () => {
+    navigate('/preferences')
+  })
 
   return (
     <div className="borde-b mt-5 h-10 w-full">
@@ -69,7 +61,7 @@ export default function Navbar() {
                 </div>
               </div>
             </Dropdown.MenuItem>
-            <Dropdown.MenuItem onSelect={() => console.log('select 1')}>
+            <Dropdown.MenuItem onSelect={() => navigate('/preferences')}>
               <div className="flex items-center justify-between gap-5">
                 <div className="flex flex-1 items-center justify-start">
                   <CogIcon className="h-6 w-6" />
