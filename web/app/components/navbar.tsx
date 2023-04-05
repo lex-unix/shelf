@@ -27,7 +27,7 @@ export default function Navbar() {
 
   useKeypress(['Meta', 'o'], e => {
     if (e.metaKey && e.key === 'o') {
-      navigate('/preferences')
+      navigate('/preferences/general')
     }
   })
 
@@ -67,7 +67,9 @@ export default function Navbar() {
                 </div>
               </div>
             </Dropdown.MenuItem>
-            <Dropdown.MenuItem onSelect={() => navigate('/preferences')}>
+            <Dropdown.MenuItem
+              onSelect={() => navigate('/preferences/general')}
+            >
               <div className="flex items-center justify-between gap-5">
                 <div className="flex flex-1 items-center justify-start">
                   <CogIcon className="h-6 w-6" />

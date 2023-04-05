@@ -1,5 +1,5 @@
 import { API } from '~/constants'
-import { type UpdatedUser } from './validations'
+import { type UpdatedPassword, type UpdatedUser } from './validations'
 
 export default function usersApi(request: Request) {
   const cookie = request.headers.get('Cookie') || ''
@@ -7,6 +7,17 @@ export default function usersApi(request: Request) {
   return {
     update: async (body: UpdatedUser) => {
       return fetch(API + '/user', {
+        method: 'put',
+        headers: {
+          cookie,
+          'content-type': 'application/json'
+        },
+        body: JSON.stringify(body)
+      })
+    },
+
+    password: async (body: UpdatedPassword) => {
+      return fetch(API + '/user/password', {
         method: 'put',
         headers: {
           cookie,

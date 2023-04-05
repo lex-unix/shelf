@@ -17,7 +17,7 @@ export default function usersModel(db: Pool) {
     },
 
     getUserById: async function (id: number) {
-      const sql = 'SELECT id, name, email FROM Account WHERE id = $1'
+      const sql = 'SELECT id, name, email, password FROM Account WHERE id = $1'
       const result = await db.query(sql, [id])
       return result.rows[0]
     },
@@ -32,6 +32,11 @@ export default function usersModel(db: Pool) {
     updateUser: async function (user: UserBase, id: number) {
       const sql = `UPDATE Account SET name = $1, email = $2 WHERE id = $3`
       await db.query(sql, [user.name, user.email, id])
+    },
+
+    updatePassword: async function (hash: string, id: number) {
+      const sql = `UPDATE Account SET password = $1 WHERE id = $2`
+      await db.query(sql, [hash, id])
     }
   }
 }

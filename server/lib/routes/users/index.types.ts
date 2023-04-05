@@ -19,3 +19,10 @@ export type UpdateRoute = {
     name: string
   }
 }
+
+export type UpdatePasswordRoute = {
+  Body: {
+    currentPassword: string
+    newPassword: string
+  }
+}

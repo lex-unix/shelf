@@ -3,7 +3,12 @@ import type { Config } from '../../config/config'
 import fp from 'fastify-plugin'
 import { schema } from './schema'
 import usersModel from '../../models/users'
-import type { LoginRoute, RegisterRoute, UpdateRoute } from './index.types'
+import type {
+  LoginRoute,
+  RegisterRoute,
+  UpdatePasswordRoute,
+  UpdateRoute
+} from './index.types'
 import * as argon2 from 'argon2'
 
 const users: FastifyPluginCallback<Config> = (server, options, done) => {
@@ -109,6 +114,33 @@ const users: FastifyPluginCallback<Config> = (server, options, done) => {
       await model.updateUser(req.body, req.session.userId)
 
       reply.code(204)
+    }
+  })
+
+  server.route<UpdatePasswordRoute>({
+    method: 'PUT',
+    url: options.prefix + 'user/password',
+    onRequest: [server.authorize],
+    handler: async (req, reply) => {
+      const user = await model.getUserById(req.session.userId)
+      if (!user) {
+        return reply.code(404).send({ message: 'User not found' })
+      }
+
+      if (!(await argon2.verify(user.password, req.body.currentPassword))) {
+        return reply
+          .code(401)
+          .send({ message: "Passwords don't match", field: 'currentPassword' })
+      }
+
+      let hash
+      try {
+        hash = await argon2.hash(req.body.newPassword)
+        await model.updatePassword(hash, req.session.userId)
+        reply.code(204)
+      } catch (err) {
+        server.log.error(err)
+      }
     }
   })
 

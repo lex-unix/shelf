@@ -17,6 +17,21 @@ export const updateUserSchema = z.object({
   email: z.string().email()
 })
 
+export const updatePasswordSchema = z
+  .object({
+    currentPassword: z.string(),
+    newPassword: z.string(),
+    confirmNewPassword: z.string()
+  })
+  .refine(
+    ({ newPassword, confirmNewPassword }) => newPassword === confirmNewPassword,
+    {
+      path: ['confirmNewPassword'],
+      message: "Password don't match"
+    }
+  )
+
 export type CreatedGoal = z.infer<typeof createGoalSchema>
 export type CreatedBook = z.infer<typeof createBookSchema>
 export type UpdatedUser = z.infer<typeof updateUserSchema>
+export type UpdatedPassword = z.infer<typeof updatePasswordSchema>
