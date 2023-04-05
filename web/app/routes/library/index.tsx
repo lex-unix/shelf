@@ -89,8 +89,8 @@ export default function LibraryIndexPage() {
         <Sidebar />
         <div className="flex-1 md:ml-8">
           <div className="sticky top-0 z-10 -mt-8 bg-gray-900 pt-8 pb-8">
-            <div className="flex h-10 items-center justify-between gap-8">
-              <div className="flex h-full flex-1 gap-5">
+            <div className="flex flex-col-reverse justify-between gap-4 md:h-10 md:flex-row md:items-center md:gap-8">
+              <div className="flex h-10 flex-1 gap-5">
                 <SearchBar
                   value={search}
                   onChange={e => setSearch(e.target.value)}
@@ -111,12 +111,12 @@ export default function LibraryIndexPage() {
                 </div>
               </div>
 
-              <div className="hidden h-10 md:inline-block">
+              <div className="h-10 md:inline-block">
                 <Dialog>
                   <Dialog.Button>
                     <Button
                       leading={<PlusIcon className="h-5 w-5" />}
-                      className="h-full"
+                      className="h-full w-full text-center md:w-fit"
                     >
                       Add new
                     </Button>

@@ -11,7 +11,7 @@ export default function SearchBar({
 }: SearchBarProps) {
   const { setKeyboardBlocked } = useContext(KeyboardContext)
   return (
-    <div className="relative h-full w-full">
+    <div className="relative min-h-full w-full">
       <MagnifyingGlassIcon className="absolute top-2.5 left-2 h-5 w-5 text-gray-500" />
       <input
         value={value}
