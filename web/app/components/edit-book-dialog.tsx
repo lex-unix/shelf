@@ -61,6 +61,20 @@ export default function EditBookDialog({
               className="mt-2 block w-full"
             />
           </label>
+          <label className="block text-gray-300">
+            Tag
+            <select
+              name="tag"
+              defaultValue={book.tag}
+              required
+              className="mt-2 block w-full"
+            >
+              <option value="currentlyReading">Currently reading</option>
+              <option value="wantToRead">Want to read</option>
+              <option value="favorite">Favorite</option>
+              <option value="finished">Finished</option>
+            </select>
+          </label>
         </fetcher.Form>
       </Dialog.Content>
     </Dialog>

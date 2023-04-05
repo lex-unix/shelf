@@ -19,5 +19,6 @@ export type UpdateRoute = {
   Body: {
     author: string
     title: string
+    tag: string
   }
 }

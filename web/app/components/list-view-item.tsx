@@ -1,7 +1,6 @@
 import {
   EllipsisVerticalIcon,
   PencilIcon,
-  TagIcon,
   TrashIcon
 } from '@heroicons/react/24/outline'
 import { useFetcher } from '@remix-run/react'
@@ -105,18 +104,6 @@ export default function ListViewItem({
                   <div className="flex items-center gap-1">
                     <Keyboard>⌘</Keyboard>
                     <Keyboard>E</Keyboard>
-                  </div>
-                </div>
-              </Dropdown.MenuItem>
-              <Dropdown.MenuItem>
-                <div className="flex items-center justify-between gap-5">
-                  <div className="flex flex-1 items-center justify-start">
-                    <TagIcon className="h-5 w-5 -rotate-90" />
-                    <span className="pl-3">Tag</span>
-                  </div>
-                  <div className="flex items-center gap-1">
-                    <Keyboard>⌘</Keyboard>
-                    <Keyboard>J</Keyboard>
                   </div>
                 </div>
               </Dropdown.MenuItem>
