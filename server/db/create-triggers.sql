@@ -8,7 +8,7 @@ BEGIN
     WHERE g.userId = a.id AND a.id = NEW.userId;
   ELSIF TG_OP = 'UPDATE' AND OLD.tag != 'finished' AND NEW.tag = 'finished' THEN
     UPDATE Goal g
-    SET progress = g.progress + 1
+    SET progress = LEAST(g.progress + 1, g.total)
     FROM Account a
     WHERE g.userId = a.id AND a.id = NEW.userId;
   END IF;
