@@ -81,8 +81,7 @@ export default function Goal({
           />
           <div className="flex flex-1 items-start justify-between">
             <div>
-              <p className="text-gray-400">Goal</p>
-              <p className="mt-1">{progress}</p>
+              <p className="text-gray-400">{name}</p>
             </div>
           </div>
 
