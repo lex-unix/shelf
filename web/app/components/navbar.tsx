@@ -1,4 +1,5 @@
 import {
+  UserCircleIcon,
   ArrowLeftOnRectangleIcon,
   ArrowTrendingUpIcon,
   BookOpenIcon,
@@ -6,7 +7,6 @@ import {
 } from '@heroicons/react/24/outline'
 import { useNavigate } from '@remix-run/react'
 import useKeypress from '~/hooks/use-keypress'
-import Avatar from './avatar'
 import Dropdown from './dropdown'
 import Keyboard from './keyboard'
 
@@ -37,10 +37,7 @@ export default function Navbar() {
         <h1 className="text-xl font-semibold tracking-tight">Shelf</h1>
         <Dropdown>
           <Dropdown.Button className="rounded-full focus:ring-0 focus-visible:ring-2 focus-visible:ring-gray-500">
-            <Avatar
-              src="https://ltqrjjxsacmuogzvtlja.supabase.co/storage/v1/object/public/avatar/2/avatar.webp"
-              alt="Avatar"
-            />
+            <UserCircleIcon className="h-7 w-7" />
           </Dropdown.Button>
           <Dropdown.Menu>
             <Dropdown.MenuItem onSelect={() => navigate('/library')}>

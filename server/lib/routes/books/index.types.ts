@@ -6,6 +6,12 @@ export type CreateRoute = {
   }
 }
 
+export type GetBooksRoute = {
+  Querystring: {
+    tag?: string
+  }
+}
+
 export type GetBookRoute = {
   Params: {
     id: string

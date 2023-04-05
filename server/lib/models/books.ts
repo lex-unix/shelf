@@ -8,9 +8,16 @@ type Book = {
 
 export default function booksModels(db: Pool) {
   return {
-    getUserBooks: async function (userId: number) {
-      const sql = `SELECT b.id, b.author, b.title, b.tag FROM Book b WHERE b.userId = $1 ORDER BY b.createdAt DESC`
-      const { rows } = await db.query(sql, [userId])
+    getUserBooks: async function (userId: number, tag?: string) {
+      let values: Array<number | string> = [userId]
+      let sql
+      if (tag) {
+        sql = `SELECT id, author, title, tag FROM Book WHERE userId = $1 AND tag = $2 ORDER BY createdAt DESC`
+        values = [...values, tag]
+      } else {
+        sql = `SELECT id, author, title, tag FROM Book WHERE userId = $1 ORDER BY createdAt DESC`
+      }
+      const { rows } = await db.query(sql, values)
       return rows
     },
 

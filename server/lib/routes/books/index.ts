@@ -1,20 +1,25 @@
 import type { FastifyPluginCallback } from 'fastify'
 import fp from 'fastify-plugin'
 import { type Config } from '../../config/config'
-import type { CreateRoute, GetBookRoute, UpdateRoute } from './index.types'
+import type {
+  CreateRoute,
+  GetBookRoute,
+  GetBooksRoute,
+  UpdateRoute
+} from './index.types'
 import booksModels from '../../models/books'
 import { schema } from './schema'
 
 const books: FastifyPluginCallback<Config> = (server, options, done) => {
   const model = booksModels(server.db)
 
-  server.route({
+  server.route<GetBooksRoute>({
     method: 'GET',
     url: options.prefix + 'books',
     schema: schema.getBooks,
     onRequest: [server.authorize],
     handler: async req => {
-      const books = await model.getUserBooks(req.session.userId)
+      const books = await model.getUserBooks(req.session.userId, req.query.tag)
       return { books }
     }
   })

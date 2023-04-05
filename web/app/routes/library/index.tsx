@@ -53,20 +53,13 @@ export const loader = async ({ request }: LoaderArgs) => {
   const url = new URL(request.url)
   const tag = url.searchParams.get('tag')
   const api = booksApi(request)
-  const res = await api.getBooks()
+  const res = await api.getBooks(tag)
   if (res.status === 401) {
     return redirect('/login')
   }
-  let data = await res.json()
-  let selecetedBooks: BookData[] = data.books
+  const data = await res.json()
 
-  // should send the request to server with query param
-  // filter array for now
-  if (tag) {
-    selecetedBooks = selecetedBooks.filter(book => book.tag === tag)
-  }
-
-  return selecetedBooks
+  return data.books as BookData[]
 }
 
 export default function LibraryIndexPage() {

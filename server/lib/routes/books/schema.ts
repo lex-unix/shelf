@@ -7,6 +7,7 @@ const Book = S.object()
   .prop('tag', S.string().required())
 
 const getBooks = {
+  querystring: S.object().prop('tag', S.string()),
   response: {
     200: S.object().prop('books', S.array().items(Book).required())
   }

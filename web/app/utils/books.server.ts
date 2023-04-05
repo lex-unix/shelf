@@ -5,8 +5,9 @@ export default function booksApi(request: Request) {
   const cookie = request.headers.get('Cookie') || ''
 
   return {
-    getBooks: async () => {
-      return fetch(API + '/books', {
+    getBooks: async (tag?: string | null) => {
+      const path = tag ? `/books?tag=${tag}` : '/books'
+      return fetch(API + path, {
         headers: request.headers,
         credentials: 'include'
       })
