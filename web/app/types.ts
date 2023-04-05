@@ -9,6 +9,7 @@ export type BookData = {
 
 export type GoalData = {
   id: number
+  name: string
   total: number
   progress: number
 }

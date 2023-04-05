@@ -21,6 +21,7 @@ interface GoalProps extends GoalData {
 
 export default function Goal({
   id,
+  name,
   progress,
   total,
   index,
@@ -52,7 +53,7 @@ export default function Goal({
   useKeypress(['Meta', 'e'], e => {
     if (!menuOpen && !isSelected) return
     if (e.metaKey && e.key === 'e') {
-      onEdit({ id, total, progress })
+      onEdit({ id, name, total, progress })
     }
   })
 
@@ -97,7 +98,7 @@ export default function Goal({
             </Dropdown.Button>
             <Dropdown.Menu onCloseAutoFocus={e => e.preventDefault()}>
               <Dropdown.MenuItem
-                onSelect={() => onEdit({ id, total, progress })}
+                onSelect={() => onEdit({ id, name, total, progress })}
               >
                 <div className="flex w-full items-center justify-between gap-5">
                   <div className="flex flex-1 items-center justify-start">

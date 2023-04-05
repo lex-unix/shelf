@@ -1,5 +1,6 @@
 export type CreateRoute = {
   Body: {
+    name: string
     total: number
     startDate?: string
     endDate?: string
@@ -23,7 +24,10 @@ export type UpdateRoute = {
     id: string
   }
   Body: {
-    total: number
-    progress: number
+    goal: {
+      name: string
+      total: number
+      progress: number
+    }
   }
 }

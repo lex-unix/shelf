@@ -1,6 +1,7 @@
 import { type Pool } from 'pg'
 
 type Goal = {
+  name: string
   total: number
   startDate?: string
   endDate?: string
@@ -9,26 +10,26 @@ type Goal = {
 export default function goalsModel(db: Pool) {
   return {
     getGoals: async function (userId: number) {
-      const sql = `SELECT id, total, progress, startDate as "startDate", endDate as "endDate" FROM Goal WHERE userId = $1 ORDER BY createdAt DESC`
+      const sql = `SELECT id, name, total, progress, startDate as "startDate", endDate as "endDate" FROM Goal WHERE userId = $1 ORDER BY createdAt DESC`
       const { rows } = await db.query(sql, [userId])
       return rows
     },
 
     getGoalById: async function (id: string) {
-      const sql = `SELECT id, total, progress, startDate as "startDate", endDate as "endDate" FROM Goal WHERE id = $1`
+      const sql = `SELECT id, name, total, progress, startDate as "startDate", endDate as "endDate" FROM Goal WHERE id = $1`
       const { rows } = await db.query(sql, [id])
       return rows[0]
     },
 
     createGoal: async function (goal: Goal, userId: number) {
       const hasTimePeriod = !!goal.startDate && !!goal.endDate
-      let values: Array<number | string> = [goal.total, userId]
+      let values: Array<number | string> = [goal.name, goal.total, userId]
       let sql
       if (hasTimePeriod) {
-        sql = `INSERT INTO Goal (total, userId, startDate, endDate) VALUES ($1, $2, $3, $4) RETURNING id, total, progress, startDate, endDate`
+        sql = `INSERT INTO Goal (name, total, userId, startDate, endDate) VALUES ($1, $2, $3, $4, $5) RETURNING id, total, progress, startDate, endDate`
         values = [...values, goal.startDate as string, goal.endDate as string]
       } else {
-        sql = `INSERT INTO Goal (total, userId) VALUES ($1, $2) RETURNING id, total, progress, startDate, endDate`
+        sql = `INSERT INTO Goal (name, total, userId) VALUES ($1, $2, $3) RETURNING id, total, progress, startDate, endDate`
       }
       const { rows } = await db.query(sql, values)
       return rows[0]
@@ -40,8 +41,8 @@ export default function goalsModel(db: Pool) {
     },
 
     updateGoal: async function (id: string, goal: Goal & { progress: number }) {
-      const sql = `UPDATE Goal SET total = $1, progress = $2 WHERE id = $3`
-      await db.query(sql, [goal.total, goal.progress, id])
+      const sql = `UPDATE Goal SET name = $1, total = $2, progress = $3 WHERE id = $4`
+      await db.query(sql, [goal.name, goal.total, goal.progress, id])
     }
   }
 }

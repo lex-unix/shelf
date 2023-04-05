@@ -2,6 +2,7 @@ import S from 'fluent-json-schema'
 
 const Goal = S.object()
   .prop('id', S.string().required())
+  .prop('name', S.string().required())
   .prop('total', S.number().required())
   .prop('progress', S.number().required())
   .prop('startDate', S.string().required())
@@ -24,12 +25,27 @@ const insert = {
   body: S.object().prop(
     'goal',
     S.object()
+      .prop('name', S.string().required())
       .prop('total', S.number().required())
       .prop('startDate', S.string())
       .prop('endDate', S.string())
   ),
   response: {
     201: S.object().prop('goal', Goal)
+  }
+}
+
+const update = {
+  body: S.object().prop(
+    'goal',
+    S.object()
+      .prop('name', S.string().required())
+      .prop('total', S.number().required())
+      .prop('startDate', S.string())
+      .prop('endDate', S.string())
+  ),
+  response: {
+    404: S.object().prop('message', S.string())
   }
 }
 
@@ -43,5 +59,6 @@ export const schema = {
   getAll,
   getOne,
   insert,
-  del
+  del,
+  update
 }

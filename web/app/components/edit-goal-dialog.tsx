@@ -44,6 +44,14 @@ export default function EditGoalDialog({
           <input type="hidden" name="_action" value="edit" />
           <input type="hidden" name="id" value={id} />
           <label className="block text-gray-400">
+            Name
+            <input
+              name="name"
+              defaultValue={goal.name}
+              className="mt-2 block w-full"
+            />
+          </label>
+          <label className="block text-gray-400">
             Total
             <input
               name="total"

@@ -4,10 +4,10 @@ import { useLoaderData } from '@remix-run/react'
 import Button from '~/components/button'
 import GoalForm from '~/components/goal-form'
 import { AnimatePresence } from 'framer-motion'
-import { createGoal, deleteGoal, updateGoal } from '~/utils/goals.server'
+import goalsApi from '~/utils/goals.server'
 import { API } from '~/constants'
 import type { GoalData } from '~/types'
-import { createGoalSchema } from '~/utils/validations'
+import { createGoalSchema, updateGoalSchema } from '~/utils/validations'
 import Goal from '~/components/goal'
 import NavigationList from '~/components/navigation-list'
 import Dialog from '~/components/dialog'
@@ -32,18 +32,20 @@ export const loader = async ({ request }: LoaderArgs) => {
 
 export const action: ActionFunction = async ({ request }) => {
   const form = await request.formData()
+  const api = goalsApi(request)
 
   const _action = form.get('_action')
   if (_action === 'delete') {
     const id = form.get('id') as string
-    await deleteGoal(request, id)
+    await api.deleteGoal(id)
   } else if (_action === 'create') {
     const body = createGoalSchema.parse(Object.fromEntries(form))
-    await createGoal(request, body)
+    await api.createGoal(body)
   } else if (_action === 'edit') {
-    const body = Object.fromEntries(form)
+    console.log(Object.fromEntries(form))
+    const body = updateGoalSchema.parse(Object.fromEntries(form))
     const id = form.get('id') as string
-    await updateGoal(request, id, body)
+    await api.updateGoal(id, body)
   }
   return null
 }
@@ -92,6 +94,7 @@ export default function GoalsPage() {
               <Goal
                 key={goal.id}
                 id={goal.id}
+                name={goal.name}
                 progress={goal.progress}
                 total={goal.total}
                 index={i}

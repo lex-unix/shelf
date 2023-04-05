@@ -60,7 +60,7 @@ const goals: FastifyPluginCallback<Config> = (server, options, done) => {
       if (!goal) {
         return reply.code(404).send({ message: 'Goal not found' })
       }
-      await model.updateGoal(req.params.id, req.body)
+      await model.updateGoal(req.params.id, req.body.goal)
       reply.code(201)
     }
   })
