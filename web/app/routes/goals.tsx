@@ -88,8 +88,8 @@ export default function GoalsPage() {
         </Dialog>
       </div>
       <ul className="">
-        <AnimatePresence initial={false}>
-          <NavigationList listLen={goals.length}>
+        <NavigationList listLen={goals.length}>
+          <AnimatePresence initial={false}>
             {goals.map((goal, i) => (
               <Goal
                 key={goal.id}
@@ -101,8 +101,8 @@ export default function GoalsPage() {
                 onEdit={handleEditGoal}
               />
             ))}
-          </NavigationList>
-        </AnimatePresence>
+          </AnimatePresence>
+        </NavigationList>
       </ul>
       {selectedGoal && (
         <EditGoalDialog
