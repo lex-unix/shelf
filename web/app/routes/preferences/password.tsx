@@ -38,11 +38,11 @@ export default function PasswordPag() {
   const inputRef = useRef<HTMLInputElement>(null)
 
   useEffect(() => {
-    if (navigation.state === 'idle') {
+    if (navigation.state === 'idle' && !error) {
       formRef.current?.reset()
       inputRef.current?.focus()
     }
-  }, [navigation.state])
+  }, [navigation.state, error])
 
   return (
     <Form ref={formRef} method="post" className="space-y-4">
