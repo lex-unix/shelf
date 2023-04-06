@@ -5,13 +5,14 @@ import {
   BookOpenIcon,
   CogIcon
 } from '@heroicons/react/24/outline'
-import { useNavigate } from '@remix-run/react'
+import { useFetcher, useNavigate } from '@remix-run/react'
 import useKeypress from '~/hooks/use-keypress'
 import Dropdown from './dropdown'
 import Keyboard from './keyboard'
 
 export default function Navbar() {
   const navigate = useNavigate()
+  const logoutFetcher = useFetcher()
 
   useKeypress(['Meta', 'k'], e => {
     if (e.metaKey && e.key === 'k') {
@@ -79,13 +80,21 @@ export default function Navbar() {
               </div>
             </Dropdown.MenuItem>
             <Dropdown.Separator />
-            <Dropdown.MenuItem onSelect={() => console.log('select 1')}>
-              <div className="flex items-center justify-between">
-                <div className="flex flex-1 items-center justify-start">
+            <Dropdown.MenuItem
+              onSelect={() =>
+                logoutFetcher.submit({ _action: 'logout' }, { method: 'post' })
+              }
+            >
+              <logoutFetcher.Form
+                method="post"
+                className="flex items-center justify-between"
+              >
+                <input type="hidden" name="_action" value="logout" />
+                <button className="flex flex-1 items-center justify-start">
                   <ArrowLeftOnRectangleIcon className="h-6 w-6" />
                   <span className="pl-3">Log out</span>
-                </div>
-              </div>
+                </button>
+              </logoutFetcher.Form>
             </Dropdown.MenuItem>
           </Dropdown.Menu>
         </Dropdown>

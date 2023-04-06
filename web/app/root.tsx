@@ -1,4 +1,9 @@
-import type { LinksFunction, MetaFunction } from '@remix-run/node'
+import {
+  type ActionFunction,
+  type LinksFunction,
+  type MetaFunction,
+  redirect
+} from '@remix-run/node'
 import {
   Links,
   LiveReload,
@@ -9,6 +14,7 @@ import {
 } from '@remix-run/react'
 import stylesheet from '~/tailwind.css'
 import Navbar from './components/navbar'
+import { API } from './constants'
 import KeyboardObserver from './states/keyboard'
 
 export const links: LinksFunction = () => [
@@ -20,6 +26,22 @@ export const meta: MetaFunction = () => ({
   title: 'New Remix App',
   viewport: 'width=device-width,initial-scale=1'
 })
+
+export const action: ActionFunction = async ({ request }) => {
+  const formData = await request.formData()
+  const _action = formData.get('_action')
+  if (_action === 'logout') {
+    await fetch(API + '/users/logout', {
+      method: 'post',
+      headers: {
+        cookie: request.headers.get('Cookie') || ''
+      }
+    })
+
+    return redirect('login')
+  }
+  return null
+}
 
 export default function App() {
   return (
