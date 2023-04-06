@@ -63,12 +63,26 @@ export default function RegisterPage() {
           <input
             type="password"
             name="password"
+            minLength={8}
             className={`${
               actionData?.password ? 'border-red-600 outline-none' : ''
             } w-full`}
           />
           {actionData?.password && (
             <p className="text-red-600">{actionData.password.join('; ')}</p>
+          )}
+        </div>
+        <div className="flex flex-col gap-2">
+          <label className="text-gray-400">Confirm password</label>
+          <input
+            type="password"
+            name="confirm"
+            className={`${
+              actionData?.confirm ? 'border-red-600 outline-none' : ''
+            } w-full`}
+          />
+          {actionData?.confirm && (
+            <p className="text-red-600">{actionData.confirm.join('; ')}</p>
           )}
         </div>
         <div className="mt-2 flex justify-center">

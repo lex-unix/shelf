@@ -42,7 +42,6 @@ export const action: ActionFunction = async ({ request }) => {
     const body = createGoalSchema.parse(Object.fromEntries(form))
     await api.createGoal(body)
   } else if (_action === 'edit') {
-    console.log(Object.fromEntries(form))
     const body = updateGoalSchema.parse(Object.fromEntries(form))
     const id = form.get('id') as string
     await api.updateGoal(id, body)

@@ -43,6 +43,7 @@ export default function LoginRoute() {
           <label className="text-gray-400">Email</label>
           <input
             name="email"
+            type="email"
             autoComplete="off"
             className={`${
               actionData?.email ? 'border-red-600 text-red-600' : ''
@@ -57,6 +58,7 @@ export default function LoginRoute() {
           <input
             type="password"
             name="password"
+            minLength={8}
             className={`${
               actionData?.password ? 'border-red-600 outline-none' : ''
             } w-full`}
