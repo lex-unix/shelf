@@ -31,10 +31,7 @@ export default function ListView({ books }: ListViewProps) {
         {books.map((book, i) => (
           <ListViewItem
             key={book.id}
-            id={book.id}
-            title={book.title}
-            author={book.author}
-            tag={book.tag}
+            book={book}
             index={i}
             onEdit={handleEditBook}
           />

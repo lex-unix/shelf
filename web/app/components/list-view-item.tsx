@@ -19,16 +19,14 @@ const vocab = {
   favorite: 'Favorite'
 }
 
-interface ListViewItemProps extends BookData {
+interface ListViewItemProps {
+  book: BookData
   index: number
   onEdit: (book: BookData) => void
 }
 
 export default function ListViewItem({
-  id,
-  title,
-  author,
-  tag,
+  book,
   index,
   onEdit
 }: ListViewItemProps) {
@@ -50,7 +48,7 @@ export default function ListViewItem({
     if (!menuOpen && !isSelected) return
     if (e.metaKey && e.key === 'Backspace') {
       deleteFetcher.submit(
-        { _action: 'delete', id: id.toString() },
+        { _action: 'delete', id: book.id.toString() },
         { method: 'post' }
       )
     }
@@ -59,12 +57,7 @@ export default function ListViewItem({
   useKeypress(['Meta', 'e'], e => {
     if (!menuOpen && !isSelected) return
     if (e.metaKey && e.key === 'e') {
-      onEdit({
-        id,
-        author,
-        title,
-        tag
-      })
+      onEdit(book)
     }
   })
 
@@ -75,12 +68,12 @@ export default function ListViewItem({
     >
       <div className="flex items-center justify-between">
         <div className="pr-5">
-          <p className="mb-2">{title}</p>
-          <p className="text-gray-400">{author}</p>
+          <p className="mb-2">{book.title}</p>
+          <p className="text-gray-400">{book.author}</p>
         </div>
         <div className="flex shrink-0 items-center justify-center gap-1">
           <div className="rounded-full bg-white/5 py-2.5 px-4">
-            {vocab[tag]}
+            {vocab[book.tag]}
           </div>
           <Dropdown
             open={menuOpen}
@@ -93,9 +86,7 @@ export default function ListViewItem({
               <EllipsisVerticalIcon className="h-6 w-6" />
             </Dropdown.Button>
             <Dropdown.Menu onCloseAutoFocus={e => e.preventDefault()}>
-              <Dropdown.MenuItem
-                onSelect={() => onEdit({ id, title, author, tag })}
-              >
+              <Dropdown.MenuItem onSelect={() => onEdit(book)}>
                 <div className="flex items-center justify-between gap-5">
                   <div className="flex flex-1 items-center justify-start">
                     <PencilIcon className="h-5 w-5" />
@@ -109,7 +100,7 @@ export default function ListViewItem({
               </Dropdown.MenuItem>
               <Dropdown.MenuItem>
                 <deleteFetcher.Form method="post" className="w-full">
-                  <input type="hidden" name="id" value={id} />
+                  <input type="hidden" name="id" value={book.id} />
                   <input type="hidden" name="_action" value="delete" />
                   <button className="flex w-full items-center justify-between gap-5">
                     <div className="flex flex-1 items-center justify-start">
