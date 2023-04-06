@@ -1,16 +1,27 @@
 import { redirect, type ActionArgs } from '@remix-run/node'
 import { Form, useActionData } from '@remix-run/react'
+import { type z } from 'zod'
 import Button from '~/components/button'
-import type { FormError } from '~/types'
-import { register } from '~/utils/users.server'
+import usersApi from '~/utils/users.server'
+import { userRegisterSchema } from '~/utils/validations'
+
+type FormError = z.inferFlattenedErrors<
+  typeof userRegisterSchema
+>['fieldErrors']
 
 export const action = async ({ request }: ActionArgs) => {
+  const api = usersApi()
   const formData = await request.formData()
-  const body = Object.fromEntries(formData)
-  const res = await register(body)
+  const parsedBody = userRegisterSchema.safeParse(Object.fromEntries(formData))
+
+  if (!parsedBody.success) {
+    return parsedBody.error.flatten().fieldErrors
+  }
+
+  const res = await api.register(parsedBody.data)
 
   if (res.status === 409) {
-    const error: FormError = await res.json()
+    const error = await res.json()
     return error
   }
 
@@ -40,11 +51,11 @@ export default function RegisterPage() {
             autoComplete="off"
             type="email"
             className={`${
-              actionData?.field === 'email' ? 'border-red-600 text-red-600' : ''
+              actionData?.email ? 'border-red-600 text-red-600' : ''
             } w-full`}
           />
-          {actionData?.field === 'email' && (
-            <p className="text-red-600">{actionData.message}</p>
+          {actionData?.email && (
+            <p className="text-red-600">{actionData.email}</p>
           )}
         </div>
         <div className="flex flex-col gap-2">
@@ -53,13 +64,11 @@ export default function RegisterPage() {
             type="password"
             name="password"
             className={`${
-              actionData?.field === 'password'
-                ? 'border-red-600 outline-none'
-                : ''
+              actionData?.password ? 'border-red-600 outline-none' : ''
             } w-full`}
           />
-          {actionData?.field === 'password' && (
-            <p className="text-red-600">{actionData.message}</p>
+          {actionData?.password && (
+            <p className="text-red-600">{actionData.password.join('; ')}</p>
           )}
         </div>
         <div className="mt-2 flex justify-center">

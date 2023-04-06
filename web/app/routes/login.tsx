@@ -1,18 +1,29 @@
 import { redirect, type ActionFunction } from '@remix-run/node'
 import { Form, useActionData } from '@remix-run/react'
+import { type z } from 'zod'
 import Button from '~/components/button'
-import type { FormError } from '~/types'
-import { login } from '~/utils/users.server'
+import usersApi from '~/utils/users.server'
+import { userLoginSchema } from '~/utils/validations'
+
+type FormError = z.inferFlattenedErrors<typeof userLoginSchema>['fieldErrors']
 
 export const action: ActionFunction = async ({ request }) => {
+  const api = usersApi()
   const formData = await request.formData()
-  const body = Object.fromEntries(formData)
-  const res = await login(body)
+  const parsedBody = userLoginSchema.safeParse(Object.fromEntries(formData))
+
+  if (!parsedBody.success) {
+    return parsedBody.error.flatten().fieldErrors
+  }
+
+  const res = await api.login(parsedBody.data)
   if (res.ok) {
     return redirect('/library', { headers: res.headers })
   } else {
-    const error: FormError = await res.json()
-    return error
+    const error = await res.json()
+    return {
+      [error.field]: [error.message]
+    }
   }
 }
 
@@ -34,11 +45,11 @@ export default function LoginRoute() {
             name="email"
             autoComplete="off"
             className={`${
-              actionData?.field === 'email' ? 'border-red-600 text-red-600' : ''
+              actionData?.email ? 'border-red-600 text-red-600' : ''
             } w-full`}
           />
-          {actionData?.field === 'email' && (
-            <p className="text-red-600">{actionData.message}</p>
+          {actionData?.email && (
+            <p className="text-red-600">{actionData.email.join('; ')}</p>
           )}
         </div>
         <div className="flex flex-col gap-2">
@@ -47,13 +58,11 @@ export default function LoginRoute() {
             type="password"
             name="password"
             className={`${
-              actionData?.field === 'password'
-                ? 'border-red-600 outline-none'
-                : ''
+              actionData?.password ? 'border-red-600 outline-none' : ''
             } w-full`}
           />
-          {actionData?.field === 'password' && (
-            <p className="text-red-600">{actionData.message}</p>
+          {actionData?.password && (
+            <p className="text-red-600">{actionData.password.join('; ')}</p>
           )}
         </div>
         <div className="mt-2 flex justify-center">

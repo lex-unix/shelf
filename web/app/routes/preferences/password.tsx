@@ -6,8 +6,9 @@ import Button from '~/components/button'
 import usersApi from '~/utils/users.server'
 import { updatePasswordSchema } from '~/utils/validations'
 
-type FlattenedErrors = z.inferFlattenedErrors<typeof updatePasswordSchema>
-type FormError = FlattenedErrors['fieldErrors']
+type FormError = z.inferFlattenedErrors<
+  typeof updatePasswordSchema
+>['fieldErrors']
 
 export const action = async ({ request }: ActionArgs) => {
   const api = usersApi(request)

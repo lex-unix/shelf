@@ -1,10 +1,35 @@
 import { API } from '~/constants'
-import { type UpdatedPassword, type UpdatedUser } from './validations'
+import type {
+  UserLogin,
+  UserRegister,
+  UpdatedPassword,
+  UpdatedUser
+} from './validations'
 
-export default function usersApi(request: Request) {
-  const cookie = request.headers.get('Cookie') || ''
+export default function usersApi(request?: Request) {
+  const cookie = request?.headers.get('Cookie') || ''
 
   return {
+    login: async (body: UserLogin) => {
+      return fetch(API + '/users/login', {
+        method: 'post',
+        headers: {
+          'content-type': 'application/json'
+        },
+        body: JSON.stringify(body)
+      })
+    },
+
+    register: async (body: UserRegister) => {
+      return fetch(API + '/users/register', {
+        method: 'post',
+        headers: {
+          'content-type': 'application/json'
+        },
+        body: JSON.stringify(body)
+      })
+    },
+
     update: async (body: UpdatedUser) => {
       return fetch(API + '/user', {
         method: 'put',
