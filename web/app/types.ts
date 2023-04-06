@@ -12,6 +12,8 @@ export type GoalData = {
   name: string
   total: number
   progress: number
+  startDate: string
+  endDate: string
 }
 
 export type FormError = {

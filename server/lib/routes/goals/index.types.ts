@@ -28,6 +28,8 @@ export type UpdateRoute = {
       name: string
       total: number
       progress: number
+      startDate: string
+      endDate: string
     }
   }
 }

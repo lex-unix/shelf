@@ -13,25 +13,33 @@ import useKeypress from '~/hooks/use-keypress'
 import type { GoalData } from '~/types'
 import { NavigationListContext } from './navigation-list'
 import { KeyboardContext } from '~/states/keyboard'
+import { differenceInDays, formatDistance } from 'date-fns'
 
-interface GoalProps extends GoalData {
+interface GoalProps {
+  goal: GoalData
   index: number
   onEdit: (goal: GoalData) => void
 }
 
-export default function Goal({
-  id,
-  name,
-  progress,
-  total,
-  index,
-  onEdit
-}: GoalProps) {
+export default function Goal({ goal, index, onEdit }: GoalProps) {
   const deleteFetcher = useFetcher()
   const [menuOpen, setMenuOpen] = useState(false)
   const { selectedIndex } = useContext(NavigationListContext)
   const { setKeyboardBlocked, keyboardBlocked } = useContext(KeyboardContext)
+
   const isSelected = index === selectedIndex
+
+  const timeLeft = formatDistance(new Date(), new Date(goal.endDate))
+  const daysLeft = differenceInDays(new Date(goal.endDate), new Date())
+
+  const status =
+    goal.progress === goal.total
+      ? 'completed'
+      : daysLeft < 0
+      ? 'expired'
+      : daysLeft <= 3
+      ? 'urgent'
+      : 'ongoing'
 
   useKeypress('Enter', () => {
     if (isSelected && !keyboardBlocked) {
@@ -44,7 +52,7 @@ export default function Goal({
     if (!menuOpen && !isSelected) return
     if (e.metaKey && e.key === 'Backspace') {
       deleteFetcher.submit(
-        { _action: 'delete', id: id.toString() },
+        { _action: 'delete', id: goal.id.toString() },
         { method: 'post' }
       )
     }
@@ -53,13 +61,13 @@ export default function Goal({
   useKeypress(['Meta', 'e'], e => {
     if (!menuOpen && !isSelected) return
     if (e.metaKey && e.key === 'e') {
-      onEdit({ id, name, total, progress })
+      onEdit(goal)
     }
   })
 
   return (
     <motion.li
-      key={id}
+      key={goal.id}
       initial={{ opacity: 0, height: 0 }}
       animate={{ opacity: 1, height: 'auto' }}
       exit={{ opacity: 0, height: 0 }}
@@ -76,12 +84,27 @@ export default function Goal({
           } flex items-center rounded-md border p-6`}
         >
           <CircleProgress
-            progress={(progress / total) * 100}
-            currentCount={progress}
+            progress={(goal.progress / goal.total) * 100}
+            currentCount={goal.progress}
           />
           <div className="flex flex-1 items-start justify-between">
             <div>
-              <p className="text-gray-400">{name}</p>
+              <p className="font-medium text-gray-100">{goal.name}</p>
+              <p
+                className={`${
+                  status === 'expired'
+                    ? 'text-rose-400'
+                    : status === 'urgent'
+                    ? 'text-amber-400'
+                    : 'text-gray-400'
+                }`}
+              >
+                {status === 'completed'
+                  ? 'Completed'
+                  : status === 'expired'
+                  ? 'Expired'
+                  : `${timeLeft} left`}
+              </p>
             </div>
           </div>
 
@@ -96,9 +119,7 @@ export default function Goal({
               <EllipsisVerticalIcon className="h-6 w-6" />
             </Dropdown.Button>
             <Dropdown.Menu onCloseAutoFocus={e => e.preventDefault()}>
-              <Dropdown.MenuItem
-                onSelect={() => onEdit({ id, name, total, progress })}
-              >
+              <Dropdown.MenuItem onSelect={() => onEdit(goal)}>
                 <div className="flex w-full items-center justify-between gap-5">
                   <div className="flex flex-1 items-center justify-start">
                     <PencilIcon className="h-5 w-5" />
@@ -113,7 +134,7 @@ export default function Goal({
 
               <Dropdown.MenuItem>
                 <deleteFetcher.Form method="post">
-                  <input type="hidden" name="id" value={id} />
+                  <input type="hidden" name="id" value={goal.id} />
                   <input type="hidden" name="_action" value="delete" />
                   <button className="flex w-full items-center justify-between gap-5">
                     <div className="flex flex-1 items-center justify-start">

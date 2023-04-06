@@ -41,8 +41,15 @@ export default function goalsModel(db: Pool) {
     },
 
     updateGoal: async function (id: string, goal: Goal & { progress: number }) {
-      const sql = `UPDATE Goal SET name = $1, total = $2, progress = $3 WHERE id = $4`
-      await db.query(sql, [goal.name, goal.total, goal.progress, id])
+      const sql = `UPDATE Goal SET name = $1, total = $2, progress = $3, startDate = $4, endDate = $5 WHERE id = $6`
+      await db.query(sql, [
+        goal.name,
+        goal.total,
+        goal.progress,
+        goal.startDate,
+        goal.endDate,
+        id
+      ])
     }
   }
 }

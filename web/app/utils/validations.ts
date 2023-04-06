@@ -54,7 +54,9 @@ export const updatePasswordSchema = z
 export const updateGoalSchema = z.object({
   name: z.string(),
   total: z.coerce.number(),
-  progress: z.coerce.number()
+  progress: z.string(),
+  startDate: z.string(),
+  endDate: z.string()
 })
 
 export type CreatedGoal = z.infer<typeof createGoalSchema>

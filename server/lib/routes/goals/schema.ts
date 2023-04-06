@@ -41,8 +41,8 @@ const update = {
     S.object()
       .prop('name', S.string().required())
       .prop('total', S.number().required())
-      .prop('startDate', S.string())
-      .prop('endDate', S.string())
+      .prop('startDate', S.string().required())
+      .prop('endDate', S.string().required())
   ),
   response: {
     404: S.object().prop('message', S.string())

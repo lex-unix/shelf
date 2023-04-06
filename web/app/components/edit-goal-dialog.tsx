@@ -4,6 +4,7 @@ import { type GoalData } from '~/types'
 import Button from './button'
 import Dialog from './dialog'
 import { ArrowPathIcon } from '@heroicons/react/20/solid'
+import { format } from 'date-fns'
 
 interface EditGoalDialogProps {
   goal: GoalData
@@ -17,7 +18,7 @@ export default function EditGoalDialog({
   onOpen
 }: EditGoalDialogProps) {
   const fetcher = useFetcher()
-  const { id, total, progress } = goal
+  const { id, total, progress, startDate, endDate } = goal
 
   useEffect(() => {
     if (fetcher.submission) {
@@ -65,6 +66,26 @@ export default function EditGoalDialog({
               name="progress"
               defaultValue={progress}
               className="mt-2 block w-full"
+            />
+          </label>
+          <label className="block text-gray-300">
+            Start date
+            <input
+              type="date"
+              name="startDate"
+              required
+              defaultValue={format(new Date(startDate), 'yyyy-MM-dd')}
+              className="mt-2 block w-full appearance-none"
+            />
+          </label>
+          <label className="block text-gray-300">
+            End date
+            <input
+              type="date"
+              name="endDate"
+              required
+              defaultValue={format(new Date(endDate), 'yyyy-MM-dd')}
+              className="mt-2 block w-full appearance-none"
             />
           </label>
         </fetcher.Form>

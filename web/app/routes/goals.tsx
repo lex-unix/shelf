@@ -64,7 +64,7 @@ export default function GoalsPage() {
   return (
     <div className="mx-auto max-w-2xl py-6">
       <div className="mb-6 flex items-center justify-between">
-        <h1 className="text-xl font-semibold">Active goals</h1>
+        <h1 className="text-xl font-semibold">My goals</h1>
         <Dialog>
           <Dialog.Button>
             <Button leading={<PlusIcon className="h-5 w-5" />}>Add new</Button>
@@ -92,10 +92,7 @@ export default function GoalsPage() {
             {goals.map((goal, i) => (
               <Goal
                 key={goal.id}
-                id={goal.id}
-                name={goal.name}
-                progress={goal.progress}
-                total={goal.total}
+                goal={goal}
                 index={i}
                 onEdit={handleEditGoal}
               />
