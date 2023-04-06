@@ -17,7 +17,7 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
-CREATE OR REPLACE TRIGGER update_goal_progress_trigger
+CREATE TRIGGER update_goal_progress_trigger
 AFTER UPDATE ON Book
 FOR EACH ROW
 EXECUTE FUNCTION update_goal_progress();
