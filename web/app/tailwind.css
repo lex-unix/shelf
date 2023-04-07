@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 html {
-  @apply bg-gray-900 text-gray-100 antialiased;
+  @apply bg-gray-900 text-gray-100 antialiased selection:bg-sky-900/40 selection:text-sky-500;
 }
 
 input,

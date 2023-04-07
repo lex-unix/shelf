@@ -50,7 +50,7 @@ function SidebarItem({ tag, children }: SidebarItemProps) {
       replace
       className={`${
         isActive ? 'bg-white/5' : 'bg-transparent'
-      } flex w-full items-center justify-start gap-3 rounded-lg px-3 py-2 outline-none transition-colors hover:bg-white/5 focus-visible:ring focus-visible:ring-gray-500`}
+      } flex w-full select-none items-center justify-start gap-3 rounded-lg px-3 py-2 outline-none transition-colors hover:bg-white/5 focus-visible:ring focus-visible:ring-gray-500`}
     >
       {children}
     </Link>

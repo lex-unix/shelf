@@ -16,7 +16,7 @@ export default function CircleProgress({
   currentCount
 }: CircleProgressProps) {
   return (
-    <div className="relative mr-3">
+    <div className="relative mr-3 select-none">
       <svg
         width={SIZE}
         height={SIZE}
