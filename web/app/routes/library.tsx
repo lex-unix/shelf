@@ -1,5 +1,12 @@
+import { type MetaFunction } from '@remix-run/node'
 import { Outlet } from '@remix-run/react'
 import LibraryNavLink from '~/components/library-nav-link'
+
+export const meta: MetaFunction = () => {
+  return {
+    title: 'Library | Shelf'
+  }
+}
 
 export default function LibraryPage() {
   return (

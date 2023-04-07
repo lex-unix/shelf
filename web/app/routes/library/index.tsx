@@ -1,8 +1,8 @@
 import {
   redirect,
   type LinksFunction,
-  type ActionArgs,
-  type LoaderArgs
+  type ActionFunction,
+  type LoaderFunction
 } from '@remix-run/node'
 import { useLoaderData } from '@remix-run/react'
 import { useState, useMemo, useEffect } from 'react'
@@ -31,7 +31,7 @@ export const links: LinksFunction = () => {
   return [{ rel: 'stylesheet', href: styles }]
 }
 
-export const action = async ({ request }: ActionArgs) => {
+export const action: ActionFunction = async ({ request }) => {
   const api = booksApi(request)
   const formData = await request.formData()
   const _action = formData.get('_action')
@@ -49,7 +49,7 @@ export const action = async ({ request }: ActionArgs) => {
   return null
 }
 
-export const loader = async ({ request }: LoaderArgs) => {
+export const loader: LoaderFunction = async ({ request }) => {
   const url = new URL(request.url)
   const tag = url.searchParams.get('tag')
   const api = booksApi(request)

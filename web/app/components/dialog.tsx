@@ -2,6 +2,11 @@ import * as RadixDialog from '@radix-ui/react-dialog'
 import { type ReactNode, useState, createContext, useContext } from 'react'
 import { AnimatePresence, motion, MotionConfig } from 'framer-motion'
 
+const transition = {
+  duration: 0.25,
+  ease: 'easeOut'
+}
+
 type DialogContextProps = {
   open: boolean
 }
@@ -21,7 +26,7 @@ export default function Dialog({
 
   return (
     <DialogContext.Provider value={{ open: open || isOpen }}>
-      <MotionConfig transition={{ opacity: { duration: 0.2 } }}>
+      <MotionConfig transition={transition}>
         <RadixDialog.Root
           open={open || isOpen}
           onOpenChange={onOpenChange || setOpen}
@@ -62,12 +67,18 @@ function DialogContent({ children }: { children: ReactNode }) {
           <motion.div
             initial={{
               opacity: 0,
-              scale: 0.97,
-              translateX: '-50%'
+              translateX: '-50%',
+              translateY: '50%'
             }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 0.97 }}
-            className="fixed left-[50%] top-[10%] z-50 w-full max-w-xl outline-none"
+            animate={{ opacity: 1, translateY: 0 }}
+            exit={{ opacity: 0, translateY: '50%' }}
+            transition={{
+              ...transition,
+              opacity: {
+                duration: transition.duration * 0.8
+              }
+            }}
+            className="fixed bottom-0 left-[50%] top-[10%] z-50 w-full max-w-xl outline-none md:bottom-[initial]"
           >
             <div className="h-full rounded-lg border border-gray-700 bg-gray-900 px-7 py-5 shadow-[0_16px_20px_hsla(0,0%,0%,20%)]">
               {children}

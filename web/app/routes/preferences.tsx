@@ -1,5 +1,12 @@
+import { type MetaFunction } from '@remix-run/node'
 import { Outlet } from '@remix-run/react'
 import Tabs from '~/components/tabs'
+
+export const meta: MetaFunction = () => {
+  return {
+    title: 'Preferences | Shelf'
+  }
+}
 
 export default function PreferencesPage() {
   return (

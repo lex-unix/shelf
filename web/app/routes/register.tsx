@@ -1,4 +1,8 @@
-import { redirect, type ActionArgs } from '@remix-run/node'
+import {
+  type MetaFunction,
+  redirect,
+  type ActionFunction
+} from '@remix-run/node'
 import { Form, useActionData } from '@remix-run/react'
 import { type z } from 'zod'
 import Button from '~/components/button'
@@ -9,7 +13,13 @@ type FormError = z.inferFlattenedErrors<
   typeof userRegisterSchema
 >['fieldErrors']
 
-export const action = async ({ request }: ActionArgs) => {
+export const meta: MetaFunction = () => {
+  return {
+    title: 'Sign Up | Shelf'
+  }
+}
+
+export const action: ActionFunction = async ({ request }) => {
   const api = usersApi()
   const formData = await request.formData()
   const parsedBody = userRegisterSchema.safeParse(Object.fromEntries(formData))

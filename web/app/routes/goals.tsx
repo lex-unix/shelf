@@ -2,7 +2,8 @@ import { PlusIcon } from '@heroicons/react/24/outline'
 import {
   type LoaderFunction,
   type ActionFunction,
-  redirect
+  redirect,
+  type MetaFunction
 } from '@remix-run/node'
 import { useLoaderData } from '@remix-run/react'
 import Button from '~/components/button'
@@ -19,6 +20,12 @@ import { useContext, useState } from 'react'
 import { KeyboardContext } from '~/states/keyboard'
 import EditGoalDialog from '~/components/edit-goal-dialog'
 import { PlusCircleIcon } from '@heroicons/react/20/solid'
+
+export const meta: MetaFunction = () => {
+  return {
+    title: 'Goals | Shelf'
+  }
+}
 
 export const loader: LoaderFunction = async ({ request }) => {
   const res = await fetch(API + '/goals', {

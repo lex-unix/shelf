@@ -1,4 +1,4 @@
-import { type ActionArgs } from '@remix-run/node'
+import { type ActionFunction } from '@remix-run/node'
 import { Form, useActionData, useNavigation } from '@remix-run/react'
 import { useEffect, useRef } from 'react'
 import { type z } from 'zod'
@@ -10,7 +10,7 @@ type FormError = z.inferFlattenedErrors<
   typeof updatePasswordSchema
 >['fieldErrors']
 
-export const action = async ({ request }: ActionArgs) => {
+export const action: ActionFunction = async ({ request }) => {
   const api = usersApi(request)
   const formData = await request.formData()
   const parsedBody = updatePasswordSchema.safeParse(
