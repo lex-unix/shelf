@@ -51,15 +51,15 @@ export default function App() {
         <Links />
       </head>
       <body>
-        <main className="mx-auto max-w-5xl px-4 md:px-6">
+        <KeyboardObserver>
           <Navbar />
-          <KeyboardObserver>
+          <main className="mx-auto max-w-5xl px-4 md:px-6">
             <Outlet />
-          </KeyboardObserver>
-          <ScrollRestoration />
-          <Scripts />
-          <LiveReload />
-        </main>
+          </main>
+        </KeyboardObserver>
+        <ScrollRestoration />
+        <Scripts />
+        <LiveReload />
       </body>
     </html>
   )

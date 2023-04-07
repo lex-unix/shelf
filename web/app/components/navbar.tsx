@@ -6,13 +6,17 @@ import {
   CogIcon
 } from '@heroicons/react/24/outline'
 import { useFetcher, useNavigate } from '@remix-run/react'
+import { useContext, useState } from 'react'
 import useKeypress from '~/hooks/use-keypress'
+import { KeyboardContext } from '~/states/keyboard'
 import Dropdown from './dropdown'
 import Keyboard from './keyboard'
 
 export default function Navbar() {
   const navigate = useNavigate()
   const logoutFetcher = useFetcher()
+  const [open, setOpen] = useState(false)
+  const { setKeyboardBlocked } = useContext(KeyboardContext)
 
   useKeypress(['Meta', 'k'], e => {
     if (e.metaKey && e.key === 'k') {
@@ -33,10 +37,16 @@ export default function Navbar() {
   })
 
   return (
-    <div className="borde-b mt-5 h-10 w-full">
+    <header className="mx-auto mt-5 h-10 w-full max-w-5xl px-4 md:px-6">
       <div className="flex h-full max-w-5xl items-center justify-between">
         <h1 className="text-xl font-semibold tracking-tight">Shelf</h1>
-        <Dropdown>
+        <Dropdown
+          open={open}
+          onOpenChange={open => {
+            setOpen(open)
+            setKeyboardBlocked(open)
+          }}
+        >
           <Dropdown.Button className="rounded-full focus:ring-0 focus-visible:ring-2 focus-visible:ring-gray-500">
             <UserCircleIcon className="h-7 w-7" />
           </Dropdown.Button>
@@ -99,6 +109,6 @@ export default function Navbar() {
           </Dropdown.Menu>
         </Dropdown>
       </div>
-    </div>
+    </header>
   )
 }

@@ -5,7 +5,7 @@ import {
   type LoaderFunction
 } from '@remix-run/node'
 import { useLoaderData } from '@remix-run/react'
-import { useState, useMemo, useEffect } from 'react'
+import { useState, useMemo, useEffect, useContext } from 'react'
 import ListView from '~/components/list-view'
 import Sidebar from '~/components/sidebar'
 import TileView from '~/components/tile-view'
@@ -26,6 +26,7 @@ import Button from '~/components/button'
 import BookForm from '~/components/book-form'
 import useLocalStorage from '~/hooks/use-local-storage'
 import styles from '~/styles/list-view.css'
+import { KeyboardContext } from '~/states/keyboard'
 
 export const links: LinksFunction = () => {
   return [{ rel: 'stylesheet', href: styles }]
@@ -67,6 +68,8 @@ export default function LibraryIndexPage() {
   const [view, setView] = useLocalStorage('view', 'tile')
   const [search, setSearch] = useState('')
   const [mounted, setMounted] = useState(false)
+  const [dialogOpen, setDialogOpen] = useState(false)
+  const { setKeyboardBlocked } = useContext(KeyboardContext)
 
   useEffect(() => {
     setMounted(true)
@@ -112,7 +115,13 @@ export default function LibraryIndexPage() {
               </div>
 
               <div className="h-10 md:inline-block">
-                <Dialog>
+                <Dialog
+                  open={dialogOpen}
+                  onOpenChange={open => {
+                    setDialogOpen(open)
+                    setKeyboardBlocked(open)
+                  }}
+                >
                   <Dialog.Button>
                     <Button
                       leading={<PlusIcon className="h-5 w-5" />}

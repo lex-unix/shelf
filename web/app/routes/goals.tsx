@@ -63,12 +63,13 @@ export const action: ActionFunction = async ({ request }) => {
 export default function GoalsPage() {
   const goals = useLoaderData<GoalData[]>()
   const [selectedGoal, setSelectedGoal] = useState<GoalData | null>(null)
-  const [openDialog, setDialogOpen] = useState(false)
+  const [openEditDialog, setEditDialogOpen] = useState(false)
+  const [openAddDialog, setOpenAddDialog] = useState(false)
   const { setKeyboardBlocked } = useContext(KeyboardContext)
 
-  const handleEditGoal = (book: GoalData) => {
-    setSelectedGoal(book)
-    setDialogOpen(true)
+  const handleEditGoal = (goal: GoalData) => {
+    setSelectedGoal(goal)
+    setEditDialogOpen(true)
     setKeyboardBlocked(true)
   }
 
@@ -76,7 +77,13 @@ export default function GoalsPage() {
     <div className="mx-auto max-w-2xl py-6">
       <div className="mb-6 flex items-center justify-between">
         <h1 className="text-xl font-semibold">My goals</h1>
-        <Dialog>
+        <Dialog
+          open={openAddDialog}
+          onOpenChange={open => {
+            setOpenAddDialog(open)
+            setKeyboardBlocked(open)
+          }}
+        >
           <Dialog.Button>
             <Button leading={<PlusIcon className="h-5 w-5" />}>Add new</Button>
           </Dialog.Button>
@@ -114,9 +121,9 @@ export default function GoalsPage() {
       {selectedGoal && (
         <EditGoalDialog
           goal={selectedGoal}
-          open={openDialog}
+          open={openEditDialog}
           onOpen={open => {
-            setDialogOpen(open)
+            setEditDialogOpen(open)
             setKeyboardBlocked(open)
           }}
         />
