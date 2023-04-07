@@ -12,7 +12,7 @@ import {
   Scripts,
   ScrollRestoration
 } from '@remix-run/react'
-import stylesheet from '~/tailwind.css'
+import stylesheet from '~/styles/tailwind.css'
 import Navbar from './components/navbar'
 import { API } from './constants'
 import KeyboardObserver from './states/keyboard'

@@ -25,7 +25,7 @@ import Dialog from '~/components/dialog'
 import Button from '~/components/button'
 import BookForm from '~/components/book-form'
 import useLocalStorage from '~/hooks/use-local-storage'
-import styles from '~/list-view.css'
+import styles from '~/styles/list-view.css'
 
 export const links: LinksFunction = () => {
   return [{ rel: 'stylesheet', href: styles }]
