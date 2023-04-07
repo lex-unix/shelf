@@ -50,7 +50,7 @@ export default function Navbar() {
           <Dropdown.Button className="rounded-full focus:ring-0 focus-visible:ring-2 focus-visible:ring-gray-500">
             <UserCircleIcon className="h-7 w-7" />
           </Dropdown.Button>
-          <Dropdown.Menu>
+          <Dropdown.Menu onCloseAutoFocus={e => e.preventDefault()}>
             <Dropdown.MenuItem onSelect={() => navigate('/library')}>
               <div className="flex items-center justify-between gap-5">
                 <div className="flex flex-1 items-center justify-start">
