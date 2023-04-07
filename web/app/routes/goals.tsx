@@ -1,5 +1,9 @@
 import { PlusIcon } from '@heroicons/react/24/outline'
-import { type LoaderArgs, type ActionFunction, redirect } from '@remix-run/node'
+import {
+  type LoaderFunction,
+  type ActionFunction,
+  redirect
+} from '@remix-run/node'
 import { useLoaderData } from '@remix-run/react'
 import Button from '~/components/button'
 import GoalForm from '~/components/goal-form'
@@ -16,7 +20,7 @@ import { KeyboardContext } from '~/states/keyboard'
 import EditGoalDialog from '~/components/edit-goal-dialog'
 import { PlusCircleIcon } from '@heroicons/react/20/solid'
 
-export const loader = async ({ request }: LoaderArgs) => {
+export const loader: LoaderFunction = async ({ request }) => {
   const res = await fetch(API + '/goals', {
     headers: request.headers,
     credentials: 'include'
