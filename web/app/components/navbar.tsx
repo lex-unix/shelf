@@ -11,6 +11,7 @@ import useKeypress from '~/hooks/use-keypress'
 import { KeyboardContext } from '~/states/keyboard'
 import Dropdown from './dropdown'
 import Keyboard from './keyboard'
+import Logo from './logo'
 
 export default function Navbar() {
   const navigate = useNavigate()
@@ -39,7 +40,9 @@ export default function Navbar() {
   return (
     <header className="mx-auto mt-5 h-10 w-full max-w-5xl px-4 md:px-6">
       <div className="flex h-full max-w-5xl items-center justify-between">
-        <h1 className="text-xl font-semibold tracking-tight">Shelf</h1>
+        <div>
+          <Logo />
+        </div>
         <Dropdown
           open={open}
           onOpenChange={open => {

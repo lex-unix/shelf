@@ -7,6 +7,9 @@ module.exports = {
     extend: {
       colors: {
         gray: colors.neutral
+      },
+      screens: {
+        standalone: { raw: '(display-mode: standalone)' }
       }
     }
   },

@@ -63,7 +63,7 @@ export default function ListViewItem({
 
   return (
     <li
-      className={`list-view px-6 py-5`}
+      className={`list-view px-3 py-5 md:px-6 standalone:px-0`}
       data-state={isSelected ? 'selected' : ''}
     >
       <div className="flex items-center justify-between">
