@@ -63,7 +63,7 @@ export const loader: LoaderFunction = async ({ request }) => {
   return data.books as BookData[]
 }
 
-export default function LibraryIndexPage() {
+export default function BooksPage() {
   const books = useLoaderData<BookData[]>()
   const [view, setView] = useLocalStorage('view', 'tile')
   const [search, setSearch] = useState('')

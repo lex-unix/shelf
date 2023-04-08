@@ -40,7 +40,7 @@ interface SidebarItemProps {
 }
 
 function SidebarItem({ tag, children }: SidebarItemProps) {
-  const href = tag ? `/library?tag=${tag}` : '/library'
+  const href = tag ? `/library/books?tag=${tag}` : '/library/books'
   const [params] = useSearchParams()
   const isActive = tag === params.get('tag') || (!tag && !params.get('tag'))
 

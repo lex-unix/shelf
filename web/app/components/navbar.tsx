@@ -21,7 +21,7 @@ export default function Navbar() {
 
   useKeypress(['Meta', 'k'], e => {
     if (e.metaKey && e.key === 'k') {
-      navigate('/library')
+      navigate('/library/books')
     }
   })
 
@@ -54,7 +54,7 @@ export default function Navbar() {
             <UserCircleIcon className="h-7 w-7" />
           </Dropdown.Button>
           <Dropdown.Menu onCloseAutoFocus={e => e.preventDefault()}>
-            <Dropdown.MenuItem onSelect={() => navigate('/library')}>
+            <Dropdown.MenuItem onSelect={() => navigate('/library/books')}>
               <div className="flex items-center justify-between gap-5">
                 <div className="flex flex-1 items-center justify-start">
                   <BookOpenIcon className="h-6 w-6" />
