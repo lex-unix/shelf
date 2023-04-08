@@ -25,9 +25,7 @@ const redisSession: FastifyPluginCallback<Config> = (server, config, done) => {
       secure: process.env.NODE_ENV === 'production',
       sameSite: 'lax',
       httpOnly: true,
-      maxAge: 1000 * 60 * 60 * 24 * 365,
-      domain:
-        process.env.NODE_ENV === 'production' ? 'kyivangels.com' : undefined
+      maxAge: 1000 * 60 * 60 * 24 * 365
     }
   })
 
