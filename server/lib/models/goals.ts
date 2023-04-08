@@ -26,10 +26,10 @@ export default function goalsModel(db: Pool) {
       let values: Array<number | string> = [goal.name, goal.total, userId]
       let sql
       if (hasTimePeriod) {
-        sql = `INSERT INTO Goal (name, total, userId, startDate, endDate) VALUES ($1, $2, $3, $4, $5) RETURNING id, total, progress, startDate, endDate`
+        sql = `INSERT INTO Goal (name, total, userId, startDate, endDate) VALUES ($1, $2, $3, $4, $5) RETURNING id, name, total, progress, startDate as "startDate", endDate as "endDate"`
         values = [...values, goal.startDate as string, goal.endDate as string]
       } else {
-        sql = `INSERT INTO Goal (name, total, userId) VALUES ($1, $2, $3) RETURNING id, total, progress, startDate, endDate`
+        sql = `INSERT INTO Goal (name, total, userId) VALUES ($1, $2, $3) RETURNING id, name, total, progress, startDate as "startDate", endDate as "endDate"`
       }
       const { rows } = await db.query(sql, values)
       return rows[0]
