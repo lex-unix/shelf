@@ -1,10 +1,20 @@
-import { API } from '~/constants'
+import { API } from './env.server'
 import { type UpdatedGoal, type CreatedGoal } from './validations'
 
 export default function goalsApi(request: Request) {
   const cookie = request.headers.get('cookie') || ''
 
   return {
+    getGoals: async () => {
+      return fetch(API + '/goals', {
+        method: 'GET',
+        headers: {
+          cookie
+        },
+        credentials: 'include'
+      })
+    },
+
     createGoal: async (body: CreatedGoal) => {
       return fetch(API + '/goals', {
         method: 'post',

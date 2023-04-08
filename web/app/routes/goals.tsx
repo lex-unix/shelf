@@ -10,7 +10,6 @@ import Button from '~/components/button'
 import GoalForm from '~/components/goal-form'
 import { AnimatePresence } from 'framer-motion'
 import goalsApi from '~/utils/goals.server'
-import { API } from '~/constants'
 import type { GoalData } from '~/types'
 import { createGoalSchema, updateGoalSchema } from '~/utils/validations'
 import Goal from '~/components/goal'
@@ -28,11 +27,8 @@ export const meta: MetaFunction = () => {
 }
 
 export const loader: LoaderFunction = async ({ request }) => {
-  const res = await fetch(API + '/goals', {
-    headers: request.headers,
-    credentials: 'include'
-  })
-
+  const api = goalsApi(request)
+  const res = await api.getGoals()
   if (res.status === 401) {
     return redirect('/login')
   }

@@ -1,5 +1,4 @@
 import { Form, useActionData, useLoaderData } from '@remix-run/react'
-import { API } from '~/constants'
 import usersApi from '~/utils/users.server'
 import { updateUserSchema } from '~/utils/validations'
 import Button from '~/components/button'
@@ -15,11 +14,8 @@ type FormError = {
 }
 
 export const loader: LoaderFunction = async ({ request }) => {
-  const res = await fetch(API + '/users/me', {
-    headers: {
-      Cookie: request.headers.get('Cookie') || ''
-    }
-  })
+  const api = usersApi(request)
+  const res = await api.getMe()
   const { user } = await res.json()
 
   if (!user) {

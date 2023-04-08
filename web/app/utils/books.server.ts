@@ -1,4 +1,4 @@
-import { API } from '~/constants'
+import { API } from './env.server'
 import { type CreatedBook } from './validations'
 
 export default function booksApi(request: Request) {

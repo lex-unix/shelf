@@ -1,4 +1,4 @@
-import { API } from '~/constants'
+import { API } from './env.server'
 import type {
   UserLogin,
   UserRegister,
@@ -27,6 +27,14 @@ export default function usersApi(request?: Request) {
           'content-type': 'application/json'
         },
         body: JSON.stringify(body)
+      })
+    },
+
+    getMe: async () => {
+      return fetch(API + '/users/me', {
+        headers: {
+          cookie
+        }
       })
     },
 
