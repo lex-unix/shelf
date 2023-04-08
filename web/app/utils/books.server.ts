@@ -8,7 +8,9 @@ export default function booksApi(request: Request) {
     getBooks: async (tag?: string | null) => {
       const path = tag ? `/books?tag=${tag}` : '/books'
       return fetch(API + path, {
-        headers: request.headers,
+        headers: {
+          cookie
+        },
         credentials: 'include'
       })
     },
