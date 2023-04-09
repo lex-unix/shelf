@@ -27,6 +27,7 @@ import BookForm from '~/components/book-form'
 import useLocalStorage from '~/hooks/use-local-storage'
 import styles from '~/styles/list-view.css'
 import { KeyboardContext } from '~/states/keyboard'
+import LoadingSpinner from '~/components/loading-spinner'
 
 export const links: LinksFunction = () => {
   return [{ rel: 'stylesheet', href: styles }]
@@ -142,8 +143,14 @@ export default function BooksPage() {
                       <h2 className="text-lg font-semibold">Add new book</h2>
                       <Button
                         form="book-form"
-                        leading={<PlusCircleIcon className="h-5 w-5" />}
                         disabled={isSubmitting}
+                        leading={
+                          isSubmitting ? (
+                            <LoadingSpinner />
+                          ) : (
+                            <PlusCircleIcon className="h-5 w-5" />
+                          )
+                        }
                       >
                         {isSubmitting ? 'Adding...' : 'Add book'}
                       </Button>

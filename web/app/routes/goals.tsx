@@ -19,6 +19,7 @@ import { useContext, useState } from 'react'
 import { KeyboardContext } from '~/states/keyboard'
 import EditGoalDialog from '~/components/edit-goal-dialog'
 import { PlusCircleIcon } from '@heroicons/react/20/solid'
+import LoadingSpinner from '~/components/loading-spinner'
 
 export const meta: MetaFunction = () => {
   return {
@@ -96,8 +97,14 @@ export default function GoalsPage() {
               <Button
                 form="goal-form"
                 tabIndex={-1}
-                leading={<PlusCircleIcon className="h-5 w-5" />}
                 disabled={isSubmitting}
+                leading={
+                  isSubmitting ? (
+                    <LoadingSpinner />
+                  ) : (
+                    <PlusCircleIcon className="h-5 w-5" />
+                  )
+                }
               >
                 {isSubmitting ? 'Adding...' : 'Add new goal'}
               </Button>
