@@ -4,7 +4,7 @@ import {
   type ActionFunction,
   type LoaderFunction
 } from '@remix-run/node'
-import { useLoaderData } from '@remix-run/react'
+import { useFetchers, useLoaderData } from '@remix-run/react'
 import { useState, useMemo, useEffect, useContext } from 'react'
 import ListView from '~/components/list-view'
 import Sidebar from '~/components/sidebar'
@@ -70,10 +70,12 @@ export default function BooksPage() {
   const [mounted, setMounted] = useState(false)
   const [dialogOpen, setDialogOpen] = useState(false)
   const { setKeyboardBlocked } = useContext(KeyboardContext)
+  const fetchers = useFetchers()
 
-  useEffect(() => {
-    setMounted(true)
-  }, [])
+  const createFetcher = fetchers.find(
+    f => f.formAction && f.formAction.startsWith('/library/books')
+  )
+  const isSubmitting = createFetcher?.state === 'submitting'
 
   const filteredBooks = useMemo(
     () =>
@@ -85,6 +87,10 @@ export default function BooksPage() {
 
     [books, search]
   )
+
+  useEffect(() => {
+    setMounted(true)
+  }, [])
 
   return mounted ? (
     <MotionConfig transition={{ duration: 0.2, ease: [0.36, 0.66, 0.04, 1] }}>
@@ -137,8 +143,9 @@ export default function BooksPage() {
                       <Button
                         form="book-form"
                         leading={<PlusCircleIcon className="h-5 w-5" />}
+                        disabled={isSubmitting}
                       >
-                        Add book
+                        {isSubmitting ? 'Adding...' : 'Add book'}
                       </Button>
                     </div>
                     <Dialog.Separator />

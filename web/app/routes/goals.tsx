@@ -5,7 +5,7 @@ import {
   redirect,
   type MetaFunction
 } from '@remix-run/node'
-import { useLoaderData } from '@remix-run/react'
+import { useFetchers, useLoaderData } from '@remix-run/react'
 import Button from '~/components/button'
 import GoalForm from '~/components/goal-form'
 import { AnimatePresence } from 'framer-motion'
@@ -62,6 +62,12 @@ export default function GoalsPage() {
   const [openEditDialog, setEditDialogOpen] = useState(false)
   const [openAddDialog, setOpenAddDialog] = useState(false)
   const { setKeyboardBlocked } = useContext(KeyboardContext)
+  const fetchers = useFetchers()
+
+  const createFetcher = fetchers.find(
+    f => f.formAction && f.formAction.startsWith('/goals')
+  )
+  const isSubmitting = createFetcher?.state === 'submitting'
 
   const handleEditGoal = (goal: GoalData) => {
     setSelectedGoal(goal)
@@ -91,8 +97,9 @@ export default function GoalsPage() {
                 form="goal-form"
                 tabIndex={-1}
                 leading={<PlusCircleIcon className="h-5 w-5" />}
+                disabled={isSubmitting}
               >
-                Add goal
+                {isSubmitting ? 'Adding...' : 'Add new goal'}
               </Button>
             </div>
             <Dialog.Separator />
