@@ -84,7 +84,7 @@ export default function App() {
       >
         <KeyboardObserver>
           <Navbar />
-          <main className="mx-auto max-w-5xl px-4 md:px-6">
+          <main className="mx-auto max-w-5xl px-4 pb-6 md:px-6 md:pb-8">
             <Outlet />
           </main>
         </KeyboardObserver>
