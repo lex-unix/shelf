@@ -80,7 +80,7 @@ function DialogContent({ children }: { children: ReactNode }) {
             }}
             className="fixed bottom-0 left-[50%] top-[10%] z-50 w-full max-w-xl outline-none md:bottom-[initial]"
           >
-            <div className="h-full rounded-lg border border-gray-700 bg-gray-900 px-7 py-5 shadow-[0_16px_20px_hsla(0,0%,0%,20%)]">
+            <div className="h-full rounded-lg border border-transparent bg-gray-900 px-7 py-5 shadow-[0_16px_20px_hsla(0,0%,0%,20%)] md:border-gray-700">
               {children}
             </div>
           </motion.div>
@@ -99,7 +99,7 @@ function DialogButton({ children }: { children: ReactNode }) {
 }
 
 function DialogSeparator() {
-  return <div className="my-7 -mx-7 h-[1px] bg-gray-700"></div>
+  return <div className="-mx-7 my-7 h-[1px] bg-gray-700"></div>
 }
 
 Dialog.Content = DialogContent
