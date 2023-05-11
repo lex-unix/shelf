@@ -28,7 +28,7 @@ export const action: ActionFunction = async ({ request }) => {
 
   const res = await api.login(parsedBody.data)
   if (res.ok) {
-    return redirect('/library', { headers: res.headers })
+    return redirect('/library/books', { headers: res.headers })
   } else {
     const error = await res.json()
     return {
