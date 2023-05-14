@@ -15,7 +15,7 @@ import {
 import stylesheet from '~/styles/tailwind.css'
 import Navbar from './components/navbar'
 import { API } from './constants'
-import KeyboardObserver from './states/keyboard'
+import KeyboardProvider from './states/keyboard'
 
 export const links: LinksFunction = () => [
   { rel: 'stylesheet', href: stylesheet },
@@ -82,12 +82,12 @@ export default function App() {
           WebkitTapHighlightColor: 'transparent'
         }}
       >
-        <KeyboardObserver>
+        <KeyboardProvider>
           <Navbar />
           <main className="mx-auto max-w-5xl px-4 pb-6 md:px-6 md:pb-8">
             <Outlet />
           </main>
-        </KeyboardObserver>
+        </KeyboardProvider>
         <ScrollRestoration />
         <Scripts />
         <LiveReload />

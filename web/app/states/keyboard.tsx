@@ -10,7 +10,7 @@ export const KeyboardContext = createContext<KeyboardContextProps>({
   setKeyboardBlocked: () => {}
 })
 
-export default function KeyboardObserver({
+export default function KeyboardProvider({
   children
 }: {
   children: ReactNode
