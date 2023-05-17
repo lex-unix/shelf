@@ -3,7 +3,7 @@ import {
   redirect,
   type ActionFunction
 } from '@remix-run/node'
-import { Form, useActionData } from '@remix-run/react'
+import { Form, Link, useActionData } from '@remix-run/react'
 import { type z } from 'zod'
 import Button from '~/components/button'
 import usersApi from '~/utils/users.server'
@@ -81,6 +81,14 @@ export default function LoginRoute() {
           <Button type="submit">Continue</Button>
         </div>
       </Form>
+      <div className="pt-10 md:pt-14">
+        <p className="text-gray-400">
+          Don&apos; have an account?{' '}
+          <Link to="/register" className="underline underline-offset-4">
+            Sign up
+          </Link>
+        </p>
+      </div>
     </div>
   )
 }

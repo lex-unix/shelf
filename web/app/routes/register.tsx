@@ -3,7 +3,7 @@ import {
   redirect,
   type ActionFunction
 } from '@remix-run/node'
-import { Form, useActionData } from '@remix-run/react'
+import { Form, Link, useActionData } from '@remix-run/react'
 import { type z } from 'zod'
 import Button from '~/components/button'
 import usersApi from '~/utils/users.server'
@@ -44,7 +44,7 @@ export default function RegisterPage() {
   return (
     <div className="mx-auto flex max-w-sm flex-col items-center justify-center pt-10 text-current md:pt-16 lg:pt-24">
       <h1 className="text-center text-2xl font-semibold md:text-3xl">
-        Welcome back
+        Welcome
       </h1>
       <p className="mb-4 mt-2 text-center text-gray-400 md:mt-3 md:text-lg">
         Please provide your name and email
@@ -99,6 +99,14 @@ export default function RegisterPage() {
           <Button type="submit">Continue</Button>
         </div>
       </Form>
+      <div className="pt-10 md:pt-14">
+        <p className="text-gray-400">
+          Already have an account?{' '}
+          <Link to="/login" className="underline underline-offset-4">
+            Sign in
+          </Link>
+        </p>
+      </div>
     </div>
   )
 }
