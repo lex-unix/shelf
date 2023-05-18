@@ -4,6 +4,7 @@ type Book = {
   author: string
   title: string
   tag: string
+  cover?: string
 }
 
 export default function booksModels(db: Pool) {
@@ -12,23 +13,25 @@ export default function booksModels(db: Pool) {
       let values: Array<number | string> = [userId]
       let sql
       if (tag) {
-        sql = `SELECT id, author, title, tag FROM Book WHERE userId = $1 AND tag = $2 ORDER BY createdAt DESC`
+        sql = `SELECT id, author, title, tag, cover FROM Book WHERE userId = $1 AND tag = $2 ORDER BY createdAt DESC`
         values = [...values, tag]
       } else {
-        sql = `SELECT id, author, title, tag FROM Book WHERE userId = $1 ORDER BY createdAt DESC`
+        sql = `SELECT id, author, title, tag, cover FROM Book WHERE userId = $1 ORDER BY createdAt DESC`
       }
       const { rows } = await db.query(sql, values)
       return rows
     },
 
     createBook: async function (book: Book, userId: number) {
-      const sql = `INSERT INTO Book (author, title, tag, userId) VALUES($1, $2, $3, $4) RETURNING id, author, title, tag`
-      const { rows } = await db.query(sql, [
-        book.author,
-        book.title,
-        book.tag,
-        userId
-      ])
+      let sql
+      const values = [book.author, book.title, book.tag, userId]
+      if (book.cover) {
+        sql = `INSERT INTO Book (author, title, tag, userId, cover) VALUES($1, $2, $3, $4, $5) RETURNING id, author, title, tag, cover`
+        values.push(book.cover)
+      } else {
+        sql = `INSERT INTO Book (author, title, tag, userId) VALUES($1, $2, $3, $4) RETURNING id, author, title, tag`
+      }
+      const { rows } = await db.query(sql, values)
       return rows[0]
     },
 
