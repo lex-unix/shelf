@@ -4,6 +4,7 @@ export type BookData = {
   id: number
   author: string
   title: string
+  cover: string
   tag: Tag
 }
 
