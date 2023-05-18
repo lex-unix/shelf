@@ -5,6 +5,7 @@ const Book = S.object()
   .prop('author', S.string().required())
   .prop('title', S.string().required())
   .prop('tag', S.string().required())
+  .prop('cover', S.string())
 
 const getBooks = {
   querystring: S.object().prop('tag', S.string()),
@@ -20,6 +21,7 @@ const insert = {
       .prop('author', S.string().required())
       .prop('title', S.string().required())
       .prop('tag', S.string().required())
+      .prop('cover', S.string())
   ),
   response: {
     201: S.object().prop('book', Book)
