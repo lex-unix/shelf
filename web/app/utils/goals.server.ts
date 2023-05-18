@@ -1,5 +1,5 @@
 import { API } from './env.server'
-import { type UpdatedGoal, type CreatedGoal } from './validations'
+import { type UpdatedGoal, type CreatedGoal } from './validation.server'
 
 export default function goalsApi(request: Request) {
   const cookie = request.headers.get('cookie') || ''

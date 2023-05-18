@@ -7,7 +7,7 @@ import { Form, Link, useActionData } from '@remix-run/react'
 import { type z } from 'zod'
 import Button from '~/components/button'
 import usersApi from '~/utils/users.server'
-import { userRegisterSchema } from '~/utils/validations'
+import { userRegisterSchema } from '~/utils/validation.server'
 
 type FormError = z.inferFlattenedErrors<
   typeof userRegisterSchema

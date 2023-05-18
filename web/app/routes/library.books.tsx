@@ -16,7 +16,7 @@ import TileView from '~/components/tile-view'
 import type { BookData } from '~/types'
 import booksApi from '~/utils/books.server'
 import { AnimatePresence, MotionConfig } from 'framer-motion'
-import { createBookSchema } from '~/utils/validations'
+import { createBookSchema } from '~/utils/validation.server'
 import SearchBar from '~/components/search-bar'
 import ViewSwitchButton from '~/components/view-switch-button'
 import {

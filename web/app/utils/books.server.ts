@@ -1,5 +1,5 @@
 import { API } from './env.server'
-import { type CreatedBook } from './validations'
+import { type CreatedBook } from './validation.server'
 
 export default function booksApi(request: Request) {
   const cookie = request.headers.get('Cookie') || ''

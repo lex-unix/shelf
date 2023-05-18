@@ -4,7 +4,7 @@ import type {
   UserRegister,
   UpdatedPassword,
   UpdatedUser
-} from './validations'
+} from './validation.server'
 
 export default function usersApi(request?: Request) {
   const cookie = request?.headers.get('Cookie') || ''

@@ -4,7 +4,7 @@ import { useEffect, useRef } from 'react'
 import { type z } from 'zod'
 import Button from '~/components/button'
 import usersApi from '~/utils/users.server'
-import { updatePasswordSchema } from '~/utils/validations'
+import { updatePasswordSchema } from '~/utils/validation.server'
 
 type FormError = z.inferFlattenedErrors<
   typeof updatePasswordSchema

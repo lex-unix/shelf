@@ -1,6 +1,6 @@
 import { Form, useActionData, useLoaderData } from '@remix-run/react'
 import usersApi from '~/utils/users.server'
-import { updateUserSchema } from '~/utils/validations'
+import { updateUserSchema } from '~/utils/validation.server'
 import Button from '~/components/button'
 import {
   type ActionFunction,
