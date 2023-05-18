@@ -1,8 +1,12 @@
 import {
+  unstable_parseMultipartFormData as parseMultipartFormData,
+  unstable_composeUploadHandlers as composeUploadHandlers,
+  unstable_createMemoryUploadHandler as createMemoryFileUploadHandler,
   redirect,
   type LinksFunction,
   type ActionFunction,
-  type LoaderFunction
+  type LoaderFunction,
+  type UploadHandler
 } from '@remix-run/node'
 import { useFetchers, useLoaderData } from '@remix-run/react'
 import { useState, useMemo, useEffect, useContext } from 'react'
@@ -28,14 +32,26 @@ import useLocalStorage from '~/hooks/use-local-storage'
 import styles from '~/styles/list-view.css'
 import { KeyboardContext } from '~/states/keyboard'
 import LoadingSpinner from '~/components/loading-spinner'
+import { uploadImage } from '~/utils/cloudinary.server'
 
 export const links: LinksFunction = () => {
   return [{ rel: 'stylesheet', href: styles }]
 }
 
 export const action: ActionFunction = async ({ request }) => {
+  const uploadHandler: UploadHandler = composeUploadHandlers(
+    async ({ name, data }) => {
+      if (name !== 'cover') {
+        return undefined
+      }
+      const uploadedImage = await uploadImage(data)
+      return uploadedImage?.secure_url
+    },
+    createMemoryFileUploadHandler()
+  )
+
   const api = booksApi(request)
-  const formData = await request.formData()
+  const formData = await parseMultipartFormData(request, uploadHandler)
   const _action = formData.get('_action')
   if (_action === 'delete') {
     const id = formData.get('id') as string
@@ -98,7 +114,7 @@ export default function BooksPage() {
       <div className="flex pt-8">
         <Sidebar />
         <div className="flex-1 md:ml-8">
-          <div className="sticky top-0 z-10 -mt-8 bg-gray-900 pt-8 pb-8">
+          <div className="sticky top-0 z-10 -mt-8 bg-gray-900 pb-8 pt-8">
             <div className="flex flex-col-reverse justify-between gap-4 md:h-10 md:flex-row md:items-center md:gap-8">
               <div className="flex h-10 flex-1 gap-5">
                 <SearchBar

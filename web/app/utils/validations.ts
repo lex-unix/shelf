@@ -27,7 +27,8 @@ export const createGoalSchema = z.object({
 export const createBookSchema = z.object({
   title: z.string(),
   author: z.string(),
-  tag: z.enum(['finished', 'wantToRead', 'favorite', 'currentlyReading'])
+  tag: z.enum(['finished', 'wantToRead', 'favorite', 'currentlyReading']),
+  cover: z.any().optional()
 })
 
 export const updateUserSchema = z.object({

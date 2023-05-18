@@ -16,6 +16,13 @@ const transition: Transition = {
 export default function BookForm() {
   const fetcher = useFetcher()
   const [show, setShow] = useState(false)
+  const [file, setFile] = useState<File | null>(null)
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files) {
+      setFile(e.target.files[0])
+    }
+  }
 
   const formRef = useRef<HTMLFormElement>(null)
   const titleRef = useRef<HTMLInputElement>(null)
@@ -31,7 +38,12 @@ export default function BookForm() {
 
   return (
     <MotionConfig transition={transition}>
-      <fetcher.Form ref={formRef} id="book-form" method="post">
+      <fetcher.Form
+        ref={formRef}
+        id="book-form"
+        method="post"
+        encType="multipart/form-data"
+      >
         <fieldset
           disabled={isSubmitting}
           className="space-y-4 disabled:opacity-70"
@@ -79,16 +91,24 @@ export default function BookForm() {
           <div>
             <AnimatePresence>
               {show && (
-                <motion.div
+                <motion.label
                   initial={{ opacity: 0, height: 0 }}
                   animate={{ opacity: 1, height: 140 }}
                   exit={{ opacity: 0, height: 0 }}
-                  className="w-ful my-0 flex flex-col items-center justify-center rounded-md border border-dashed border-gray-700"
+                  className="w-ful relative my-0 flex cursor-pointer flex-col items-center justify-center rounded-md border border-dashed border-gray-700"
                 >
-                  <p className="text-gray-500">
-                    Drag and drop your book cover here
-                  </p>
-                </motion.div>
+                  <input
+                    type="file"
+                    name="cover"
+                    accept="image/*"
+                    className="m-0 h-[100px] w-full max-w-sm opacity-0"
+                    onChange={handleFileChange}
+                  />
+                  <span
+                    data-filename={file ? file.name : 'Upload book cover'}
+                    className="absolute inset-0 after:absolute after:inset-0 after:flex after:items-center after:justify-center after:content-[attr(data-filename)]"
+                  ></span>
+                </motion.label>
               )}
             </AnimatePresence>
           </div>

@@ -49,7 +49,7 @@ export default function ListViewItem({
     if (e.metaKey && e.key === 'Backspace') {
       deleteFetcher.submit(
         { _action: 'delete', id: book.id.toString() },
-        { method: 'post' }
+        { method: 'post', encType: 'multipart/form-data' }
       )
     }
   })
@@ -72,7 +72,7 @@ export default function ListViewItem({
           <p className="text-gray-400">{book.author}</p>
         </div>
         <div className="flex shrink-0 items-center justify-center gap-1">
-          <div className="rounded-full bg-white/5 py-2.5 px-4">
+          <div className="rounded-full bg-white/5 px-4 py-2.5">
             {vocab[book.tag]}
           </div>
           <Dropdown
@@ -99,7 +99,11 @@ export default function ListViewItem({
                 </div>
               </Dropdown.MenuItem>
               <Dropdown.MenuItem>
-                <deleteFetcher.Form method="post" className="w-full">
+                <deleteFetcher.Form
+                  method="post"
+                  encType="multipart/form-data"
+                  className="w-full"
+                >
                   <input type="hidden" name="id" value={book.id} />
                   <input type="hidden" name="_action" value="delete" />
                   <button className="flex w-full items-center justify-between gap-5">
