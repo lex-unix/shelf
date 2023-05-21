@@ -1,4 +1,4 @@
-import { type MetaFunction } from '@remix-run/node'
+import type { MetaFunction } from '@remix-run/node'
 import { Outlet } from '@remix-run/react'
 import LibraryNavLink from '~/components/library-nav-link'
 

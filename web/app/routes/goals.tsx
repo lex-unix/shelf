@@ -1,16 +1,12 @@
 import { PlusIcon } from '@heroicons/react/24/outline'
-import {
-  type LoaderFunction,
-  type ActionFunction,
-  redirect,
-  json,
-  type MetaFunction
+import type {
+  LoaderFunction,
+  ActionFunction,
+  MetaFunction
 } from '@remix-run/node'
-import {
-  type ShouldRevalidateFunction,
-  useFetchers,
-  useLoaderData
-} from '@remix-run/react'
+import { redirect, json } from '@remix-run/node'
+import type { ShouldRevalidateFunction } from '@remix-run/react'
+import { useFetchers, useLoaderData } from '@remix-run/react'
 import Button from '~/components/button'
 import GoalForm from '~/components/goal-form'
 import { AnimatePresence } from 'framer-motion'

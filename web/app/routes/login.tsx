@@ -1,10 +1,7 @@
-import {
-  type MetaFunction,
-  redirect,
-  type ActionFunction
-} from '@remix-run/node'
+import type { MetaFunction, ActionFunction } from '@remix-run/node'
+import { redirect } from '@remix-run/node'
 import { Form, Link, useActionData } from '@remix-run/react'
-import { type z } from 'zod'
+import type { z } from 'zod'
 import Button from '~/components/button'
 import usersApi from '~/utils/users.server'
 import { userLoginSchema } from '~/utils/validation.server'
