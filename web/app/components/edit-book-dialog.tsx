@@ -42,7 +42,7 @@ export default function EditBookDialog({
         <Dialog.Separator />
         <fetcher.Form
           id="edit-book-form"
-          method="post"
+          method="POST"
           encType="multipart/form-data"
           className="space-y-4"
         >

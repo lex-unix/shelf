@@ -42,7 +42,7 @@ export default function GeneralPage() {
   const error = useActionData<FormError>()
   const isEmailError = error?.field === 'email'
   return (
-    <Form replace method="post" className="space-y-4">
+    <Form replace method="POST" className="space-y-4">
       <label className="block text-gray-300">
         Name
         <input

@@ -41,7 +41,7 @@ export default function BookForm() {
       <fetcher.Form
         ref={formRef}
         id="book-form"
-        method="post"
+        method="POST"
         encType="multipart/form-data"
       >
         <fieldset

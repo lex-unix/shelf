@@ -49,7 +49,7 @@ export default function RegisterPage() {
       <p className="mb-4 mt-2 text-center text-gray-400 md:mt-3 md:text-lg">
         Please provide your name and email
       </p>
-      <Form method="post" className="w-full space-y-3 md:space-y-5">
+      <Form method="POST" className="w-full space-y-3 md:space-y-5">
         <div className="flex flex-col gap-2">
           <label className="text-gray-400">Name</label>
           <input name="name" autoComplete="off" className="w-full" />

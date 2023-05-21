@@ -41,7 +41,7 @@ export default function EditGoalDialog({
           </Button>
         </div>
         <Dialog.Separator />
-        <fetcher.Form id="edit-goal-form" method="post" className="space-y-3">
+        <fetcher.Form id="edit-goal-form" method="POST" className="space-y-3">
           <input type="hidden" name="_action" value="edit" />
           <input type="hidden" name="id" value={id} />
           <label className="block text-gray-400">

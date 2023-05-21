@@ -99,7 +99,7 @@ export default function Navbar() {
               }
             >
               <logoutFetcher.Form
-                method="post"
+                method="POST"
                 className="flex items-center justify-between"
               >
                 <input type="hidden" name="_action" value="logout" />

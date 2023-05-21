@@ -31,7 +31,7 @@ export default function GoalForm() {
 
   return (
     <MotionConfig transition={transition}>
-      <fetcher.Form ref={formRef} id="goal-form" method="post">
+      <fetcher.Form ref={formRef} id="goal-form" method="POST">
         <fieldset
           disabled={isSubmitting}
           className="space-y-4 disabled:opacity-70"

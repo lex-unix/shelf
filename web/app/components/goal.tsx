@@ -133,7 +133,7 @@ export default function Goal({ goal, index, onEdit }: GoalProps) {
               </Dropdown.MenuItem>
 
               <Dropdown.MenuItem>
-                <deleteFetcher.Form method="post">
+                <deleteFetcher.Form method="POST">
                   <input type="hidden" name="id" value={goal.id} />
                   <input type="hidden" name="_action" value="delete" />
                   <button className="flex w-full items-center justify-between gap-5">

@@ -100,7 +100,7 @@ export default function ListViewItem({
               </Dropdown.MenuItem>
               <Dropdown.MenuItem>
                 <deleteFetcher.Form
-                  method="post"
+                  method="POST"
                   encType="multipart/form-data"
                   className="w-full"
                 >

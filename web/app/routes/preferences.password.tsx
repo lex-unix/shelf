@@ -46,7 +46,7 @@ export default function PasswordPag() {
   }, [navigation.state, error])
 
   return (
-    <Form ref={formRef} method="post" className="space-y-4">
+    <Form ref={formRef} method="POST" className="space-y-4">
       <label className="block text-gray-300">
         Current password
         <input
