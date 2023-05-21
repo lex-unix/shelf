@@ -5,12 +5,15 @@ import {
   redirect
 } from '@remix-run/node'
 import {
+  Link,
   Links,
   LiveReload,
   Meta,
   Outlet,
   Scripts,
-  ScrollRestoration
+  ScrollRestoration,
+  isRouteErrorResponse,
+  useRouteError
 } from '@remix-run/react'
 import stylesheet from '~/styles/tailwind.css'
 import Navbar from './components/navbar'
@@ -36,10 +39,10 @@ export const links: LinksFunction = () => [
   }
 ]
 
-export const meta: MetaFunction = () => ({
+export const meta: MetaFunction = ({ data }) => ({
   charset: 'utf-8',
   author: 'Alexey Miin',
-  title: 'Shelf',
+  title: data ? 'Shelf' : '404 | Shelf',
   description:
     'Elevate your reading game with Shelf. Track your reading goals and progress effortlessly with Shelf. Set personalized reading goals, monitor your reading progress, and achieve literary success.',
   viewport: 'width=device-width,initial-scale=1',
@@ -94,4 +97,41 @@ export default function App() {
       </body>
     </html>
   )
+}
+
+export function ErrorBoundary() {
+  const error = useRouteError()
+
+  if (isRouteErrorResponse(error) && error.status === 404) {
+    return (
+      <html lang="en">
+        <head>
+          <Meta />
+          <Links />
+        </head>
+        <body
+          style={{
+            WebkitTapHighlightColor: 'transparent'
+          }}
+        >
+          <main className="mx-auto flex min-h-screen max-w-5xl items-center justify-center px-4 pb-6 md:px-6 md:pb-8">
+            <div className="space-y-4 text-center md:space-y-5">
+              <h1 className="text-2xl font-medium md:text-3xl">
+                {error.status}
+              </h1>
+              <p className="text-gray-400">This page could not be found.</p>
+              <Link
+                to="/"
+                className="block font-medium hover:underline hover:underline-offset-4"
+              >
+                Return home
+              </Link>
+            </div>
+          </main>
+          <Scripts />
+          <LiveReload />
+        </body>
+      </html>
+    )
+  }
 }
