@@ -3,9 +3,14 @@ import {
   type LoaderFunction,
   type ActionFunction,
   redirect,
+  json,
   type MetaFunction
 } from '@remix-run/node'
-import { useFetchers, useLoaderData } from '@remix-run/react'
+import {
+  type ShouldRevalidateFunction,
+  useFetchers,
+  useLoaderData
+} from '@remix-run/react'
 import Button from '~/components/button'
 import GoalForm from '~/components/goal-form'
 import { AnimatePresence } from 'framer-motion'
@@ -33,9 +38,23 @@ export const loader: LoaderFunction = async ({ request }) => {
   if (res.status === 401) {
     return redirect('/login')
   }
-
   const data = await res.json()
-  return data.goals
+  const goals = data.goals
+  return json(goals, {
+    headers: {
+      'Cache-Control': 'private, max-age=600'
+    }
+  })
+}
+
+export const shoudRevalidate: ShouldRevalidateFunction = ({
+  actionResult,
+  defaultShouldRevalidate
+}) => {
+  if ((actionResult as any)?.ok) {
+    return true
+  }
+  return defaultShouldRevalidate
 }
 
 export const action: ActionFunction = async ({ request }) => {
@@ -54,7 +73,7 @@ export const action: ActionFunction = async ({ request }) => {
     const id = form.get('id') as string
     await api.updateGoal(id, body)
   }
-  return null
+  return { ok: true }
 }
 
 export default function GoalsPage() {
