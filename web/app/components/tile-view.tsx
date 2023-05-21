@@ -7,7 +7,6 @@ interface TileViewProps {
 }
 
 export default function TileView({ books }: TileViewProps) {
-  console.log(books)
   return (
     <motion.div
       initial={{ opacity: 0, scale: 0.97 }}
