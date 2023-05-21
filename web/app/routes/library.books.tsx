@@ -3,12 +3,17 @@ import {
   unstable_composeUploadHandlers as composeUploadHandlers,
   unstable_createMemoryUploadHandler as createMemoryFileUploadHandler,
   redirect,
+  json,
   type LinksFunction,
   type ActionFunction,
   type LoaderFunction,
   type UploadHandler
 } from '@remix-run/node'
-import { useFetchers, useLoaderData } from '@remix-run/react'
+import {
+  useFetchers,
+  useLoaderData,
+  type ShouldRevalidateFunction
+} from '@remix-run/react'
 import { useState, useMemo, useEffect, useContext } from 'react'
 import ListView from '~/components/list-view'
 import Sidebar from '~/components/sidebar'
@@ -64,7 +69,7 @@ export const action: ActionFunction = async ({ request }) => {
     const body = Object.fromEntries(formData)
     await api.editBook(id, body)
   }
-  return null
+  return { ok: true }
 }
 
 export const loader: LoaderFunction = async ({ request }) => {
@@ -76,8 +81,23 @@ export const loader: LoaderFunction = async ({ request }) => {
     return redirect('/login')
   }
   const data = await res.json()
+  const books = data.books
+  return json(books, {
+    headers: {
+      'Cache-Control': 'private, max-age=600'
+    }
+  })
+}
 
-  return data.books as BookData[]
+export const shouldRevalidate: ShouldRevalidateFunction = ({
+  actionResult,
+  defaultShouldRevalidate
+}) => {
+  if ((actionResult as any)?.ok) {
+    return true
+  }
+
+  return defaultShouldRevalidate
 }
 
 export default function BooksPage() {
