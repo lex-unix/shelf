@@ -13,6 +13,7 @@ import {
   Scripts,
   ScrollRestoration,
   isRouteErrorResponse,
+  useLocation,
   useRouteError
 } from '@remix-run/react'
 import stylesheet from '~/styles/tailwind.css'
@@ -74,6 +75,9 @@ export const action: ActionFunction = async ({ request }) => {
 }
 
 export default function App() {
+  const { pathname } = useLocation()
+  const isIndex = pathname === '/'
+
   return (
     <html lang="en">
       <head>
@@ -86,8 +90,14 @@ export default function App() {
         }}
       >
         <KeyboardProvider>
-          <Navbar />
-          <main className="mx-auto max-w-5xl px-4 pb-6 md:px-6 md:pb-8">
+          {!isIndex && <Navbar />}
+          <main
+            className={`${
+              isIndex
+                ? 'px-4 md:px-0'
+                : 'mx-auto max-w-5xl px-4 pb-6 md:px-6 md:pb-8'
+            } `}
+          >
             <Outlet />
           </main>
         </KeyboardProvider>

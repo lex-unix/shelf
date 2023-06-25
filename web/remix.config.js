@@ -6,7 +6,8 @@ module.exports = {
     v2_routeConvention: true,
     v2_normalizeFormMethod: true
   },
-  tailwind: true
+  tailwind: true,
+  postcss: true
   // appDirectory: "app",
   // assetsBuildDirectory: "public/build",
   // serverBuildPath: "build/index.js",
