@@ -80,7 +80,7 @@ export default function LoginRoute() {
       </Form>
       <div className="pt-10 md:pt-14">
         <p className="text-gray-400">
-          Don&apos; have an account?{' '}
+          Don&apos;t have an account?{' '}
           <Link to="/register" className="underline underline-offset-4">
             Sign up
           </Link>
