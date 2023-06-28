@@ -1,10 +1,8 @@
-import { StorageClient } from '@supabase/storage-js'
-import { Pool } from 'pg'
+import type { Pool } from 'pg'
 
 declare module 'fastify' {
   interface FastifyInstance {
     db: Pool
-    storage: StorageClient
     authorize: (req: FastifyRequest, reply: FastifyReply) => void
   }
 
