@@ -1,0 +1,57 @@
+version: "3.8"
+services:
+  web:
+    build: ./web
+    env_file: ./web/.env
+    environment:
+      - API=http://server:3001/api
+    ports:
+      - "3000:3000"
+    depends_on:
+      - server
+  server:
+    build: ./server
+    env_file: ./server/.env
+    environment:
+      - PGHOST=db
+      - REDIS_URL=redis:6379
+      - CORS_ORIGIN=http://web:3000
+    ports:
+      - "3001:3001"
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+  db:
+    image: postgres:alpine
+    restart: always
+    environment:
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_USER=lex
+      - POSTGRES_DB=shelf
+    ports:
+      - "5432:5432"
+    volumes:
+      - db-data:/var/lib/postgresql/data
+      - ./server/db/create-tables.sql:/docker-entrypoint-initdb.d/create_tables.sql
+      - ./server/db/create-triggers.sql:/docker-entrypoint-initdb.d/create_triggers.sql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -d $${POSTGRES_DB} -U $${POSTGRES_USER}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+  redis:
+    image: redis:7.0.11-alpine
+    restart: always
+    ports:
+      - "6379:6379"
+    command: redis-server --save 20 1 --loglevel warning
+    volumes:
+      - redis:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+volumes:
+  db-data:
+  redis:
