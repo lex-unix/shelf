@@ -1,14 +1,14 @@
 /** @type {import('prettier').Config} */
 const options = {
-  arrowParens: "avoid",
+  arrowParens: 'avoid',
   singleQuote: true,
   bracketSpacing: true,
-  endOfLine: "lf",
+  endOfLine: 'lf',
   semi: false,
   tabWidth: 2,
-  trailingComma: "none",
+  trailingComma: 'none',
   printWidth: 80,
-  plugins: [require("prettier-plugin-tailwindcss")],
-};
+  plugins: [require('prettier-plugin-tailwindcss')]
+}
 
-module.exports = options;
+module.exports = options
