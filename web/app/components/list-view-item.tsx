@@ -45,6 +45,7 @@ export default function ListViewItem({
   })
 
   useKeypress(['Meta', 'Backspace'], e => {
+    e.preventDefault()
     if (!menuOpen && !isSelected) return
     if (e.metaKey && e.key === 'Backspace') {
       deleteFetcher.submit(
@@ -55,6 +56,7 @@ export default function ListViewItem({
   })
 
   useKeypress(['Meta', 'e'], e => {
+    e.preventDefault()
     if (!menuOpen && !isSelected) return
     if (e.metaKey && e.key === 'e') {
       onEdit(book)

@@ -49,6 +49,7 @@ export default function Goal({ goal, index, onEdit }: GoalProps) {
   })
 
   useKeypress(['Meta', 'Backspace'], e => {
+    e.preventDefault()
     if (!menuOpen && !isSelected) return
     if (e.metaKey && e.key === 'Backspace') {
       deleteFetcher.submit(
@@ -59,6 +60,7 @@ export default function Goal({ goal, index, onEdit }: GoalProps) {
   })
 
   useKeypress(['Meta', 'e'], e => {
+    e.preventDefault()
     if (!menuOpen && !isSelected) return
     if (e.metaKey && e.key === 'e') {
       onEdit(goal)
