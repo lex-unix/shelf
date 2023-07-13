@@ -3,12 +3,10 @@ import S from 'fluent-json-schema'
 const Note = S.object()
   .prop('id', S.number().required())
   .prop('body', S.object().additionalProperties(true).required())
-  .prop('bookId', S.number().required())
 
 const getAll = {
   response: {
-    200: S.object().prop('notes', S.array().items(Note).required()),
-    404: S.object().prop('message', S.string())
+    200: S.object().prop('notes', S.array().items(Note).required())
   }
 }
 
@@ -20,9 +18,10 @@ const getOne = {
 }
 
 const insert = {
-  body: S.object()
-    .prop('body', S.object().additionalProperties(true).required())
-    .prop('bookId', S.number().required())
+  body: S.object().prop(
+    'body',
+    S.object().additionalProperties(true).required()
+  )
 }
 
 const update = {

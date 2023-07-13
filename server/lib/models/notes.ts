@@ -2,19 +2,18 @@ import type { Pool } from 'pg'
 
 interface Note {
   body: string
-  bookId: number
 }
 
 export default function notesModel(db: Pool) {
   return {
     createNote: async function (note: Note, userId: number) {
-      const sql = 'INSERT INTO Note (body, bookId, userId) VALUES ($1, $2, $3)'
-      await db.query(sql, [note.body, note.bookId, userId])
+      const sql = 'INSERT INTO Note (body, userId) VALUES ($1, $3)'
+      await db.query(sql, [note.body, userId])
     },
 
     getNotes: async function (userId: number) {
       const sql =
-        'SELECT id, body, userId as "userId", bookId AS "bookId" FROM Note WHERE userId = $1'
+        'SELECT id, body, userId as "userId" FROM Note WHERE userId = $1'
       const { rows } = await db.query(sql, [userId])
       return rows
     },
@@ -30,8 +29,7 @@ export default function notesModel(db: Pool) {
     },
 
     getNoteById: async function (id: string) {
-      const sql =
-        'SELECT id, body, userId as "userId", bookId as "bookId" FROM Note WHERE id = $1'
+      const sql = 'SELECT id, body, userId as "userId" FROM Note WHERE id = $1'
       const { rows } = await db.query(sql, [id])
       return rows[0]
     }

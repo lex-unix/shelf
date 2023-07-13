@@ -7,7 +7,6 @@ export type GetNoteById = {
 export type CreateNote = {
   Body: {
     body: string
-    bookId: number
   }
 }
 
