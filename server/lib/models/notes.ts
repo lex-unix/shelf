@@ -6,9 +6,10 @@ interface Note {
 
 export default function notesModel(db: Pool) {
   return {
-    createNote: async function (note: Note, userId: number) {
-      const sql = 'INSERT INTO Note (body, userId) VALUES ($1, $3)'
-      await db.query(sql, [note.body, userId])
+    createNote: async function (userId: number) {
+      const sql = 'INSERT INTO Note (userId) VALUES ($1) RETURNING id'
+      const { rows } = await db.query(sql, [userId])
+      return rows[0].id
     },
 
     getNotes: async function (userId: number) {
