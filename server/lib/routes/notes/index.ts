@@ -1,7 +1,7 @@
 import fp from 'fastify-plugin'
 import type { FastifyPluginCallback } from 'fastify'
 import type { Config } from '../../config/config'
-import notesModel from 'lib/models/notes'
+import notesModel from '../../models/notes'
 import type {
   GetNoteById,
   DeleteNote,
@@ -17,11 +17,8 @@ const notes: FastifyPluginCallback<Config> = (server, options, done) => {
     url: options.prefix + 'notes',
     method: 'GET',
     schema: schema.getAll,
-    handler: async (req, reply) => {
+    handler: async req => {
       const notes = await model.getNotes(req.session.userId)
-      if (notes.length === 0) {
-        return reply.code(404).send({ message: 'Notes not found' })
-      }
       return { notes }
     }
   })

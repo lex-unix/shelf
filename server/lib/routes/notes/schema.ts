@@ -8,7 +8,7 @@ const Note = S.object()
 const getAll = {
   response: {
     200: S.object().prop('notes', S.array().items(Note).required()),
-    404: S.object().prop('notes', S.array().items(Note).required())
+    404: S.object().prop('message', S.string())
   }
 }
 
