@@ -18,10 +18,9 @@ const getOne = {
 }
 
 const insert = {
-  body: S.object().prop(
-    'body',
-    S.object().additionalProperties(true).required()
-  )
+  response: {
+    201: S.object().prop('id', S.string().required())
+  }
 }
 
 const update = {

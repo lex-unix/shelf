@@ -41,8 +41,9 @@ const notes: FastifyPluginCallback<Config> = (server, options, done) => {
     method: 'POST',
     schema: schema.insert,
     handler: async (req, reply) => {
-      await model.createNote(req.body, req.session.userId)
+      const id = await model.createNote(req.session.userId)
       reply.code(201)
+      return { id }
     }
   })
 
