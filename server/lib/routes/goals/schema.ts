@@ -1,7 +1,7 @@
 import S from 'fluent-json-schema'
 
 const Goal = S.object()
-  .prop('id', S.string().required())
+  .prop('id', S.number().required())
   .prop('name', S.string().required())
   .prop('total', S.number().required())
   .prop('progress', S.number().required())
