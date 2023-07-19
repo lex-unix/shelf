@@ -1,6 +1,8 @@
 import { PlusCircleIcon, PlusIcon } from '@heroicons/react/20/solid'
 import type { ActionFunction, LoaderFunction } from '@remix-run/node'
+import { json } from '@remix-run/node'
 import { redirect } from '@remix-run/node'
+import type { ShouldRevalidateFunction } from '@remix-run/react'
 import { Link, useFetchers, useLoaderData } from '@remix-run/react'
 import { useMemo, useState } from 'react'
 import Button from '~/components/button'
@@ -15,7 +17,22 @@ export const loader: LoaderFunction = async ({ request }) => {
   const api = notesApi(request)
   const res = await api.getNotes()
   const { notes } = await res.json()
-  return notes
+  return json(notes, {
+    headers: {
+      'Cache-Control': 'private, max-age=600'
+    }
+  })
+}
+
+export const shouldRevalidate: ShouldRevalidateFunction = ({
+  actionResult,
+  defaultShouldRevalidate
+}) => {
+  if ((actionResult as any)?.ok) {
+    return true
+  }
+
+  return defaultShouldRevalidate
 }
 
 export const action: ActionFunction = async ({ request }) => {
