@@ -2,3 +2,11 @@
   @apply pointer-events-none float-left h-0 text-gray-400;
   content: attr(data-placeholder);
 }
+
+.ProseMirror h1 {
+  @apply mb-5 text-2xl font-semibold;
+}
+
+.ProseMirror p {
+  @apply mb-3;
+}

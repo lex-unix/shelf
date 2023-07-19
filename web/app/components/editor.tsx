@@ -2,29 +2,20 @@ import { useEditor, EditorContent } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
 import Placeholder from '@tiptap/extension-placeholder'
 import EditorBubbleMenu from './editor-bubble-menu'
-import { useDebouncedCallback } from 'use-debounce'
-import { useFetcher } from '@remix-run/react'
 
 interface EditorProps {
-  initialContent?: string
+  initialContent?: Object
+  onUpdate: (editor: any) => void
 }
 
-export default function Editor({ initialContent }: EditorProps) {
-  const fetcher = useFetcher()
-
-  const debouncedSave = useDebouncedCallback(editor => {
-    const json = editor.getJSON()
-    console.log(json)
-    fetcher.submit({ review: JSON.stringify(json) }, { method: 'POST' })
-  }, 500)
-
+export default function Editor({ initialContent, onUpdate }: EditorProps) {
   const editor = useEditor({
     editorProps: {
       attributes: {
         class: 'focus:outline-none'
       }
     },
-    content: initialContent ?? undefined,
+    content: initialContent,
     extensions: [
       StarterKit,
       Placeholder.configure({
@@ -32,9 +23,7 @@ export default function Editor({ initialContent }: EditorProps) {
         emptyNodeClass: 'is-editor-empty'
       })
     ],
-    onUpdate: ({ editor }) => {
-      debouncedSave(editor)
-    }
+    onUpdate
   })
 
   return (

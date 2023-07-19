@@ -21,3 +21,10 @@ export type FormError = {
   field: string
   message: string
 }
+
+export type NoteData = {
+  id: number
+  title: string
+  body: string
+  userId: number
+}
