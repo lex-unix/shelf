@@ -6,7 +6,7 @@ export type GetNoteById = {
 
 export type CreateNote = {
   Body: {
-    body: string
+    title: string
   }
 }
 
@@ -21,6 +21,8 @@ export type UpdateNote = {
     id: string
   }
   Body: {
-    body: string
+    note: {
+      body: string
+    }
   }
 }

@@ -41,7 +41,7 @@ const notes: FastifyPluginCallback<Config> = (server, options, done) => {
     method: 'POST',
     schema: schema.insert,
     handler: async (req, reply) => {
-      const id = await model.createNote(req.session.userId)
+      const id = await model.createNote(req.body, req.session.userId)
       reply.code(201)
       return { id }
     }
@@ -50,14 +50,15 @@ const notes: FastifyPluginCallback<Config> = (server, options, done) => {
   server.route<UpdateNote>({
     url: options.prefix + 'notes/:id',
     method: 'PUT',
-    schema: schema.update,
     handler: async (req, reply) => {
       const noteId = req.params.id
       const note = await model.getNoteById(noteId)
       if (!note) {
         return reply.code(404).send({ message: 'Note not found' })
       }
-      await model.updateNote(req.body as any, noteId)
+      console.log(req.body.note)
+      await model.updateNote(req.body.note, noteId)
+
       reply.code(204)
     }
   })

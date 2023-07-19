@@ -2,6 +2,7 @@ import S from 'fluent-json-schema'
 
 const Note = S.object()
   .prop('id', S.number().required())
+  .prop('title', S.string().required())
   .prop('body', S.object().additionalProperties(true).required())
 
 const getAll = {
@@ -18,6 +19,7 @@ const getOne = {
 }
 
 const insert = {
+  body: S.object().prop('title').required(),
   response: {
     201: S.object().prop('id', S.string().required())
   }
@@ -25,7 +27,7 @@ const insert = {
 
 const update = {
   body: S.object().prop(
-    'goal',
+    'note',
     S.object().prop('body', S.object().additionalProperties(true).required())
   ),
   response: {

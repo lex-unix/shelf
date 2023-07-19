@@ -42,6 +42,7 @@ ALTER TABLE Goal ADD CONSTRAINT fk_GoalUserId FOREIGN KEY (userId) REFERENCES Ac
 
 CREATE TABLE IF NOT EXISTS Note (
   id        SERIAL,
+  title     VARCHAR(256) NOT NULL,
   body      JSON NOT NULL DEFAULT '{}'::json,
   userId    INTEGER NOT NULL,
   createdAt TIMESTAMP NOT NULL DEFAULT now()
