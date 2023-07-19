@@ -1,10 +1,11 @@
-import { PlusIcon } from '@heroicons/react/20/solid'
+import { PlusCircleIcon, PlusIcon } from '@heroicons/react/20/solid'
 import type { ActionFunction, LoaderFunction } from '@remix-run/node'
 import { redirect } from '@remix-run/node'
-import { Link, useLoaderData } from '@remix-run/react'
+import { Link, useFetchers, useLoaderData } from '@remix-run/react'
 import { useMemo, useState } from 'react'
 import Button from '~/components/button'
 import Dialog from '~/components/dialog'
+import LoadingSpinner from '~/components/loading-spinner'
 import NoteForm from '~/components/note-form'
 import SearchBar from '~/components/search-bar'
 import type { NoteData } from '~/types'
@@ -31,6 +32,12 @@ export const action: ActionFunction = async ({ request }) => {
 export default function NotesPage() {
   const notes = useLoaderData<NoteData[]>()
   const [search, setSearch] = useState('')
+  const fetchers = useFetchers()
+
+  const createFetcher = fetchers.find(
+    f => f.formAction && f.formAction.startsWith('/library/notes')
+  )
+  const isSubmitting = createFetcher?.state === 'submitting'
 
   const filteredNotes = useMemo(() => {
     return notes.filter(n =>
@@ -62,8 +69,19 @@ export default function NotesPage() {
             <Dialog.Content>
               <div className="flex items-center justify-between">
                 <h2 className="text-lg font-semibold">Add new goal</h2>
-                <Button form="note-form" tabIndex={-1}>
-                  Add new note
+                <Button
+                  form="note-form"
+                  tabIndex={-1}
+                  disabled={isSubmitting}
+                  leading={
+                    isSubmitting ? (
+                      <LoadingSpinner />
+                    ) : (
+                      <PlusCircleIcon className="h-5 w-5" />
+                    )
+                  }
+                >
+                  Add note
                 </Button>
               </div>
               <Dialog.Separator />
