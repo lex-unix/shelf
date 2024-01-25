@@ -36,10 +36,10 @@ export default function Goal({ goal, index, onEdit }: GoalProps) {
     goal.progress === goal.total
       ? 'completed'
       : daysLeft < 0
-      ? 'expired'
-      : daysLeft <= 3
-      ? 'urgent'
-      : 'ongoing'
+        ? 'expired'
+        : daysLeft <= 3
+          ? 'urgent'
+          : 'ongoing'
 
   useKeypress('Enter', () => {
     if (isSelected && !keyboardBlocked) {
@@ -49,9 +49,9 @@ export default function Goal({ goal, index, onEdit }: GoalProps) {
   })
 
   useKeypress(['Meta', 'Backspace'], e => {
-    e.preventDefault()
     if (!menuOpen && !isSelected) return
     if (e.metaKey && e.key === 'Backspace') {
+      e.preventDefault()
       deleteFetcher.submit(
         { _action: 'delete', id: goal.id.toString() },
         { method: 'post' }
@@ -60,9 +60,9 @@ export default function Goal({ goal, index, onEdit }: GoalProps) {
   })
 
   useKeypress(['Meta', 'e'], e => {
-    e.preventDefault()
     if (!menuOpen && !isSelected) return
     if (e.metaKey && e.key === 'e') {
+      e.preventDefault()
       onEdit(goal)
     }
   })
@@ -79,11 +79,10 @@ export default function Goal({ goal, index, onEdit }: GoalProps) {
     >
       <div className="py-2">
         <div
-          className={`${
-            isSelected
-              ? 'border-transparent ring-2 ring-green-500'
-              : 'border-gray-700'
-          } flex items-center rounded-md border p-6`}
+          className={`${isSelected
+            ? 'border-transparent ring-2 ring-green-500'
+            : 'border-gray-700'
+            } flex items-center rounded-md border p-6`}
         >
           <CircleProgress
             progress={(goal.progress / goal.total) * 100}
@@ -93,19 +92,18 @@ export default function Goal({ goal, index, onEdit }: GoalProps) {
             <div>
               <p className="font-medium text-gray-100">{goal.name}</p>
               <p
-                className={`${
-                  status === 'expired'
-                    ? 'text-rose-400'
-                    : status === 'urgent'
+                className={`${status === 'expired'
+                  ? 'text-rose-400'
+                  : status === 'urgent'
                     ? 'text-amber-400'
                     : 'text-gray-400'
-                }`}
+                  }`}
               >
                 {status === 'completed'
                   ? 'Completed'
                   : status === 'expired'
-                  ? 'Expired'
-                  : `${timeLeft} left`}
+                    ? 'Expired'
+                    : `${timeLeft} left`}
               </p>
             </div>
           </div>
