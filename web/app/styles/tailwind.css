@@ -8,5 +8,5 @@ html {
 
 input,
 select {
-  @apply h-10 rounded border border-gray-700 bg-[#1C1C1C] px-3 text-gray-100 outline-none placeholder:text-gray-500 focus:border-gray-500;
+  @apply h-10 rounded border border-gray-700 bg-[#1C1C1C] px-3 text-gray-100 focus:outline-none outline-none placeholder:text-gray-500 focus:border-gray-500;
 }
