@@ -13,26 +13,26 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@fastify/autoload": "^5.7.1",
-    "@fastify/cookie": "^8.3.0",
-    "@fastify/cors": "^8.3.0",
-    "@fastify/session": "^10.5.0",
-    "argon2": "^0.30.3",
-    "dotenv": "^16.3.1",
-    "fastify": "^4.23.2",
+    "@fastify/autoload": "^5.8.0",
+    "@fastify/cookie": "^9.3.1",
+    "@fastify/cors": "^8.5.0",
+    "@fastify/session": "^10.7.0",
+    "argon2": "^0.31.2",
+    "dotenv": "^16.4.1",
+    "fastify": "^4.25.2",
     "fastify-plugin": "^4.5.1",
-    "fluent-json-schema": "^4.1.2",
+    "fluent-json-schema": "^4.2.1",
     "ioredis": "^5.3.2",
     "pg": "^8.11.3"
   },
   "devDependencies": {
-    "@types/node": "^18.17.17",
-    "@types/pg": "^8.10.2",
-    "@typescript-eslint/eslint-plugin": "^5.62.0",
-    "@typescript-eslint/parser": "^5.62.0",
-    "eslint": "^8.49.0",
-    "pino-pretty": "^10.2.0",
-    "prettier": "^2.8.8",
-    "typescript": "^5.2.2"
+    "@types/node": "^20.11.6",
+    "@types/pg": "^8.11.0",
+    "@typescript-eslint/eslint-plugin": "^6.19.1",
+    "@typescript-eslint/parser": "^6.19.1",
+    "eslint": "^8.56.0",
+    "pino-pretty": "^10.3.1",
+    "prettier": "^3.2.4",
+    "typescript": "^5.3.3"
   }
 }
