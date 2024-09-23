@@ -1,0 +1,17 @@
+#cloud-config
+package_update: true
+package_upgrade: true
+
+users:
+  - default
+  - name: devops
+    shell: /bin/bash
+    groups: sudo
+    sudo: ALL=(ALL) NOPASSWD:ALL
+
+packages:
+  - curl
+
+runcmd:
+  - curl -fsSL https://get.docker.com | sh
+  - usermod -aG docker devops
