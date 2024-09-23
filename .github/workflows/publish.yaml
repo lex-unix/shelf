@@ -16,8 +16,11 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Login to GitHub Container Registry
-        run: |
-          echo ${{ secrets.PAT }} | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ env.ACTOR }}
+          password: ${{ secrets.PAT }}
       - name: Build and Publish ${{ matrix.app }} Application
         run: |
           docker build ./${{ matrix.app }} --tag ${{ env.REGISTRY }}/${{ env.ACTOR }}/shelf-${{ matrix.app }}:latest
