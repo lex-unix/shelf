@@ -21,7 +21,7 @@ export default function Index() {
           <p className="text-lg leading-relaxed text-gray-300 md:text-xl">
             Shelf is the perfect tool to help you stay organized and focused on
             your reading goals. Shelf makes it easy to track your progress and
-            stay on top of your reading list.
+            stay on top of your reading list. Join now!
           </p>
           <div className="mt-8 flex items-center gap-4 md:mt-16">
             <Link
