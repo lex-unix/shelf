@@ -41,4 +41,6 @@ COPY --from=build /web-app/public /web-app/public
 
 COPY . .
 
+EXPOSE 3000
+
 CMD ["pnpm", "start"]
