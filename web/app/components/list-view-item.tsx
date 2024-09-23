@@ -4,7 +4,7 @@ import {
   TrashIcon
 } from '@heroicons/react/24/outline'
 import { useFetcher } from '@remix-run/react'
-import { useContext, useState } from 'react'
+import { useContext, useEffect, useRef, useState } from 'react'
 import useKeypress from '~/hooks/use-keypress'
 import { KeyboardContext } from '~/states/keyboard'
 import type { BookData } from '~/types'
@@ -34,6 +34,7 @@ export default function ListViewItem({
   const [menuOpen, setMenuOpen] = useState(false)
   const { selectedIndex } = useContext(NavigationListContext)
   const { setKeyboardBlocked, keyboardBlocked } = useContext(KeyboardContext)
+  const ref = useRef<HTMLLIElement>(null)
 
   const isSelected = index === selectedIndex
 
@@ -63,8 +64,26 @@ export default function ListViewItem({
     }
   })
 
+  useEffect(() => {
+    if (isSelected && ref.current) {
+      const ul = document.querySelector('#kbd-list') as Element
+      const { top } = ul.getBoundingClientRect()
+
+      const liHeight = ref.current.offsetHeight
+      const listHeight = window.innerHeight - top
+      const currentHeight = (selectedIndex + 1) * liHeight
+
+      const isInView = currentHeight <= listHeight
+      if (!isInView) {
+        ref.current.scrollIntoView({ behavior: 'smooth' })
+        console.log('scroolinng')
+      }
+    }
+  }, [isSelected, selectedIndex])
+
   return (
     <li
+      ref={ref}
       className={`list-view px-3 py-5 md:px-6 standalone:px-0`}
       data-state={isSelected ? 'selected' : ''}
     >

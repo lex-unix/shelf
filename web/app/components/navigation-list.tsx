@@ -29,8 +29,10 @@ export default function NavigationList({
   const { keyboardBlocked } = useContext(KeyboardContext)
   const initialPress = useRef(false)
 
-  useKeypress('ArrowDown', () => {
+  useKeypress('ArrowDown', (e) => {
     if (keyboardBlocked) return
+
+    e.preventDefault()
 
     if (!initialPress.current) {
       initialPress.current = true
@@ -42,8 +44,9 @@ export default function NavigationList({
     }
   })
 
-  useKeypress('ArrowUp', () => {
+  useKeypress('ArrowUp', (e) => {
     if (keyboardBlocked) return
+    e.preventDefault()
 
     if (selectedIndex! > 0) {
       setSelectedIndex(selectedIndex! - 1)

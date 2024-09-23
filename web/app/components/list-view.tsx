@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion'
-import { useContext, useState } from 'react'
+import { useContext, useRef, useState } from 'react'
 import { KeyboardContext } from '~/states/keyboard'
 import { type BookData } from '~/types'
 import EditBookDialog from './edit-book-dialog'
@@ -14,6 +14,7 @@ export default function ListView({ books }: ListViewProps) {
   const [openDialog, setDialogOpen] = useState(false)
   const { setKeyboardBlocked } = useContext(KeyboardContext)
   const [selectedBook, setSelectedBook] = useState<BookData | null>(null)
+  const ref = useRef<HTMLUListElement>(null)
 
   const handleEditBook = (book: BookData) => {
     setSelectedBook(book)
@@ -23,6 +24,8 @@ export default function ListView({ books }: ListViewProps) {
 
   return (
     <motion.ul
+      id='kbd-list'
+      ref={ref}
       initial={{ opacity: 0, scale: 0.97 }}
       animate={{ opacity: 1, scale: 1 }}
       exit={{ opacity: 0, scale: 0.97 }}
