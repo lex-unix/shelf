@@ -27,7 +27,7 @@ jobs:
       - name: Build and Push
         uses: docker/build-push-action@v6
         with:
-          file: ./${{ matrix.app }}/Dockerfile
+          context: "{{defaultContext}}:${{ matrix.app }}"
           push: true
           tags: ${{ env.REGISTRY }}/${{ env.ACTOR }}/shelf-${{ matrix.app }}:latest
           cache-from: type=gha
