@@ -21,7 +21,8 @@ export default function EditGoalDialog({
   const { id, total, progress, startDate, endDate } = goal
 
   useEffect(() => {
-    if (fetcher.submission) {
+    const isDone = fetcher.state === 'submitting' && fetcher.data === null
+    if (isDone) {
       onOpen(false)
     }
   }, [fetcher, onOpen])

@@ -23,9 +23,9 @@ import { PlusCircleIcon } from '@heroicons/react/20/solid'
 import LoadingSpinner from '~/components/loading-spinner'
 
 export const meta: MetaFunction = () => {
-  return {
+  return [{
     title: 'Goals | Shelf'
-  }
+  }]
 }
 
 export const loader: LoaderFunction = async ({ request }) => {

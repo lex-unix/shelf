@@ -20,26 +20,26 @@ export default function EditorBubbleMenu(props: EditorBubbleMenuProps) {
   const menuItems: EditorBubbleMenuItem[] = [
     {
       name: 'bold',
-      isActive: () => props.editor.isActive('bold'),
-      command: () => props.editor.chain().focus().toggleBold().run(),
+      isActive: () => props.editor!.isActive('bold'),
+      command: () => props.editor!.chain().focus().toggleBold().run(),
       icon: FontBoldIcon
     },
     {
       name: 'italic',
-      isActive: () => props.editor.isActive('italic'),
-      command: () => props.editor.chain().focus().toggleItalic().run(),
+      isActive: () => props.editor!.isActive('italic'),
+      command: () => props.editor!.chain().focus().toggleItalic().run(),
       icon: FontItalicIcon
     },
     {
       name: 'strike',
-      isActive: () => props.editor.isActive('strike'),
-      command: () => props.editor.chain().focus().toggleStrike().run(),
+      isActive: () => props.editor!.isActive('strike'),
+      command: () => props.editor!.chain().focus().toggleStrike().run(),
       icon: StrikeIcon
     },
     {
       name: 'heading',
-      isActive: () => props.editor.isActive('heading', { level: 1 }),
-      command: () => props.editor.chain().focus().toggleHeading({ level: 1 }),
+      isActive: () => props.editor!.isActive('heading', { level: 1 }),
+      command: () => props.editor!.chain().focus().toggleHeading({ level: 1 }),
       icon: HeadingIcon
     }
   ]
@@ -61,9 +61,8 @@ export default function EditorBubbleMenu(props: EditorBubbleMenuProps) {
           key={item.name}
           type="button"
           onClick={item.command}
-          className={`p-3 hover:bg-white/10 ${
-            item.isActive() ? 'bg-white/10' : ''
-          }`}
+          className={`p-3 hover:bg-white/10 ${item.isActive() ? 'bg-white/10' : ''
+            }`}
         >
           <item.icon />
         </button>

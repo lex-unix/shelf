@@ -35,7 +35,7 @@ export const action: ActionFunction = async ({ request }) => {
 }
 
 export default function GeneralPage() {
-  const loaderData = useLoaderData()
+  const loaderData = useLoaderData<typeof loader>()
   const error = useActionData<FormError>()
   const isEmailError = error?.field === 'email'
   return (
@@ -56,9 +56,8 @@ export default function GeneralPage() {
           type="email"
           defaultValue={loaderData.email}
           required
-          className={`${
-            isEmailError ? '!border-red-600' : ''
-          } mt-2 block w-full`}
+          className={`${isEmailError ? '!border-red-600' : ''
+            } mt-2 block w-full`}
         />
         {isEmailError && <p className="mt-2 text-red-600">{error.message}</p>}
       </label>

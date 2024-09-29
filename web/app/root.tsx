@@ -1,7 +1,6 @@
 import {
   type ActionFunction,
   type LinksFunction,
-  type MetaFunction,
   redirect
 } from '@remix-run/node'
 import {
@@ -40,24 +39,6 @@ export const links: LinksFunction = () => [
   }
 ]
 
-export const meta: MetaFunction = ({ data }) => ({
-  charset: 'utf-8',
-  author: 'Alexey Miin',
-  title: data ? 'Shelf' : '404 | Shelf',
-  description:
-    'Elevate your reading game with Shelf. Track your reading goals and progress effortlessly with Shelf. Set personalized reading goals, monitor your reading progress, and achieve literary success.',
-  viewport: 'width=device-width,initial-scale=1',
-  'og:image': 'https://shelf.lexunix.me/shelf-og.png',
-  'og:title': 'Shelf',
-  'og:description':
-    'Elevate your reading game with Shelf. Track your reading goals and progress effortlessly with Shelf. Set personalized reading goals, monitor your reading progress, and achieve literary success.',
-  'twitter:card': 'summary_large_image',
-  'twitter:image': 'https://shelf.lexunix.me/shelf-og.png',
-  'twitter:title': 'Shelf',
-  'twitter:description':
-    'Elevate your reading game with Shelf. Track your reading goals and progress effortlessly with Shelf. Set personalized reading goals, monitor your reading progress, and achieve literary success.'
-})
-
 export const action: ActionFunction = async ({ request }) => {
   const formData = await request.formData()
   const _action = formData.get('_action')
@@ -81,6 +62,17 @@ export default function App() {
   return (
     <html lang="en">
       <head>
+        <meta charSet="utf-8" />
+        <meta name="author" content="Alexey Miin" />
+        <meta name="description" content="Elevate your reading game with Shelf. Track your reading goals and progress effortlessly with Shelf. Set personalized reading goals, monitor your reading progress, and achieve literary success." />
+        <meta name="viewport" content="width=device-width,initial-scale=1" />
+        <meta property="og:image" content="https://shelf.lexunix.me/shelf-og.png" />
+        <meta property="og:title" content="Shelf" />
+        <meta property="og:description" content="Elevate your reading game with Shelf. Track your reading goals and progress effortlessly with Shelf. Set personalized reading goals, monitor your reading progress, and achieve literary success." />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:image" content="https://shelf.lexunix.me/shelf-og.png" />
+        <meta name="twitter:title" content="Shelf" />
+        <meta name="twitter:description" content="Elevate your reading game with Shelf. Track your reading goals and progress effortlessly with Shelf. Set personalized reading goals, monitor your reading progress, and achieve literary success." />
         <Meta />
         <Links />
       </head>
@@ -92,11 +84,10 @@ export default function App() {
         <KeyboardProvider>
           {!isIndex && <Navbar />}
           <main
-            className={`${
-              isIndex
-                ? 'px-4 md:px-0'
-                : 'mx-auto max-w-5xl px-4 pb-6 md:px-6 md:pb-8'
-            } `}
+            className={`${isIndex
+              ? 'px-4 md:px-0'
+              : 'mx-auto max-w-5xl px-4 pb-6 md:px-6 md:pb-8'
+              } `}
           >
             <Outlet />
           </main>

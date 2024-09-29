@@ -11,9 +11,9 @@ type FormError = z.inferFlattenedErrors<
 >['fieldErrors']
 
 export const meta: MetaFunction = () => {
-  return {
+  return [{
     title: 'Sign Up | Shelf'
-  }
+  }]
 }
 
 export const action: ActionFunction = async ({ request }) => {
@@ -57,9 +57,8 @@ export default function RegisterPage() {
             name="email"
             autoComplete="off"
             type="email"
-            className={`${
-              actionData?.email ? 'border-red-600 text-red-600' : ''
-            } w-full`}
+            className={`${actionData?.email ? 'border-red-600 text-red-600' : ''
+              } w-full`}
           />
           {actionData?.email && (
             <p className="text-red-600">{actionData.email}</p>
@@ -71,9 +70,8 @@ export default function RegisterPage() {
             type="password"
             name="password"
             minLength={8}
-            className={`${
-              actionData?.password ? 'border-red-600 outline-none' : ''
-            } w-full`}
+            className={`${actionData?.password ? 'border-red-600 outline-none' : ''
+              } w-full`}
           />
           {actionData?.password && (
             <p className="text-red-600">{actionData.password.join('; ')}</p>
@@ -84,9 +82,8 @@ export default function RegisterPage() {
           <input
             type="password"
             name="confirm"
-            className={`${
-              actionData?.confirm ? 'border-red-600 outline-none' : ''
-            } w-full`}
+            className={`${actionData?.confirm ? 'border-red-600 outline-none' : ''
+              } w-full`}
           />
           {actionData?.confirm && (
             <p className="text-red-600">{actionData.confirm.join('; ')}</p>

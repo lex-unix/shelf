@@ -3,9 +3,9 @@ import { Outlet } from '@remix-run/react'
 import Tabs from '~/components/tabs'
 
 export const meta: MetaFunction = () => {
-  return {
-    title: 'Preferences | Shelf'
-  }
+  return [
+    { title: 'Preferences | Shelf' }
+  ]
 }
 
 export default function PreferencesPage() {

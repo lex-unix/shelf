@@ -3,9 +3,9 @@ import { Outlet } from '@remix-run/react'
 import LibraryNavLink from '~/components/library-nav-link'
 
 export const meta: MetaFunction = () => {
-  return {
-    title: 'Library | Shelf'
-  }
+  return [
+    { title: 'Library | Shelf' }
+  ]
 }
 
 export default function LibraryPage() {

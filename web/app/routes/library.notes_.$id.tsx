@@ -21,9 +21,9 @@ export const links: LinksFunction = () => [
 ]
 
 export const meta: MetaFunction<typeof loader> = ({ data }) => {
-  return {
-    title: data.title
-  }
+  return [
+    { title: data.title }
+  ]
 }
 
 export const loader: LoaderFunction = async ({ request, params }) => {

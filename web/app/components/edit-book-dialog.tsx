@@ -20,7 +20,8 @@ export default function EditBookDialog({
   const { id, title, author } = book
 
   useEffect(() => {
-    if (fetcher.submission) {
+    const isDone = fetcher.state === 'submitting' && fetcher.data === null
+    if (isDone) {
       onOpen(false)
     }
   }, [fetcher, onOpen])

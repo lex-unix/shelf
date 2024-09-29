@@ -9,9 +9,9 @@ import { userLoginSchema } from '~/utils/validation.server'
 type FormError = z.inferFlattenedErrors<typeof userLoginSchema>['fieldErrors']
 
 export const meta: MetaFunction = () => {
-  return {
-    title: 'Sign In | Shelf'
-  }
+  return [
+    { title: 'Sign In | Shelf' }
+  ]
 }
 
 export const action: ActionFunction = async ({ request }) => {
@@ -52,9 +52,8 @@ export default function LoginRoute() {
             name="email"
             type="email"
             autoComplete="off"
-            className={`${
-              actionData?.email ? 'border-red-600 text-red-600' : ''
-            } w-full`}
+            className={`${actionData?.email ? 'border-red-600 text-red-600' : ''
+              } w-full`}
           />
           {actionData?.email && (
             <p className="text-red-600">{actionData.email.join('; ')}</p>
@@ -66,9 +65,8 @@ export default function LoginRoute() {
             type="password"
             name="password"
             minLength={8}
-            className={`${
-              actionData?.password ? 'border-red-600 outline-none' : ''
-            } w-full`}
+            className={`${actionData?.password ? 'border-red-600 outline-none' : ''
+              } w-full`}
           />
           {actionData?.password && (
             <p className="text-red-600">{actionData.password.join('; ')}</p>
